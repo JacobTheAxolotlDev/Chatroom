@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Friends Chatroom - Channels</title>
+  <link rel="icon" type="image/x-icon" href="./favicon.png">
+  <!-- Comic Neue -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet"/>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Falling Images</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #f0f0f0;
+      position: relative;
+    }
+    .falling-image {
+      position: absolute;
+      z-index: -1; /* Set the z-index to the very back */
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -100px;
+      }
+      100% {
+        top: calc(100vh - 100px); /* Stops when it reaches the "ground" */
+      }
+    }
+  </style>
+</head>
+<body>
+
+</body>
+</html>
+
+  <style>
+    @font-face {
+    font-family: 'Blaze_of_Glory';
+    src: url('./Blaze_of_Glory.otf') format('opentype');
+  }
+    /* Text effect for 'cooked:' prefix */
+    .cooked-text {
+    font-family: "Comic Neue", sans-serif;
+    }
+    :root{
+      --green-1:#b7e4c7;
+      --green-2:#5a9e67;
+      --green-3:#3c6e40;
+      --panel:#ffffff;
+      --panel-2:#e3f3e8;
+    }
+    *{box-sizing:border-box}
+    body {
+      margin: 0;
+      background-color: var(--green-1);
+      font-family: "Comic Neue", cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      transition: padding-left .2s ease;
+    }
+    /* When admin panel is visible, shift the content to the right */
+    body.admin-open { padding-left: 260px; }
+
+    /* Header */
+    #header {
+      width: 100%;
+      background-color: var(--green-2);
+      color: white;
+      padding: 12px 16px;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      user-select: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: sticky; top: 0; z-index: 10;
+    }
+    #header a { color: inherit; text-decoration: none; }
+    #header-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+    #logout { display:none; padding:8px 12px; border:none; border-radius:8px; background:#ffffff; color:#1f4d2a; cursor:pointer; font-weight:700; }
+    #logout:hover{ filter:brightness(0.95); }
+
+    /* Auth panel */
+    #auth {
+      width: 420px;
+      margin: 16px 0 0;
+      padding: 12px 14px;
+      background: var(--panel);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center;
+    }
+    #auth input {
+      flex: 1 1 180px;
+      padding: 10px;
+      border: 1px solid var(--green-2);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    #auth button {
+      padding: 10px 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--green-2);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    #auth .secondary { background: #8fb79a; }
+    #whoami {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #1f4d2a;
+      width: 420px;
+      text-align: center;
+      user-select: none;
+    }
+
+    /* Chat panel */
+    #chat {
+      width: 420px;
+      margin: 12px 0 30px;
+      padding: 15px 20px;
+      background: var(--panel);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex; flex-direction: column; align-items: center;
+    }
+    #channels {
+      display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; width:100%;
+    }
+    .channel-tab {
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: #a3c19c; color: white; font-weight: bold; user-select:none;
+      transition: background-color .25s ease; text-transform: capitalize; flex-shrink:0;
+    }
+    .channel-tab.active, .channel-tab:hover { background-color: var(--green-2); }
+
+    /* Right side panels */
+     #logan-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      background: #fff;
+      border-left: 3px solid var(--green-2);
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+      display: none; /* hidden by default */
+      z-index: 9;
+    }
+    #logan-panel iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0;
+    }
+
+    #baylor-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      background: #fff;
+      border-left: 3px solid var(--green-2);
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+      display: none; /* hidden by default */
+      z-index: 9;
+    }
+    #baylor-panel iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0;
+    }
+
+    #messages {
+      width: 100%;
+      height: 340px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 8px;
+      margin-bottom: 12px;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      background: #fefefe;
+      border-radius: 8px;
+      white-space: pre-wrap; word-wrap: break-word;
+    }
+
+    /* Composer */
+    #composer{
+      width:100%;
+      display:flex; gap:8px; align-items:center;
+    }
+    #msg{
+      flex:1 1 auto; min-width:0;
+      padding:12px;
+      border:1px solid var(--green-2);
+      border-radius:10px;
+      font-size:16px;
+    }
+    #send{
+      flex:0 0 100px;
+      padding:12px 14px;
+      border:none; border-radius:10px;
+      background: var(--green-2); color:#fff; font-weight:800; cursor:pointer;
+    }
+    #send:hover{ background: var(--green-3); }
+    #composer.disabled{ opacity:.5; pointer-events:none; user-select:none; }
+
+    /* Tips */
+    #tips {
+      margin-top: 10px; font-size: 14px; color: #333;
+      background: var(--panel-2); border: 1px solid #8bc791;
+      border-radius: 8px; padding: 10px; width: 420px; user-select: none; text-align: left;
+    }
+
+    /* Fancy text effects */
+    .rainbow-text{
+      background-image:linear-gradient(90deg, red,orange,yellow,green,blue,indigo,violet,red);
+      background-size:400% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:rainbowShift 6s linear infinite;
+    }
+    @keyframes rainbowShift{ 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
+
+    .gold-text{
+      background-image:linear-gradient(90deg,#b8860b,#ffd700,#fffacd,#ffd700,#b8860b);
+      background-size:300% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:goldShift 4s ease-in-out infinite;
+    }
+    @keyframes goldShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+    .electric-text{
+      background-image:linear-gradient(90deg,#7df9ff,#7df9ff,#7df9ff,#7df9ff,#7df9ff);
+      background-size:300% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:electricShift 4s ease-in-out infinite;
+    }
+    @keyframes electricShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+    .uranium-text{ color:#00ff00; animation:uraniumGlow 1s ease-in-out infinite;
+      text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00; }
+    @keyframes uraniumGlow{
+      0%,100%{ color:#00ff00; text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00;}
+      50%{ color:#66ff66; text-shadow:0 0 10px #66ff66,0 0 20px #66ff66,0 0 30px #33ff33,0 0 50px #00cc00;}
+    }
+    .laser-text{ color:#ff0000; animation:laserGlow 1s ease-in-out infinite;
+      text-shadow:0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000,0 0 40px #cc0000; }
+    @keyframes laserGlow{
+      0%,100%{ color:#ff0000; text-shadow:0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000,0 0 40px #cc0000;}
+      50%{ color:#ff6666; text-shadow:0 0 10px #ff6666,0 0 20px #ff6666,0 0 30px #ff3333,0 0 50px #cc0000;}
+    }
+    .glowinggold-text{ color:#b8860b; animation:glowinggoldGlow 1s ease-in-out infinite;
+      text-shadow:0 0 5px #fffacd,0 0 10px #fffacd,0 0 20px #fffacd,0 0 40px #fffacd; }
+    @keyframes glowinggoldGlow{
+      0%,100%{ color:#b8860b; text-shadow:0 0 5px #fffacd,0 0 10px #ffd700,0 0 20px #fffacd,0 0 40px #b8860b;}
+      50%{ color:#b8860b; text-shadow:0 0 10px #ffd700,0 0 20px #b8860b,0 0 30px #b8860b,0 0 50px #ffd700;}
+    }
+
+    .slime-text{
+      background-image:linear-gradient(90deg,#004d00,#00ff66);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+
+    .axey-container{ position:relative; display:inline-block; padding:0px; color:purple; font-weight:bold; }
+    .axey-img{ position:absolute; width:30px; height:30px; animation:axeyOrbit 3s linear infinite; pointer-events:none; user-select:none;}
+    .axey-img.second{ animation-delay:1.5s; }
+    @keyframes axeyOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    /* ---------- Jamas (orbiting + self-spin, always facing center) ---------- */
+.jamas-container{
+  position: relative;
+  display: inline-block;
+  padding: 0px 0px; /* keeps the text readable while providing an orbit center */
+  color: black;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* The wrapper that orbits around the container's center */
+.jamas-img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px; /* center the wrapper anchor */
+  pointer-events: none;
+  user-select: none;
+  transform-origin: center;
+  animation: jamasOrbit 3s linear infinite;
+}
+
+/* stagger the second dog */
+.jamas-img.second{ animation-delay: 1.5s; }
+
+/* the real <img> inside the wrapper: it will spin on its own axis */
+.jamas-img img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  animation: jamasSelfSpin 3s linear infinite; /* change duration if you want faster/slower spin */
+}
+
+/* Orbit keyframes:
+   - outer rotate(...) moves the wrapper around the circle
+   - translateX(50px) sets orbit radius
+   - final rotate(...) counter-rotates so the image faces the center
+*/
+@keyframes jamasOrbit{
+  0%   { transform: rotate(0deg)   translateX(50px) rotate(180deg); }
+  100% { transform: rotate(360deg) translateX(50px) rotate(-180deg); }
+}
+
+/* Local spin of the artwork (so the dog image visually spins around its own axis) */
+@keyframes jamasSelfSpin{
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+
+    .bread-container{ position:relative; display:inline-block; padding:0px; color:#eec07b; font-weight:bold; }
+    .bread-img{ position:absolute; width:30px; height:30px; animation:breadOrbit 3s linear infinite; pointer-events:none; user-select:none;}
+    .bread-img.second{ animation-delay:1.5s; }
+    @keyframes breadOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .pokemon-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
+      text-shadow:-2px -2px 0 red,2px -2px 0 red,-2px 2px 0 red,2px 2px 0 red; user-select:none; }
+    .pokemon-img{ position:absolute; width:30px; height:30px; animation:pokemonOrbit 3s linear infinite; pointer-events:none; user-select:none; }
+    .pokemon-img.second{ animation-delay:1.5s; }
+    .pokemon-img.third{ animation-delay:1s; }
+    .pokemon-img.fourth{ animation-delay:1.5s; }
+    .pokemon-img.fifth{ animation-delay:1.5s; }
+    @keyframes pokemonOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .minecraft-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
+      text-shadow:-2px -2px 0 green,2px -2px 0 green,-2px 2px 0 green,2px 2px 0 green; user-select:none; }
+    .minecraft-img{ position:absolute; width:30px; height:30px; animation:minecraftOrbit 3s linear infinite; pointer-events:none; user-select:none; }
+    .minecraft-img.second{ animation-delay:1.5s; }
+    @keyframes minecraftOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .silksong-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
+      text-shadow:-2px -2px 0 #0f0f1b,2px -2px 0 #565a75,-2px 2px 0 #c6b7be,2px 2px 0 #fafbf6; user-select:none; }
+    .silksong-img{ position:absolute; width:30px; height:30px; animation:silksongOrbit 3s linear infinite; pointer-events:none; user-select:none; }
+    .silksong-img.second{ animation-delay:1.5s; }
+    @keyframes silksongOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .oiia-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
+      text-shadow:-2px -2px 0 brown,2px -2px 0 brown,-2px 2px 0 brown,2px 2px 0 brown; user-select:none; }
+    .oiia-img{ position:absolute; width:30px; height:30px; animation:oiiaOrbit 3s linear infinite; pointer-events:none; user-select:none; }
+    .oiia-img.second{ animation-delay:1.5s; }
+    @keyframes oiiaOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .undertale-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
+      text-shadow:-2px -2px 0 red,2px -2px 0 black,-2px 2px 0 aqua,2px 2px 0 blue; user-select:none; }
+    .undertale-img{ position:absolute; width:30px; height:30px; animation:undertaleOrbit 3s linear infinite; pointer-events:none; user-select:none; }
+    .undertale-img.second{ animation-delay:1.5s; }
+    @keyframes undertaleOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .fweh-text{ font-size:2em; font-weight:bold; font-style:italic; }
+
+    /* Admin panel (left) */
+    #admin-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100%;
+      background: #fff;
+      border-right: 3px solid var(--green-2);
+      box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+      display: none; /* hidden by default */
+      z-index: 25;
+      padding: 14px;
+      font-family: "Comic Neue", cursive;
+    }
+    #admin-panel h3 {
+      margin: 4px 0 12px;
+      color: var(--green-3);
+    }
+    #admin-panel button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: var(--green-2);
+      color: #fff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    #admin-panel button:hover { background: var(--green-3); }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div><a href="index.html">Chat Room</a></div>
+    <div><a href="music.html">Music (wip)</a></div>
+    <div><a href="other.html">Axey Game</a></div>
+    <div><a href="desmos.html">calculator</a></div>
+    <div><a href="eaglercraft.1.5.2.html">Minecraft 1.5</a></div>
+    <div><a href="Alpha_Offline_Download.html">Minecraft 1.2.6</a></div>
+    <div><a href="EaglercraftX_1.8_u50_Offline_Signed.html">Minecraft 1.8</a></div>
+    <div><a href="physics.html">Physics Game</a></div>
+    <div><a href="menu.html">School Menu</a></div>
+    <div><a href="hollowknight.html">Hollow Knight</a></div>
+    <div><a href="leveldevil.html">Level Devil</a></div>
+    <div><a href="terraria.html">[NEW!!!] Terraria</a></div>
+    <div><a href="sandboxels.html">sandboxels</a></div>
+    <div id="header-right">
+      <span id="whoami-mini"></span>
+      <button id="dm-toggle" title="Direct Messages" style="padding:8px 10px;border-radius:8px;border:none;background:#fff;font-weight:700;cursor:pointer;">💬 DMs <span id="dm-global-badge" class="badge" style="display:none">0</span></button>
+      <button id="logout">Logout</button>
+    </div>
+  </div>
+
+  <!-- Upload button -->
+  <label for="imageInput" class="upload-btn">📷 Upload</label>
+  <input type="file" id="imageInput" accept="image/*">
+
+   <div id="dm-dropdown" class="dm-dropdown" aria-hidden="true">
+        <input id="dm-username-input" class="dm-input" placeholder="Start DM: enter username (exact)"/>
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+          <button id="dm-start-by-username" class="dm-start-btn">Start DM</button>
+          <button id="dm-show-online" class="dm-start-btn" style="background:#8fb79a">Show Online</button>
+        </div>
+        <div style="max-height:260px; overflow:auto;" id="dm-list"></div>
+      </div>
+    </div>
+
+  <style>
+    #imageInput { display: none; }
+    .upload-btn {
+      display: inline-block;
+      background: #51f542;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: wait;
+      font-size: 14px;
+      font-family: "Comic Neue";
+      transition: background 0.2s;
+    }
+    .upload-btn:hover { background: #0b5404; }
+  </style>
+
+  <!-- AUTH -->
+  <div id="auth">
+    <input id="username" placeholder="Username" autocomplete="username" />
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+    <button id="login">Login</button>
+    <button id="signup" class="secondary">Sign Up</button>
+  </div>
+  <div id="whoami">Not logged in</div>
+
+  <!-- CHAT -->
+  <div id="chat">
+    <h2>Friends Chatroom</h2>
+    <div id="channels"></div>
+    <div id="messages"></div>
+
+    <!-- composer (no Name field anymore) -->
+    <div id="composer" class="disabled">
+      <input id="msg" placeholder="Message" autocomplete="off" />
+      <button id="send">Send</button>
+    </div>
+
+    <div id="tips">
+      <strong>Tips:</strong><br/>
+      To color a message, start with "red:", "blue:", "green:", or hex like "#ff6600:".<br/>
+      Try special styles too: "rainbow:", "gold:", "uranium:", "slime:", "axey:", "pokemon:", or "fweh:".
+      Also, newxt update ads leveling and points!<br/>
+      Example: <code>pokemon: Gotta catch 'em all!</code>
+    </div>
+  </div>
+
+  <!-- Admin Panel (LEFT) -->
+  <div id="admin-panel">
+    <h3>⚙️ Admin Tools</h3>
+    <button id="create-channel">➕ Create Channel</button>
+    <button id="reload-all">🔄 Reload All</button>
+    <button id="wipe-all">🗑️ Wipe All Messages</button>
+    <button id="jamas-spam">🐶 Jamas Dog Spam</button>
+    <button id="stop-jamas-spam">⛔ Stop Jamas Spam</button>
+    <iframe width= "200" height= "400" src="https://loganstoolsforschool.w3spaces.com/adminpanelsecretnosasher.html">
+    </iframe>
+  </div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import {
+      getDatabase, ref, push, onChildAdded, onChildChanged, onChildRemoved, onValue,
+      query, orderByChild, get, set
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+    import {
+      getAuth,
+      setPersistence,
+      browserLocalPersistence,
+      onAuthStateChanged,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+    // --- Your Firebase config ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYJW83DPFsEBNM1wV_3SJ0sT8aerGPx7A",
+      authDomain: "chatroomfunyay.firebaseapp.com",
+      databaseURL: "https://chatroomfunyay-default-rtdb.firebaseio.com",
+      projectId: "chatroomfunyay",
+      storageBucket: "chatroomfunyay.firebasestorage.app",
+      messagingSenderId: "741967066444",
+      appId: "1:741967066444:web:b6e386b842d3c29febcbe9",
+      measurementId: "G-4CXD16WBVL",
+    };
+
+    // --- Init ---
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Persist sessions (this is the “memory” so you stay logged in)
+    await setPersistence(auth, browserLocalPersistence);
+
+    // --- DOM ---
+    const messagesDiv = document.getElementById("messages");
+    const msgInput = document.getElementById("msg");
+    const sendBtn = document.getElementById("send");
+    const channelsDiv = document.getElementById("channels");
+    const composer = document.getElementById("composer");
+    const whoami = document.getElementById("whoami");
+    const whoamiMini = document.getElementById("whoami-mini");
+
+        // DM DOM
+    const dmToggle = document.getElementById("dm-toggle");
+    const dmDropdown = document.getElementById("dm-dropdown");
+    const dmListEl = document.getElementById("dm-list");
+    const dmUsernameInput = document.getElementById("dm-username-input");
+    const dmStartBtn = document.getElementById("dm-start-by-username");
+    const dmShowOnlineBtn = document.getElementById("dm-show-online");
+    const dmGlobalBadge = document.getElementById("dm-global-badge");
+
+    // Admin DOM
+    const adminPanel = document.getElementById("admin-panel");
+    const createBtn = document.getElementById("create-channel");
+    const reloadBtn = document.getElementById("reload-all");
+    const wipeBtn = document.getElementById("wipe-all");
+    // ---------- Falling images controlled via Firebase setting (applies to everyone) ----------
+
+// ---------------------- Shared falling-image control (milliseconds) ----------------------
+
+// DOM refs for the two admin buttons
+const jamasBtn = document.getElementById('jamas-spam');
+const stopJamasBtn = document.getElementById('stop-jamas-spam');
+
+// Firebase DB ref for the shared fall rate (stored as NUMBER = milliseconds)
+const fallRateRef = ref(db, 'settings/fallRate');
+
+let fallIntervalId = null;
+
+// create a falling image (same visual behaviour as your CSS expects)
+function createFallingImage() {
+  const img = document.createElement('img');
+  img.src = './jamasdog.jpeg';
+  img.classList.add('falling-image');
+
+  img.style.left = `${Math.random() * 100}vw`;
+  img.style.animationDuration = `${Math.random() * 2 + 2}s`;
+  document.body.appendChild(img);
+
+  img.addEventListener('animationend', () => img.remove());
+}
+
+// Sets the client-side interval using a value interpreted AS MILLISECONDS.
+// Enforces integer ms and a safe minimum of 1 ms.
+function setFallRateMs(ms) {
+  let numeric = Number(ms);
+  if (!isFinite(numeric) || numeric <= 0) numeric = 5000; // fallback to 5000 ms
+
+  const msInt = Math.max(1, Math.round(numeric)); // store/use integer ms, min 1
+
+  // clear previously running interval
+  if (fallIntervalId !== null) {
+    clearInterval(fallIntervalId);
+    fallIntervalId = null;
+  }
+
+  // start a new interval that spawns images every msInt milliseconds
+  fallIntervalId = setInterval(createFallingImage, msInt);
+  console.log('[fallRate] set to', msInt, 'ms');
+}
+
+// Ensure DB has a default value (5000 ms) if missing
+(async () => {
+  try {
+    const snap = await get(fallRateRef);
+    if (!snap.exists()) {
+      await set(fallRateRef, 5000);
+      console.log('[fallRate] initialized to 5000 ms');
+    }
+  } catch (e) {
+    console.warn('Could not initialize fallRate setting:', e);
+  }
+})();
+
+// Listen for changes to settings/fallRate and treat the DB value as milliseconds
+onValue(fallRateRef, (snap) => {
+  const v = snap.val();
+  let numeric = Number(v);
+  if (!isFinite(numeric) || numeric <= 0) numeric = 5000;
+  setFallRateMs(numeric);
+}, (err) => {
+  console.error('Failed to listen to fallRate:', err);
+});
+
+// Admin buttons write explicit millisecond values to the DB.
+// Buttons are client-side-protected by adminUIDs check that you already have.
+if (jamasBtn) {
+  jamasBtn.onclick = async () => {
+    if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) {
+      return alert('Admins only.');
+    }
+    try {
+      // Set to 1 ms (interpreted as 1 millisecond). Browsers may throttle anything below ~1-4 ms.
+      await set(fallRateRef, 1);
+      alert('Jamas Dog Spam activated — fallRate set to 1 ms.');
+    } catch (e) {
+      alert('Failed to set jamas spam: ' + e.message);
+    }
+  };
+}
+
+if (stopJamasBtn) {
+  stopJamasBtn.onclick = async () => {
+    if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) {
+      return alert('Admins only.');
+    }
+    try {
+      await set(fallRateRef, 5000); // 5000 ms = 5 seconds
+      alert('Jamas Dog Spam stopped — fallRate reset to 5000 ms.');
+    } catch (e) {
+      alert('Failed to stop jamas spam: ' + e.message);
+    }
+  };
+}
+
+
+    // Auth DOM
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("login");
+    const signupBtn = document.getElementById("signup");
+    const logoutBtn = document.getElementById("logout");
+
+    // --- Image upload -> base64 -> send as a normal message ---
+    const imageInput = document.getElementById("imageInput");
+
+    imageInput.addEventListener("change", async () => {
+      const file = imageInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64Data = reader.result; // "data:image/...;base64,AAAA..."
+
+        if (!auth.currentUser) {
+          alert("You must be logged in to upload images!");
+          return;
+        }
+
+        const messageObj = {
+          name: currentUsername || "(user)",
+          uid: auth.currentUser.uid,
+          text: base64Data,          // <-- your addMessageElement() already renders this
+          timestamp: Date.now(),
+          channel: currentChannel,
+        };
+
+        try {
+          await push(ref(db, "messages"), messageObj);
+        } catch (err) {
+          alert("Failed to upload image: " + err.message);
+        }
+      };
+
+      reader.readAsDataURL(file);
+      imageInput.value = ""; // allow re-selecting the same file
+    });
+
+
+    // --- State ---
+    let channels = new Set();
+    let allMessages = [];
+    let currentChannel = "general";
+    let currentUser = null;
+    let currentUsername = null; // cached username
+
+    const adminUIDs = [
+      "INrpu9xmk0hZ16BLM8Z5GuPbTi12", // Logan
+      "FF2pCJaZ3vRb1l3fYBYVnaFHcZk2",  // Baylor
+      "1xniuFbfwIP44QBRWZbbpsvH60X2", //jahaml
+      "V4AdzBN1B2MdZEt5CnXgt4kwMA63", //geo
+      "fQ4iNM6q0xhXjqs8tBLLA5jVoSA2", //joy
+      "1HZElGj4ZDOqcG0pNQEIJlc79622" //cindy
+    ];
+
+        // ---------- DM helpers ----------
+    function dmIdFor(u1, u2){
+      // stable ID: alphabetical order
+      const [a,b] = [u1, u2].sort();
+      return `${a}_${b}`;
+    }
+
+    async function getUidForUsername(username) {
+      if(!username) return null;
+      const key = username.toLowerCase();
+      const snap = await get(ref(db, `usernames/${key}`));
+      if (!snap.exists()) return null;
+      return snap.val().uid;
+    }
+
+    // create or ensure DM meta exists; returns dmId
+    async function ensureDM(u1, u2) {
+      const id = dmIdFor(u1, u2);
+      const metaRef = ref(db, `dms/${id}/meta`);
+      const metaSnap = await get(metaRef);
+      if (!metaSnap.exists()) {
+        const meta = {
+          participants: { [u1]: true, [u2]: true },
+          createdAt: Date.now()
+        };
+        await set(metaRef, meta);
+      }
+      return id;
+    }
+
+    // increment unread for recipient
+    async function markDMUnreadFor(dmId, recipientUid, lastMessageText) {
+      try {
+        const notifRef = ref(db, `dmNotifications/${recipientUid}/${dmId}`);
+        const snap = await get(notifRef);
+        if (!snap.exists()) {
+          await set(notifRef, { unread: 1, lastMessage: lastMessageText || "", lastTs: Date.now() });
+        } else {
+          const curr = snap.val();
+          const newCount = (curr.unread || 0) + 1;
+          await update(notifRef, { unread: newCount, lastMessage: lastMessageText || "", lastTs: Date.now() });
+        }
+      } catch (e) {
+        console.warn("markDMUnreadFor error", e);
+      }
+    }
+
+    // clear unread for current user on viewing that dm
+    async function clearUnread(dmId) {
+      if (!myUid) return;
+      try {
+        await set(ref(db, `dmNotifications/${myUid}/${dmId}`), { unread: 0, lastTs: Date.now(), lastMessage: "" });
+      } catch (e) {
+        console.warn("clearUnread error", e);
+      }
+    }
+
+    // load a DM's messages and render in message view
+    async function displayDM(dmId) {
+      // show a "channel" title on top
+      currentChannel = `dm:${dmId}`;
+      updateActiveTab();
+      messagesDiv.innerHTML = ""; // clear
+
+      // load meta
+      const metaSnap = await get(ref(db, `dms/${dmId}/meta`));
+      const meta = metaSnap.exists() ? metaSnap.val() : { participants: {} };
+      // show participants at top
+      const otherUid = Object.keys(meta.participants || {}).find(u => u !== myUid);
+      let otherName = otherUid ? "(user)" : "(unknown)";
+      if (otherUid) {
+        const userSnap = await get(ref(db, `users/${otherUid}`));
+        if (userSnap.exists()) otherName = userSnap.val().username || otherName;
+      }
+      const header = document.createElement("div");
+      header.style.fontWeight = "800";
+      header.style.marginBottom = "8px";
+      header.innerHTML = `DM with <strong>${otherName}</strong>`;
+      messagesDiv.appendChild(header);
+
+      // fetch messages
+      const msgsSnap = await get(ref(db, `dms/${dmId}/messages`));
+      if (msgsSnap.exists()) {
+        msgsSnap.forEach(child => {
+          const m = child.val();
+          const msgEl = document.createElement('div');
+          const ts = new Date(m.timestamp).toLocaleTimeString();
+          msgEl.textContent = `${ts} - ${m.name || "(user)"}: ${m.text || ""}`;
+          messagesDiv.appendChild(msgEl);
+        });
+      }
+
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      // clear unread
+      clearUnread(dmId);
+    }
+
+
+    // helper: convert username to a fake email for Firebase Auth
+    function usernameToEmail(u) { return `${u}@myapp.local`.toLowerCase(); }
+
+    function cleanMessage(text) { return text; }
+
+    // Slugify for channel keys
+    function toSlug(s){
+      return (s || "")
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    // --- Channels / Messages ---
+    async function loadChannels() {
+  // Load messages
+  const messagesRef = ref(db, "messages");
+  const messagesSnap = await get(messagesRef);
+  channels.clear();
+  allMessages = [];
+
+  if (messagesSnap.exists()) {
+    messagesSnap.forEach((child) => {
+      const msg = child.val();
+      msg._id = child.key; // store the Firebase key for edits/deletes
+      allMessages.push(msg);
+      channels.add(msg.channel || "general");
+    });
+  }
+
+  // Load explicit channels list so channels can exist without messages
+  const channelsRef = ref(db, "channels");
+  const channelsSnap = await get(channelsRef);
+  if (channelsSnap.exists()) {
+    channelsSnap.forEach(child => channels.add(child.key));
+  }
+
+  // Always include Admin Only channel for admins, even if no messages exist
+  if (adminUIDs.includes(auth.currentUser?.uid)) {
+    channels.add("admin-only"); // add "admin-only" channel for admins
+  }
+
+  if (channels.size === 0) channels = new Set(["general"]);
+  if (!channels.has(currentChannel)) currentChannel = [...channels][0];
+
+  renderChannels();
+  displayMessagesForChannel(currentChannel);
+}
+
+    function renderChannels() {
+  channelsDiv.innerHTML = "";
+  [...channels].sort().forEach((channel) => {
+    // Hide Admin Only channel unless the user is an admin
+    if (channel === "admin-only" && !adminUIDs.includes(auth.currentUser?.uid)) {
+      return; // Skip this channel for non-admins
+    }
+
+    const tab = document.createElement("div");
+    tab.textContent = channel;
+    tab.className = "channel-tab";
+    if (channel === currentChannel) tab.classList.add("active");
+    tab.onclick = () => {
+      if (currentChannel !== channel) {
+        currentChannel = channel;
+        updateActiveTab();
+        displayMessagesForChannel(currentChannel);
+      }
+    };
+    channelsDiv.appendChild(tab);
+  });
+}
+
+    function updateActiveTab() {
+      const tabs = channelsDiv.querySelectorAll(".channel-tab");
+      tabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.textContent === currentChannel);
+      });
+    }
+
+    // List of banned UIDs (you can add more)
+    const bannedUIDs = [
+      "LSYwLmYBuOQGYTRS076QgkmLefq2",   // replace with the actual UID
+      "wFfXjSlXkQaoaNU2gLfqPPY04t92"
+    ];
+
+
+    function addMessageElement(data) {
+      let name = data.name || "Anonymous";
+      const uname = (name || "").trim().toLowerCase();
+      if (uname === "logan") name += " {👑Owner👑}";
+      if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
+      if (uname === "jahmal") name += " {🦐 Co-Owner🦐}";
+      if (uname === "baylor") name += " [🟦Co-Owner🟦]";
+      if (uname === "asherr") name += " [💩]"
+      if (uname === "giooo") name += " [❓IDK❓]"
+
+      let text = data.text || "(no message)";
+      const timestamp = new Date(data.timestamp).toLocaleTimeString();
+
+      if ((data.channel || "general") !== currentChannel) return;
+
+      // Check if the message contains an image URL (http(s) or data:image)
+      const imageURLMatch = text.match(/(https?:\/\/.*\.(jpg|jpeg|png|gif|bmp|webp)|data:image\/(png|jpeg|jpg|gif|bmp|webp);base64,[A-Za-z0-9+/=]+)/i);
+
+      if (imageURLMatch) {
+        const imgEl = document.createElement("img");
+        imgEl.src = imageURLMatch[0];
+        imgEl.alt = "Image message";
+        imgEl.style.maxWidth = "100%";
+        imgEl.style.borderRadius = "8px";
+        imgEl.style.marginTop = "8px";
+
+        const msgEl = document.createElement("div");
+        msgEl.id = "msg-" + data._id;
+        msgEl.appendChild(imgEl);
+        messagesDiv.appendChild(msgEl);
+        return; // Skip adding the rest of the message content
+      }
+
+
+      let color = null;
+      let rainbow = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, slime = false, axey = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, oiia = false, undertale = false, cooked = false;
+
+      const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
+      const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
+      const goldMatch = text.match(/^gold:\s*(.*)/i);
+      const electricMatch = text.match(/^electric:\s*(.*)/i);
+      const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
+      const laserMatch = text.match(/^laser:\s*(.*)/i);
+      const glowinggoldMatch = text.match(/^glowinggold:\s*(.*)/i);
+      const slimeMatch = text.match(/^slime:\s*(.*)/i);
+      const axeyMatch = text.match(/^axey:\s*(.*)/i);
+      const jamasMatch = text.match(/jamas:\s*(.*)/i)
+      const breadMatch = text.match(/^bread:\s*(.*)/i);
+      const fwehMatch = text.match(/^fweh:\s*(.*)/i);
+      const pokemonMatch = text.match(/^pokemon:\s*(.*)/i);
+      const minecraftMatch = text.match(/^minecraft:\s*(.*)/i);
+      const silksongMatch = text.match(/^silksong:\s*(.*)/i);
+      const oiiaMatch = text.match(/^oiia:\s*(.*)/i);
+      const undertaleMatch = text.match(/^undertale:\s*(.*)/i);
+      const cookedMatch = text.match(/^cooked:\s*(.*)/i);  // Detect "cooked:" prefix
+      const hexMatch = text.match(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}):\s*(.*)/);
+
+      if (cookedMatch) { 
+        cooked = true;
+        text = cookedMatch[1];  // Strip "cooked:" prefix
+      }
+      else if (namedColorMatch) { color = namedColorMatch[1].toLowerCase(); text = namedColorMatch[2]; }
+      else if (rainbowMatch) { rainbow = true; text = rainbowMatch[1]; }
+      else if (goldMatch) { gold = true; text = goldMatch[1]; }
+      else if (electricMatch) { electric = true; text = electricMatch[1]; }
+      else if (uraniumMatch) { uranium = true; text = uraniumMatch[1]; }
+      else if (laserMatch) { laser = true; text = laserMatch[1]; }
+      else if (glowinggoldMatch) { glowinggold = true; text = glowinggoldMatch[1]; }
+      else if (slimeMatch) { slime = true; text = slimeMatch[1]; }
+      else if (axeyMatch) { axey = true; text = axeyMatch[1]; }
+      else if (jamasMatch) { jamas = true; text = jamasMatch[1]; }
+      else if (breadMatch) { bread = true; text = breadMatch[1]; }
+      else if (fwehMatch) { fweh = true; text = fwehMatch[1]; }
+      else if (pokemonMatch) { pokemon = true; text = pokemonMatch[1]; }
+      else if (minecraftMatch) { minecraft = true; text = minecraftMatch[1]; }
+      else if (silksongMatch) { silksong = true; text = silksongMatch[1]; }
+      else if (oiiaMatch) { oiia = true; text = oiiaMatch[1]; }
+      else if (undertaleMatch) { undertale = true; text = undertaleMatch[1]; }
+      else if (hexMatch) { color = `#${hexMatch[1]}`; text = hexMatch[2]; }
+
+      const msgEl = document.createElement("div");
+
+      // Apply styles to the remaining text
+      let messageContent = `${timestamp} - ${name}: ${text}`;
+      msgEl.id = "msg-" + data._id;
+      if (cooked) {
+        const s = document.createElement("span");
+        s.classList.add("cooked-text");  // Apply the cooked-text class to use Blaze_of_Glory font
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (rainbow) {
+        const s = document.createElement("span");
+        s.classList.add("rainbow-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (gold) {
+        const s = document.createElement("span");
+        s.classList.add("gold-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+        } else if (electric) {
+        const s = document.createElement("span");
+        s.classList.add("electric-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (uranium) {
+        const s = document.createElement("span");
+        s.classList.add("uranium-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (laser) {
+        const s = document.createElement("span");
+        s.classList.add("laser-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+        } else if (glowinggold) {
+        const s = document.createElement("span");
+        s.classList.add("glowinggold-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (slime) {
+        const s = document.createElement("span");
+        s.classList.add("slime-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (axey) {
+        const c = document.createElement("div");
+        c.classList.add("axey-container");
+        c.textContent = messageContent;
+        const a1 = document.createElement("img");
+        a1.src = "./axey.png";
+        a1.classList.add("axey-img");
+        const a2 = document.createElement("img");
+        a2.src = "./axey.png";
+        a2.classList.add("axey-img", "second");
+        c.appendChild(a1);
+        c.appendChild(a2);
+        msgEl.appendChild(c);
+} else if (jamas) {
+  const c = document.createElement("div");
+  c.classList.add("jamas-container");
+  c.textContent = messageContent;
+
+  // wrapper #1
+  const w1 = document.createElement("div");
+  w1.classList.add("jamas-img");
+  const i1 = document.createElement("img");
+  i1.src = "./jamasdog.jpeg";
+  i1.alt = "jamas dog";
+  w1.appendChild(i1);
+
+  // wrapper #2 (staggered)
+  const w2 = document.createElement("div");
+  w2.classList.add("jamas-img", "second");
+  const i2 = document.createElement("img");
+  i2.src = "./jamasdog.jpeg";
+  i2.alt = "jamas dog";
+  w2.appendChild(i2);
+
+  c.appendChild(w1);
+  c.appendChild(w2);
+  msgEl.appendChild(c);
+
+
+      } else if (bread) {
+        const c = document.createElement("div");
+        c.classList.add("bread-container");
+        c.textContent = messageContent;
+        const a1 = document.createElement("img");
+        a1.src = "./images-removebg-preview_15_.png";
+        a1.classList.add("bread-img");
+        const a2 = document.createElement("img");
+        a2.src = "./images-removebg-preview_15_.png";
+        a2.classList.add("bread-img", "second");
+        c.appendChild(a1);
+        c.appendChild(a2);
+        msgEl.appendChild(c);
+      } else if (pokemon) {
+        const c = document.createElement("div");
+        c.classList.add("pokemon-container");
+        c.textContent = messageContent;
+        const p1 = document.createElement("img");
+        p1.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
+        p1.classList.add("pokemon-img");
+        const p2 = document.createElement("img");
+        p2.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
+        p2.classList.add("pokemon-img", "second");
+        const p3 = document.createElement("img");
+        p3.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
+        p3.classList.add("pokemon-img", "second", "third");
+        const p4 = document.createElement("img");
+        p4.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
+        p4.classList.add("pokemon-img", "fourth");
+        const p5 = document.createElement("img");
+        p5.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
+        p5.classList.add("pokemon-img", "fifth");
+        c.appendChild(p1);
+        c.appendChild(p2);
+        msgEl.appendChild(c);
+      } else if (minecraft) {
+        const c = document.createElement("div");
+        c.classList.add("minecraft-container");
+        c.textContent = messageContent;
+        const m1 = document.createElement("img");
+        m1.src = "./image-removebg-preview_-_2025-08-14T085703.894.png";
+        m1.classList.add("minecraft-img");
+        const m2 = document.createElement("img");
+        m2.src = "./image-removebg-preview_-_2025-08-14T085703.894.png";
+        m2.classList.add("minecraft-img", "second");
+        c.appendChild(m1);
+        c.appendChild(m2);
+        msgEl.appendChild(c);
+        } else if (silksong) {
+        const c = document.createElement("div");
+        c.classList.add("silksong-container");
+        c.textContent = messageContent;
+        const m1 = document.createElement("img");
+        m1.src = "./description-image.png";
+        m1.classList.add("silksong-img");
+        const m2 = document.createElement("img");
+        m2.src = "./description-image.png";
+        m2.classList.add("silksong-img", "second");
+        c.appendChild(m1);
+        c.appendChild(m2);
+        msgEl.appendChild(c);
+        } else if (oiia) {
+        const c = document.createElement("div");
+        c.classList.add("oiia-container");
+        c.textContent = messageContent;
+        const m1 = document.createElement("img");
+        m1.src = "./OIIA-Website-loop.gif";
+        m1.classList.add("oiia-img");
+        const m2 = document.createElement("img");
+        m2.src = "./OIIA-Website-loop.gif";
+        m2.classList.add("oiia-img", "second");
+        c.appendChild(m1);
+        c.appendChild(m2);
+        msgEl.appendChild(c);
+      } else if (undertale) {
+        const c = document.createElement("div");
+        c.classList.add("undertale-container");
+        c.textContent = messageContent;
+        const m1 = document.createElement("img");
+        m1.src = "./image-removebg-preview_-_2025-09-04T143902.404.png";
+        m1.classList.add("undertale-img");
+        const m2 = document.createElement("img");
+        m2.src = "./image-removebg-preview_-_2025-09-04T143907.178.png";
+        m2.classList.add("undertale-img", "second");
+        c.appendChild(m1);
+        c.appendChild(m2);
+        msgEl.appendChild(c);
+      } else if (fweh) {
+        const s = document.createElement("span");
+        s.classList.add("fweh-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (color) {
+        const s = document.createElement("span");
+        s.style.color = color;
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else {
+        const s = document.createElement("span");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      }
+
+      messagesDiv.appendChild(msgEl);
+    }
+
+
+
+    function displayMessagesForChannel(channel) {
+      messagesDiv.innerHTML = "";
+      allMessages.forEach((msg) => {
+        if ((msg.channel || "general") === channel) addMessageElement(msg);
+      });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // Live listener (messages)
+    const messagesRefLive = ref(db, "messages");
+    const messagesQuery = query(messagesRefLive, orderByChild("timestamp"));
+    onChildAdded(messagesQuery, (snapshot) => {
+      const data = snapshot.val(); if (!data) return;
+      data._id = snapshot.key;
+      allMessages.push(data);
+      channels.add(data.channel || "general");
+      renderChannels();
+      if ((data.channel || "general") === currentChannel) {
+        addMessageElement(data);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    });
+
+    // Handle edits
+    onChildChanged(messagesQuery, (snapshot) => {
+      const updated = snapshot.val();
+      updated._id = snapshot.key;
+      const idx = allMessages.findIndex(m => m._id === updated._id);
+      if (idx >= 0) allMessages[idx] = updated;
+      // re-render current channel so the edit appears
+      if ((updated.channel || "general") === currentChannel) {
+        displayMessagesForChannel(currentChannel);
+      }
+    });
+
+    // Handle deletes
+    onChildRemoved(messagesQuery, (snapshot) => {
+      const removedId = snapshot.key;
+      allMessages = allMessages.filter(m => m._id !== removedId);
+      displayMessagesForChannel(currentChannel);
+    });
+
+    // Live listener (channels list)
+    const channelsRefLive = ref(db, "channels");
+    onChildAdded(channelsRefLive, (snapshot) => {
+      channels.add(snapshot.key);
+      renderChannels();
+    });
+    onChildRemoved(channelsRefLive, (snapshot) => {
+      channels.delete(snapshot.key);
+      if (!channels.has(currentChannel)) currentChannel = [...channels][0] || 'general';
+      renderChannels();
+      displayMessagesForChannel(currentChannel);
+    });
+
+    // --- AUTH: Sign Up ---
+    signupBtn.onclick = async () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      if (!username) return alert("Enter a username");
+      if (password.length < 6) return alert("Password must be at least 6 characters");
+
+      // simple uniqueness check
+      const key = username.toLowerCase();
+      const unameRef = ref(db, "usernames/" + key);
+      const taken = await get(unameRef);
+      if (taken.exists()) return alert("Username is taken. Try another.");
+
+      const fakeEmail = usernameToEmail(username);
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, fakeEmail, password);
+
+        // Save user profile + map username -> uid
+        await set(ref(db, "users/" + cred.user.uid), { username });
+        await set(unameRef, { uid: cred.user.uid });
+
+        alert("Account created! You're logged in.");
+
+        // Auto-reload page to update state
+        location.reload();
+
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+
+    // --- AUTH: Login ---
+    loginBtn.onclick = async () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      if (!username) return alert("Enter your username");
+      const fakeEmail = usernameToEmail(username);
+      try {
+        await signInWithEmailAndPassword(auth, fakeEmail, password);
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    // --- AUTH: Logout ---
+    logoutBtn.onclick = async () => {
+      try { await signOut(auth); } catch (e) { alert(e.message); }
+    };
+
+    // --- AUTH state changes ---
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user || null;
+      if (user) {
+        // 🚫 Check if user is banned
+        if (bannedUIDs.includes(user.uid)) {
+          document.getElementById("auth").style.display = "none";
+          composer.classList.add("disabled");
+          logoutBtn.style.display = "inline-block";
+          whoami.textContent = "🚫 You are banned from chatting.";
+          whoamiMini.textContent = "BANNED";
+
+          // Hide admin controls just in case
+          adminPanel.style.display = 'none';
+          document.body.classList.remove('admin-open');
+
+          return;
+        }
+
+        // ✅ Normal user logic
+        document.getElementById("auth").style.display = "none";
+        composer.classList.remove("disabled");
+        logoutBtn.style.display = "inline-block";
+
+        // fetch username
+        currentUsername = user.displayName || null;
+        if (!currentUsername) {
+          const snap = await get(ref(db, "users/" + user.uid));
+          currentUsername = snap.exists() ? snap.val().username : "(user)";
+        }
+        whoami.textContent = `Logged in as: ${currentUsername}`;
+        whoamiMini.textContent = currentUsername;
+
+        // Logan + Baylor special panels
+        if (user.uid === "INrpu9xmk0hZ16BLM8Z5GuPbTi12") {
+          document.getElementById("logan-panel").style.display = "block";
+        } else {
+          document.getElementById("logan-panel").style.display = "none";
+        }
+        if (user.uid === "FF2pCJaZ3vRb1l3fYBYVnaFHcZk2") {
+          document.getElementById("baylor-panel").style.display = "block";
+        } else {
+          document.getElementById("baylor-panel").style.display = "none";
+        }
+
+        // 🔐 Admin panel (same users as Baylor & Logan)
+        if (adminUIDs.includes(user.uid)) {
+          adminPanel.style.display = 'block';
+          document.body.classList.add('admin-open');
+        } else {
+          adminPanel.style.display = 'none';
+          document.body.classList.remove('admin-open');
+        }
+      } else {
+        document.getElementById("auth").style.display = "flex";
+        composer.classList.add("disabled");
+        logoutBtn.style.display = "none";
+        whoami.textContent = "Not logged in";
+        whoamiMini.textContent = "";
+        currentUsername = null;
+
+        // Hide admin on sign-out
+        adminPanel.style.display = 'none';
+        document.body.classList.remove('admin-open');
+      }
+    });
+
+    // --- Send message (must be logged in) ---
+// send message: either channel or DM
+    sendBtn.onclick = async () => {
+      if (!auth.currentUser) return alert("You must be logged in to chat!");
+
+      let text = msgInput.value.trim();
+      if (!text) return;
+
+      // if DM
+      if (currentChannel && currentChannel.startsWith('dm:')) {
+        const dmId = currentChannel.slice(3);
+        const messageObj = {
+          name: currentUsername || "(user)",
+          uid: myUid,
+          text,
+          timestamp: Date.now()
+        };
+        try {
+          await push(ref(db, `dms/${dmId}/messages`), messageObj);
+
+          // get other participant and mark unread
+          const metaSnap = await get(ref(db, `dms/${dmId}/meta`));
+          if (metaSnap.exists()) {
+            const participants = metaSnap.val().participants || {};
+            const otherUid = Object.keys(participants).find(u => u !== myUid);
+            if (otherUid) {
+              await markDMUnreadFor(dmId, otherUid, text);
+            }
+          }
+          msgInput.value = "";
+          // re-render this DM's messages (or rely on realtime child_added listener)
+        } catch (e) {
+          alert('Failed to send DM: ' + e.message);
+        }
+        return;
+      }
+
+    // --- Admin Buttons Logic ---
+    createBtn.onclick = async () => {
+      if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert('Admins only.');
+      const name = prompt("New channel name:");
+      if (!name) return;
+      const key = toSlug(name);
+      if (!key) return alert('Invalid channel name.');
+      if (channels.has(key)) return alert('Channel already exists.');
+      try {
+        await set(ref(db, `channels/${key}`), {
+          name,
+          createdAt: Date.now(),
+          createdBy: auth.currentUser.uid
+        });
+        channels.add(key);
+        currentChannel = key;
+        renderChannels();
+        displayMessagesForChannel(currentChannel);
+      } catch (e) {
+        alert('Failed to create channel: ' + e.message);
+      }
+    };
+
+    reloadBtn.onclick = async () => {
+      await loadChannels();
+      alert('Channels & messages reloaded.');
+    };
+
+    wipeBtn.onclick = async () => {
+      if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert('Admins only.');
+      if (!confirm("⚠️ This will permanently delete ALL messages. Continue?")) return;
+      try {
+        await set(ref(db, 'messages'), null);
+        allMessages = [];
+        displayMessagesForChannel(currentChannel);
+        alert('All messages wiped.');
+      } catch (e) {
+        alert('Failed to wipe: ' + e.message);
+      }
+    };
+
+    // initial load
+    await loadChannels();
+  </script>
+
+
+  <!-- Logan's Tools Panel -->
+  <div id="logan-panel">
+    <iframe src="https://loganstoolsforschool.w3spaces.com/farebasetest.html" 
+            width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+  <div id="baylor-panel">
+    <iframe src="https://loganstoolsforschool.w3spaces.com/farebasetest.html" 
+            width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+
+  <!-- Countdown Display -->
+  <div id="countdown-container" style="
+    margin: 20px; 
+    padding: 12px 16px; 
+    background: var(--panel); 
+    border-radius: 12px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    font-family: 'Comic Neue', cursive; 
+    font-size: 18px; 
+    text-align: center; 
+    font-weight: bold;">
+    <span id="countdown-label">⏳ Countdown until event:</span><br>
+    <span id="countdown-timer">Loading...</span>
+  </div>
+
+  <script>
+    // --- CONFIG ---
+    const targetDate = new Date("2025-09-31T12:30:00"); // <-- change to your target
+    const labelText = "Countdown until DM Update:";   // <-- customize label text
+
+    document.getElementById("countdown-label").textContent = labelText;
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        document.getElementById("countdown-timer").textContent = "Updating!";
+        clearInterval(timer);
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      document.getElementById("countdown-timer").textContent =
+        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    updateCountdown(); // run immediately
+    const timer = setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>

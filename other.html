@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<link rel="icon" type="image/x-icon" href="./favicon.png">
+  <title>Axey game Indev</title>
+  <style>
+ body {
+      font-family: 'Bubblegum Sans', sans-serif;
+      margin: 40px; /* Increased margin */
+      background-color: lightgreen;
+      color: black;
+      font-size: 18px; /* Increased overall font size */
+    }
+    input, button {
+      padding: 10px; /* Increased padding */
+      margin-bottom: 20px; /* Increased margin bottom */
+      font-family: 'Bubblegum Sans', sans-serif;
+      font-size: 18px; /* Increased font size */
+    }
+    /* Styling for the button */
+    button {
+      background-color: lightblue;
+      border: 3px solid darkgreen; /* Increased border size */
+      color: black; /* Ensures text is visible against the light blue */
+    }
+    .axey-image {
+      position: absolute;
+      z-index: 1;
+    }
+
+    #clickImage, #info {
+      z-index: 999;
+      position: relative;
+    }
+
+    .shop {
+      border: 2px solid #ccc;
+      padding: 10px;
+      margin-top: 20px;
+      height: 200px;
+      overflow-y: auto;
+    }
+
+    .password-box {
+      text-align: center;
+      margin-top: 20px;
+    }
+#header {
+      width: 100%;
+      background-color: #5a9e67;
+      color: white;
+      padding: 15px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      user-select: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+      </style>
+</head>
+<marquee> axey helpers are currently broken, sorry i will fix this soon </marquee>
+<div id="header">
+    <div><a href="loganstoolsforschool.w3spaces.com" style="color: inherit; text-decoration: none;">Chat Room</a></div>
+  <div><a href="music.html" style="color: inherit; text-decoration: none;">Music (wip)</a></div>
+  <div><a href="axeygame.html" style="color: inherit; text-decoration: none;">Axey Game</a></div>
+    <div><a href="desmos.html" style="color: inherit; text-decoration: none;">calculator</a></div>
+</div>
+<body>
+
+  <div id="info" style="text-align: center; margin-top: 50px;">
+    <p>Clicks: <span id="clickCount">0</span></p>
+    <p>
+      Axey Helpers: <span id="autoClickCount">0</span><br>
+      <img src="./Axey_2_.png" alt="Axey" style="height: 30px;"> Clicks per Second: <span id="clicksPerSecond">0</span>
+    </p>
+    <img id="clickImage" src="./Axey_2_.png" alt="Click Image" style="margin-top: 20px; cursor: pointer;">
+  </div>
+
+  <div class="shop">
+    <h2>Shop</h2>
+    <button id="upgrade1" onclick="buyUpgrade('upgrade1', 10, 1, false, 1.5)">Upgrade +1 per click - Cost: 10 clicks</button><br>
+    <button id="upgrade2" onclick="buyUpgrade('upgrade2', 20, 2, false, 1.5)">Upgrade +2 per click - Cost: 20 clicks</button><br>
+    <button id="helper1" onclick="buyUpgrade('helper1', 50, 1, true, 1.33)">Axey Helper - Cost: 50 clicks</button><br>
+    <button id="helper2" onclick="buyUpgrade('helper2', 100, 2, true, 1.33)">Axey Helper - Cost: 100 clicks</button><br>
+    <button id="helper3" onclick="buyUpgrade('helper3', 200, 3, true, 1.33)">Axey Helper - Cost: 200 clicks</button><br>
+    <button id="helper4" onclick="buyUpgrade('helper4', 500, 5, true, 1.33)">Axey Helper - Cost: 500 clicks</button><br>
+    <button id="helper5" onclick="buyUpgrade('helper5', 1000, 8, true, 1.33)">Axey Helper - Cost: 1000 clicks</button><br>
+    <button id="helper6" onclick="buyUpgrade('helper6', 2000, 13, true, 1.33)">Axey Helper - Cost: 2000 clicks</button><br>
+  </div>
+
+  <div class="password-box">
+    <h2>Enter Password for Bonus</h2>
+    <input type="text" id="passwordInput" placeholder="Enter password">
+    <button onclick="checkPassword()">Submit</button>
+  </div>
+
+  <script>
+    let clicks = 0;
+    let autoClicks = 0;
+    let clicksPerSecond = 0;
+    let upgradeValue = 1;
+    let axeyHelperCount = 0;
+    let hiddenHelpers = 0;
+    let helpersVisible = true;
+
+    let upgradeCosts = {
+      upgrade1: 10,
+      upgrade2: 20,
+      helper1: 50,
+      helper2: 100,
+      helper3: 200,
+      helper4: 500,
+      helper5: 1000,
+      helper6: 2000
+    };
+
+    const multipliers = {
+      upgrade1: 1.5,
+      upgrade2: 1.5,
+      helper1: 1.33,
+      helper2: 1.33,
+      helper3: 1.33,
+      helper4: 1.33,
+      helper5: 1.33,
+      helper6: 1.33
+    };
+
+    function updateClickCount() {
+      document.getElementById('clickCount').textContent = clicks;
+      document.getElementById('autoClickCount').textContent = axeyHelperCount;
+      document.getElementById('clicksPerSecond').textContent = clicksPerSecond;
+    }
+
+    document.getElementById('clickImage').addEventListener('click', function() {
+      clicks += upgradeValue;
+      updateClickCount();
+    });
+
+    function buyUpgrade(id, cost, value, isAxeyHelper, multiplier) {
+      let button = document.getElementById(id);
+
+      if (clicks >= cost) {
+        clicks -= cost;
+
+        if (isAxeyHelper) {
+          autoClicks += value;
+          clicksPerSecond = autoClicks;
+          setInterval(autoClick, 1000); // Add auto-clicker every second
+          axeyHelperCount += value;
+          displayAxeyImages(value);
+        } else {
+          upgradeValue += value;
+        }
+
+        upgradeCosts[id] = Math.round(cost * multiplier);
+
+        // Update the specific button text for the clicked upgrade
+        if (isAxeyHelper) {
+          button.textContent = `Axey Helper - Cost: ${upgradeCosts[id]} clicks`;
+        } else {
+          button.textContent = `Upgrade +${value} per click - Cost: ${upgradeCosts[id]} clicks`;
+        }
+
+        // Update the onclick with the new cost
+        button.setAttribute("onclick", `buyUpgrade('${id}', ${upgradeCosts[id]}, ${value}, ${isAxeyHelper}, ${multiplier})`);
+
+        updateClickCount();
+      } else {
+        alert('Not enough clicks to buy the upgrade!');
+      }
+    }
+
+    function autoClick() {
+      clicks += autoClicks;
+      updateClickCount();
+    }
+
+    function displayAxeyImages(value) {
+      for (let i = 0; i < value; i++) {
+        let img = document.createElement('img');
+        img.src = './Axey_2_.png';
+        img.alt = 'Axey';
+        img.className = 'axey-image';
+        img.style.left = `${Math.random() * window.innerWidth}px`;
+        img.style.top = `${Math.random() * window.innerHeight}px`;
+        document.body.appendChild(img);
+      }
+    }
+
+    function toggleAxeyHelpers() {
+      const axeyImages = document.querySelectorAll('.axey-image');
+      if (helpersVisible) {
+        axeyImages.forEach(img => img.style.display = 'none');
+        hiddenHelpers = axeyImages.length;
+        document.getElementById('toggleHelpers').textContent = 'Show Axey Helpers';
+      } else {
+        axeyImages.forEach(img => img.style.display = 'block');
+        hiddenHelpers = 0;
+        document.getElementById('toggleHelpers').textContent = 'Hide Axey Helpers';
+      }
+      helpersVisible = !helpersVisible;
+      updateClickCount();
+    }
+
+    function checkPassword() {
+      const password = document.getElementById('passwordInput').value;
+      if (password === 'rizzaxolotl') {
+        licks += 1000000;
+        updateClickCount();
+        alert('Password accepted! You received 1,000,000 clicks.');
+      } else if (password === 'wipegamesave(null)') {
+        localStorage.removeItem('clickerGameSave');
+        // Reset all game values
+        clicks = 0;
+        autoClicks = 0;
+        clicksPerSecond = 0;
+        upgradeValue = 1;
+        axeyHelperCount = 0;
+        hiddenHelpers = 0;
+        helpersVisible = true;
+
+        // Reset costs to initial values
+        upgradeCosts = {
+          upgrade1: 10,
+          upgrade2: 20,
+          helper1: 50,
+          helper2: 100,
+          helper3: 200,
+          helper4: 500,
+          helper5: 1000,
+          helper6: 2000
+        };
+
+        // Remove all Axey images
+        document.querySelectorAll('.axey-image').forEach(img => img.remove());
+
+        // Reset shop buttons
+        for (let id in upgradeCosts) {
+          let button = document.getElementById(id);
+          button.textContent = id.includes('helper')
+            ? `Axey Helper - Cost: ${upgradeCosts[id]} clicks`
+            : `Upgrade +${upgradeValue} per click - Cost: ${upgradeCosts[id]} clicks`;
+
+          button.setAttribute("onclick", `buyUpgrade('${id}', ${upgradeCosts[id]}, ${id.includes('helper') ? autoClicks : upgradeValue}, ${id.includes('helper')}, ${id.includes('helper') ? multipliers[id] : 1.5})`);
+        }
+
+        updateClickCount();
+        alert('Game save wiped!');
+      } else {
+        alert('Incorrect password!');
+      }
+
+      document.getElementById('passwordInput').value = ''; // Clear the input field
+    }
+
+    function saveGame() {
+      const gameData = {
+        clicks,
+        autoClicks,
+        clicksPerSecond,
+        upgradeValue,
+        axeyHelperCount,
+        hiddenHelpers,
+        helpersVisible,
+        upgradeCosts
+      };
+
+      localStorage.setItem('clickerGameSave', JSON.stringify(gameData));
+      alert('Game saved!');
+    }
+
+    function loadGame() {
+      const savedData = JSON.parse(localStorage.getItem('clickerGameSave'));
+      if (savedData) {
+        clicks = savedData.clicks;
+        autoClicks = savedData.autoClicks;
+        clicksPerSecond = savedData.clicksPerSecond;
+        upgradeValue = savedData.upgradeValue;
+        axeyHelperCount = savedData.axeyHelperCount;
+        hiddenHelpers = savedData.hiddenHelpers;
+        helpersVisible = savedData.helpersVisible;
+        upgradeCosts = savedData.upgradeCosts;
+
+        // Restore costs for all upgrades
+        for (let id in upgradeCosts) {
+          let button = document.getElementById(id);
+          button.textContent = id.includes('helper')
+            ? `Axey Helper - Cost: ${upgradeCosts[id]} clicks`
+            : `Upgrade +${upgradeValue} per click - Cost: ${upgradeCosts[id]} clicks`;
+
+          button.setAttribute("onclick", `buyUpgrade('${id}', ${upgradeCosts[id]}, ${id.includes('helper') ? autoClicks : upgradeValue}, ${id.includes('helper')}, ${id.includes('helper') ? multipliers[id] : 1.5})`);
+        }
+
+        // Update Axey Helper visibility
+        const axeyImages = document.querySelectorAll('.axey-image');
+        axeyImages.forEach(img => img.style.display = helpersVisible ? 'block' : 'none');
+
+        updateClickCount();
+      } else {
+        alert('No save data found!');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedData = localStorage.getItem('clickerGameSave');
+      if (savedData) {
+        loadGame();
+      }
+    });
+  </script>
+
+  <button id="toggleHelpers" onclick="toggleAxeyHelpers()">Hide Axey Helpers</button><br>
+  <button onclick="saveGame()">Save Game</button><br>
+  <button onclick="loadGame()">Load Game</button>
+</body>
+</html>

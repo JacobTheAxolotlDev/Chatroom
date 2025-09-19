@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firebase Realtime Database – File Manager</title>
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#111733; --muted:#94a3b8; --text:#e2e8f0; --accent:#7c3aed;
+      --good:#16a34a; --bad:#ef4444; --warn:#eab308; --card:#0f172a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Noto Sans';background:var(--bg);color:var(--text)}
+    header{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid #1f284d;background:linear-gradient(180deg, #0c1330, #0b1020)}
+    header h1{font-size:16px;margin:0;font-weight:600;letter-spacing:.2px}
+    header .badge{font-size:12px;color:#cbd5e1;background:#1e293b;border:1px solid #334155;padding:3px 6px;border-radius:6px}
+    .app{display:grid;grid-template-columns:280px 1fr;min-height:calc(100% - 58px)}
+    aside{border-right:1px solid #1f284d;background:var(--panel);padding:8px;overflow:auto;min-width:0}
+    main{padding:16px;overflow:auto;min-width:0;display:flex;flex-direction:column;gap:12px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+    .toolbar input[type="text"]{flex:1;min-width:120px;padding:6px 8px;border-radius:8px;border:1px solid #273057;background:#0c1431;color:var(--text)}
+    .toolbar button{padding:6px 8px;border-radius:8px;border:1px solid #273057;background:#0c1431;color:var(--text);cursor:pointer}
+    .toolbar button:hover{border-color:#3a4ea2}
+    .tree{font-size:14px;word-break:break-all}
+    .node{padding:4px 6px;border-radius:8px;cursor:pointer;position:relative;margin-left:8px}
+    .node:hover{background:#0e1638}
+    .children{margin-left:14px;border-left:1px dashed #273057;padding-left:8px}
+    .footer{margin-top:12px;color:#94a3b8;font-size:12px}
+    .muted{color:#94a3b8}
+    .kbd{padding:1px 6px;border:1px solid #334155;border-bottom-width:2px;border-radius:6px;background:#0b122d;font-size:12px;color:#cbd5e1}
+    .monospace{font-family:ui-monospace, monospace}
+    .context-menu{position:absolute;background:#0a122d;border:1px solid #1f284d;border-radius:8px;z-index:1000;display:none;flex-direction:column;min-width:150px}
+    .context-menu button{background:none;border:none;color:var(--text);text-align:left;padding:8px 12px;cursor:pointer}
+    .context-menu button:hover{background:#1e293b}
+    #inspector{flex:1;white-space:pre-wrap;background:#0a122d;border:1px solid #1f284d;border-radius:12px;padding:12px;min-height:200px;color:var(--text)}
+    #editor{flex:1;width:100%;min-height:200px;background:#0a122d;color:var(--text);border:1px solid #1f284d;border-radius:12px;padding:12px;font-family:ui-monospace, monospace}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Firebase Realtime DB – File Manager</h1>
+    <span class="badge">client‑side viewer/editor</span>
+    <span class="muted monospace" id="status">⏳ Connecting…</span>
+  </header>
+
+  <div class="app">
+    <aside>
+      <div class="toolbar">
+        <input id="search" type="text" placeholder="Search…" />
+        <button id="refresh">Refresh</button>
+      </div>
+      <div class="tree" id="tree"></div>
+      <div class="footer">Right‑click for menu • Press <span class="kbd">/</span> to search</div>
+    </aside>
+    <main>
+      <div class="toolbar">
+        <button id="addRoot">➕ Add at root</button>
+        <button id="exportJson">⬇️ Export JSON</button>
+        <label class="iconbtn" for="importJson">⬆️ Import JSON<input id="importJson" type="file" accept="application/json" hidden></label>
+      </div>
+      <!-- Inspector shows value preview -->
+      <pre id="inspector" class="monospace">Select a node to inspect…</pre>
+      <!-- JSON Editor for modifying node data -->
+      <textarea id="editor" placeholder="Edit JSON here…"></textarea>
+      <button id="saveChanges">💾 Save Changes</button>
+    </main>
+  </div>
+
+  <div id="contextMenu" class="context-menu"></div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js';
+    import { getDatabase, ref, get, set, remove, onValue } from 'https://www.gstatic.com/firebasejs/10.12.3/firebase-database.js';
+
+    // Firebase configuration
+    const firebaseConfig = { 
+      apiKey:"AIzaSyBYJW83DPFsEBNM1wV_3SJ0sT8aerGPx7A", 
+      authDomain:"chatroomfunyay.firebaseapp.com", 
+      databaseURL:"https://chatroomfunyay-default-rtdb.firebaseio.com", 
+      projectId:"chatroomfunyay", 
+      storageBucket:"chatroomfunyay.firebasestorage.app", 
+      messagingSenderId:"741967066444", 
+      appId:"1:741967066444:web:b6e386b842d3c29febcbe9", 
+      measurementId:"G-4CXD16WBVL" 
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    document.getElementById('status').textContent = '✅ Connected (no auth)';
+
+    const treeEl=document.getElementById('tree');
+    const inspector=document.getElementById('inspector');
+    const menu=document.getElementById('contextMenu');
+    const editor=document.getElementById('editor');
+    const saveBtn=document.getElementById('saveChanges');
+
+    // Keep track of currently selected node path
+    let currentPath=null;
+    let currentValue=null;
+
+    function isObject(v){return v&&typeof v==='object'&&!Array.isArray(v)}
+
+    // Build a tree node recursively
+    function buildTreeNode(key,value,path){
+      const row=document.createElement('div');
+      row.className='node';
+      row.textContent=key+(isObject(value)?' {…}':': '+JSON.stringify(value));
+      row.dataset.path=path;
+
+      // On click: update inspector and editor with node's JSON
+      row.addEventListener('click',(e)=>{
+        e.stopPropagation();
+        currentPath=path;
+        currentValue=value;
+        inspector.textContent=JSON.stringify(value,null,2);
+        editor.value=JSON.stringify(value,null,2);
+      });
+
+      // Right click context menu
+      row.addEventListener('contextmenu',(e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        showMenu(e.pageX,e.pageY,path,value,isObject(value));
+      });
+
+      // Recursively add children
+      if(isObject(value)){
+        const children=document.createElement('div');
+        children.className='children';
+        for(const k of Object.keys(value)){
+          children.appendChild(buildTreeNode(k,value[k],path+'/'+k));
+        }
+        row.appendChild(children);
+      }
+      return row;
+    }
+
+    // Render the entire tree from database root
+    async function renderTree(){
+      try{
+        const snap=await get(ref(db));
+        const data=snap.val()||{};
+        treeEl.innerHTML='';
+        for(const k of Object.keys(data)){
+          treeEl.appendChild(buildTreeNode(k,data[k],k));
+        }
+      }catch(err){
+        treeEl.textContent='❌ Error loading: '+err;
+      }
+    }
+
+    // CRUD operations
+    async function addNode(path){
+      const key=prompt('Key?');
+      if(!key)return;
+      const val=prompt('Value? (JSON ok)');
+      await set(ref(db,path?path+'/'+key:key),JSON.parse(val||'""'));
+      renderTree();
+    }
+
+    async function editNode(path,value){
+      const val=prompt('New value for '+path+':',JSON.stringify(value));
+      if(val===null)return;
+      await set(ref(db,path),JSON.parse(val));
+      renderTree();
+    }
+
+    async function deleteNode(path){
+      if(confirm('Delete '+path+'?')){
+        await remove(ref(db,path));
+        renderTree();
+      }
+    }
+
+    async function renameNode(path,value){
+      const parts=path.split('/');
+      const oldKey=parts.pop();
+      const parent=parts.join('/');
+      const newKey=prompt('Rename key:',oldKey);
+      if(!newKey)return;
+      await set(ref(db,parent?parent+'/'+newKey:newKey),value);
+      await remove(ref(db,path));
+      renderTree();
+    }
+
+    async function moveNode(path,value){
+      const newPath=prompt('Move to (full path):',path);
+      if(!newPath||newPath===path)return;
+      await set(ref(db,newPath),value);
+      await remove(ref(db,path));
+      renderTree();
+    }
+
+    // Context menu builder
+    function showMenu(x,y,path,value,isFolder){
+      menu.style.left=x+'px';
+      menu.style.top=y+'px';
+      menu.style.display='flex';
+      menu.innerHTML='';
+
+      const btn=(label,fn)=>{
+        const b=document.createElement('button');
+        b.textContent=label;
+        b.onclick=()=>{menu.style.display='none';fn();};
+        return b;
+      };
+
+      if(isFolder) menu.appendChild(btn('➕ Add child',()=>addNode(path)));
+      menu.appendChild(btn('✏️ Edit value',()=>editNode(path,value)));
+      menu.appendChild(btn('✎ Rename key',()=>renameNode(path,value)));
+      menu.appendChild(btn('📂 Move to…',()=>moveNode(path,value)));
+      menu.appendChild(btn('🗑 Delete',()=>deleteNode(path)));
+    }
+
+    // Hide context menu on background click
+    document.body.addEventListener('click',()=>menu.style.display='none');
+
+    // Save changes from editor to Firebase
+    saveBtn.addEventListener('click',async()=>{
+      if(!currentPath){alert('No node selected.');return;}
+      try{
+        const newVal=JSON.parse(editor.value);
+        await set(ref(db,currentPath),newVal);
+        alert('Saved successfully!');
+        renderTree();
+      }catch(e){
+        alert('Invalid JSON: '+e.message);
+      }
+    });
+
+    // Initial render and live updates
+    renderTree();
+    onValue(ref(db),()=>renderTree());
+  </script>
+</body>
+</html>

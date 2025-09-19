@@ -1,0 +1,56 @@
+ <!DOCTYPE html>
+<html>
+<head>
+  <title>Axey Game Clicker</title>
+  <!-- Favicon link -->
+  <link rel="shortcut icon" href="newfavicon.png" type="image/x-icon">
+
+  <!-- CSS for basic styling -->
+  <style>
+    body {
+      font-family: 'Bubblegum Sans', sans-serif;
+      margin: 40px; /* Increased margin */
+      background-color: lightgreen;
+      color: black;
+      font-size: 18px; /* Increased overall font size */
+    }
+    input, button {
+      padding: 10px; /* Increased padding */
+      margin-bottom: 20px; /* Increased margin bottom */
+      font-family: 'Bubblegum Sans', sans-serif;
+      font-size: 18px; /* Increased font size */
+    }
+    /* Styling for the button */
+    button {
+      background-color: lightblue;
+      border: 3px solid darkgreen; /* Increased border size */
+      color: black; /* Ensures text is visible against the light blue */
+    }
+  </style>
+  <!-- Link to Google Fonts for Bubblegum Sans -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap">
+</head>
+<body>
+  <h1>Open Multiple Tabs</h1> <!-- Increased heading size -->
+  <h4>Make sure to allow Popups or it won't work!</h4> <!-- Increased heading size -->
+  <label for="url">URL to Open:</label>
+  <input type="text" id="url"><br><br>
+  <label for="repeatCount">Number of Tabs:</label>
+  <input type="number" id="repeatCount"><br><br>
+  <button onclick="openTabs()">Open Tabs</button>
+  <div id="linkContainer"></div>
+
+  <script>
+    function openTabs() {
+      var url = document.getElementById("url").value;
+      var repeatCount = parseInt(document.getElementById("repeatCount").value);
+      var links = [];
+
+      for (var i = 0; i < repeatCount; i++) {
+        var link = window.open(url, '_blank');
+        links.push(link);
+      }
+    }
+  </script>
+</body>
+</html>

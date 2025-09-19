@@ -1,0 +1,539 @@
+ <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Friends Chatroom - Channels</title>
+
+  <!-- Comic Neue -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --green-1:#b7e4c7;
+      --green-2:#5a9e67;
+      --green-3:#3c6e40;
+      --panel:#ffffff;
+      --panel-2:#e3f3e8;
+    }
+    *{box-sizing:border-box}
+    body {
+      margin: 0;
+      background-color: var(--green-1);
+      font-family: "Comic Neue", cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    /* Header */
+    #header {
+      width: 100%;
+      background-color: var(--green-2);
+      color: white;
+      padding: 12px 16px;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      user-select: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: sticky; top: 0; z-index: 10;
+    }
+    #header a { color: inherit; text-decoration: none; }
+    #header-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+    #logout { display:none; padding:8px 12px; border:none; border-radius:8px; background:#ffffff; color:#1f4d2a; cursor:pointer; font-weight:700; }
+    #logout:hover{ filter:brightness(0.95); }
+
+    /* Auth panel */
+    #auth {
+      width: 420px;
+      margin: 16px 0 0;
+      padding: 12px 14px;
+      background: var(--panel);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center;
+    }
+    #auth input {
+      flex: 1 1 180px;
+      padding: 10px;
+      border: 1px solid var(--green-2);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    #auth button {
+      padding: 10px 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--green-2);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    #auth .secondary { background: #8fb79a; }
+    #whoami {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #1f4d2a;
+      width: 420px;
+      text-align: center;
+      user-select: none;
+    }
+
+    /* Chat panel */
+    #chat {
+      width: 420px;
+      margin: 12px 0 30px;
+      padding: 15px 20px;
+      background: var(--panel);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex; flex-direction: column; align-items: center;
+    }
+    #channels {
+      display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; width:100%;
+    }
+    .channel-tab {
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: #a3c19c; color: white; font-weight: bold; user-select:none;
+      transition: background-color .25s ease; text-transform: capitalize; flex-shrink:0;
+    }
+    .channel-tab.active, .channel-tab:hover { background-color: var(--green-2); }
+
+    #messages {
+      width: 100%;
+      height: 340px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 8px;
+      margin-bottom: 12px;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      background: #fefefe;
+      border-radius: 8px;
+      white-space: pre-wrap; word-wrap: break-word;
+    }
+
+    /* Composer */
+    #composer{
+      width:100%;
+      display:flex; gap:8px; align-items:center;
+    }
+    #msg{
+      flex:1 1 auto; min-width:0;
+      padding:12px;
+      border:1px solid var(--green-2);
+      border-radius:10px;
+      font-size:16px;
+    }
+    #send{
+      flex:0 0 100px;
+      padding:12px 14px;
+      border:none; border-radius:10px;
+      background: var(--green-2); color:#fff; font-weight:800; cursor:pointer;
+    }
+    #send:hover{ background: var(--green-3); }
+    #composer.disabled{ opacity:.5; pointer-events:none; user-select:none; }
+
+    /* Tips */
+    #tips {
+      margin-top: 10px; font-size: 14px; color: #333;
+      background: var(--panel-2); border: 1px solid #8bc791;
+      border-radius: 8px; padding: 10px; width: 420px; user-select: none; text-align: left;
+    }
+
+    /* Fancy text effects */
+    .rainbow-text{
+      background-image:linear-gradient(90deg, red,orange,yellow,green,blue,indigo,violet,red);
+      background-size:400% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:rainbowShift 6s linear infinite;
+    }
+    @keyframes rainbowShift{ 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
+
+    .gold-text{
+      background-image:linear-gradient(90deg,#b8860b,#ffd700,#fffacd,#ffd700,#b8860b);
+      background-size:300% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:goldShift 4s ease-in-out infinite;
+    }
+    @keyframes goldShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+    .uranium-text{ color:#00ff00; animation:uraniumGlow 1s ease-in-out infinite;
+      text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00; }
+    @keyframes uraniumGlow{
+      0%,100%{ color:#00ff00; text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00;}
+      50%{ color:#66ff66; text-shadow:0 0 10px #66ff66,0 0 20px #66ff66,0 0 30px #33ff33,0 0 50px #00cc00;}
+    }
+
+    .slime-text{
+      background-image:linear-gradient(90deg,#004d00,#00ff66);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+
+    .axey-container{ position:relative; display:inline-block; padding:20px; color:purple; font-weight:bold; }
+    .axey-img{ position:absolute; width:30px; height:30px; animation:axeyOrbit 3s linear infinite; pointer-events:none; user-select:none;}
+    .axey-img.second{ animation-delay:1.5s; }
+    @keyframes axeyOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .pokemon-container{ position:relative; display:inline-block; padding:20px; color:white; font-weight:bold;
+      text-shadow:-2px -2px 0 red,2px -2px 0 red,-2px 2px 0 red,2px 2px 0 red; user-select:none; }
+    .pokemon-img{ position:absolute; width:30px; height:30px; animation:pokemonOrbit 3s linear infinite; pointer-events:none; user-select:none; }
+    .pokemon-img.second{ animation-delay:1.5s; }
+    @keyframes pokemonOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .fweh-text{ font-size:2em; font-weight:bold; font-style:italic; }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div><a href="#">Chat Room</a></div>
+    <div><a href="music.html">Music (wip)</a></div>
+    <div><a href="other.html">Axey Game</a></div>
+    <div><a href="desmos.html">calculator</a></div>
+    <div id="header-right">
+      <span id="whoami-mini"></span>
+      <button id="logout">Logout</button>
+    </div>
+  </div>
+
+  <!-- AUTH -->
+  <div id="auth">
+    <input id="username" placeholder="Username" autocomplete="username" />
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+    <button id="login">Login</button>
+    <button id="signup" class="secondary">Sign Up</button>
+  </div>
+  <div id="whoami">Not logged in</div>
+
+  <!-- CHAT -->
+  <div id="chat">
+    <h2>Friends Chatroom</h2>
+    <div id="channels"></div>
+    <div id="messages"></div>
+
+    <!-- composer (no Name field anymore) -->
+    <div id="composer" class="disabled">
+      <input id="msg" placeholder="Message" autocomplete="off" />
+      <button id="send">Send</button>
+    </div>
+
+    <div id="tips">
+      <strong>Tips:</strong><br/>
+      To color a message, start with "red:", "blue:", "green:", or hex like "#ff6600:".<br/>
+      Try special styles too: "rainbow:", "gold:", "uranium:", "slime:", "axey:", "pokemon:", or "fweh:".<br/>
+      Example: <code>pokemon: Gotta catch 'em all!</code>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import {
+      getDatabase, ref, push, onChildAdded, query, orderByChild, get, set
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+    import {
+      getAuth,
+      setPersistence,
+      browserLocalPersistence,
+      onAuthStateChanged,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      updateProfile,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+    // --- Your Firebase config ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYJW83DPFsEBNM1wV_3SJ0sT8aerGPx7A",
+      authDomain: "chatroomfunyay.firebaseapp.com",
+      databaseURL: "https://chatroomfunyay-default-rtdb.firebaseio.com",
+      projectId: "chatroomfunyay",
+      storageBucket: "chatroomfunyay.firebasestorage.app",
+      messagingSenderId: "741967066444",
+      appId: "1:741967066444:web:b6e386b842d3c29febcbe9",
+      measurementId: "G-4CXD16WBVL",
+    };
+
+    // --- Init ---
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Persist sessions (this is the “memory” so you stay logged in)
+    await setPersistence(auth, browserLocalPersistence);
+
+    // --- DOM ---
+    const messagesDiv = document.getElementById("messages");
+    const msgInput = document.getElementById("msg");
+    const sendBtn = document.getElementById("send");
+    const channelsDiv = document.getElementById("channels");
+    const composer = document.getElementById("composer");
+    const whoami = document.getElementById("whoami");
+    const whoamiMini = document.getElementById("whoami-mini");
+
+    // Auth DOM
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("login");
+    const signupBtn = document.getElementById("signup");
+    const logoutBtn = document.getElementById("logout");
+
+    // --- State ---
+    let channels = new Set();
+    let allMessages = [];
+    let currentChannel = "general";
+    let currentUser = null;
+    let currentUsername = null; // cached username
+
+    // helper: convert username to a fake email for Firebase Auth
+    function usernameToEmail(u) { return `${u}@myapp.local`.toLowerCase(); }
+
+    function cleanMessage(text) { return text; }
+
+    // --- Channels / Messages ---
+    async function loadChannels() {
+      const messagesRef = ref(db, "messages");
+      const snapshot = await get(messagesRef);
+      if (!snapshot.exists()) {
+        channels = new Set(["general"]);
+        currentChannel = "general";
+        renderChannels();
+        return;
+      }
+      channels.clear();
+      allMessages = [];
+      snapshot.forEach((child) => {
+        const msg = child.val();
+        allMessages.push(msg);
+        channels.add(msg.channel || "general");
+      });
+      if (!channels.has(currentChannel)) {
+        currentChannel = [...channels][0];
+      }
+      renderChannels();
+      displayMessagesForChannel(currentChannel);
+    }
+
+    function renderChannels() {
+      channelsDiv.innerHTML = "";
+      [...channels].sort().forEach((channel) => {
+        const tab = document.createElement("div");
+        tab.textContent = channel;
+        tab.className = "channel-tab";
+        if (channel === currentChannel) tab.classList.add("active");
+        tab.onclick = () => {
+          if (currentChannel !== channel) {
+            currentChannel = channel;
+            updateActiveTab();
+            displayMessagesForChannel(currentChannel);
+          }
+        };
+        channelsDiv.appendChild(tab);
+      });
+    }
+
+    function updateActiveTab() {
+      const tabs = channelsDiv.querySelectorAll(".channel-tab");
+      tabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.textContent === currentChannel);
+      });
+    }
+
+    function addMessageElement(data) {
+      let name = data.name || "Anonymous";
+      const uname = (name || "").trim().toLowerCase();
+      if (uname === "logan") name += " {👑Owner👑}";
+      if (uname === "jahmal") name += " 🦐";
+      if (uname === "baylor") name += " [Handsome]";
+
+      let text = data.text || "(no message)";
+      const timestamp = new Date(data.timestamp).toLocaleTimeString();
+
+      if ((data.channel || "general") !== currentChannel) return;
+
+      let color = null;
+      let rainbow = false, gold = false, uranium = false, slime = false, axey = false, fweh = false, pokemon = false;
+
+      const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
+      const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
+      const goldMatch = text.match(/^gold:\s*(.*)/i);
+      const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
+      const slimeMatch = text.match(/^slime:\s*(.*)/i);
+      const axeyMatch = text.match(/^axey:\s*(.*)/i);
+      const fwehMatch = text.match(/^fweh:\s*(.*)/i);
+      const pokemonMatch = text.match(/^pokemon:\s*(.*)/i);
+      const hexMatch = text.match(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}):\s*(.*)/);
+
+      if (namedColorMatch) { color = namedColorMatch[1].toLowerCase(); text = namedColorMatch[2]; }
+      else if (rainbowMatch) { rainbow = true; text = rainbowMatch[1]; }
+      else if (goldMatch) { gold = true; text = goldMatch[1]; }
+      else if (uraniumMatch) { uranium = true; text = uraniumMatch[1]; }
+      else if (slimeMatch) { slime = true; text = slimeMatch[1]; }
+      else if (axeyMatch) { axey = true; text = axeyMatch[1]; }
+      else if (fwehMatch) { fweh = true; text = fwehMatch[1]; }
+      else if (pokemonMatch) { pokemon = true; text = pokemonMatch[1]; }
+      else if (hexMatch) { color = `#${hexMatch[1]}`; text = hexMatch[2]; }
+
+      const msgEl = document.createElement("div");
+
+      if (rainbow || gold || uranium || slime || axey || fweh || pokemon || color) {
+        if (rainbow) {
+          const s = document.createElement("span"); s.classList.add("rainbow-text"); s.textContent = `${timestamp} - ${name}: ${text}`; msgEl.appendChild(s);
+        } else if (gold) {
+          const s = document.createElement("span"); s.classList.add("gold-text"); s.textContent = `${timestamp} - ${name}: ${text}`; msgEl.appendChild(s);
+        } else if (uranium) {
+          const s = document.createElement("span"); s.classList.add("uranium-text"); s.textContent = `${timestamp} - ${name}: ${text}`; msgEl.appendChild(s);
+        } else if (slime) {
+          const s = document.createElement("span"); s.classList.add("slime-text"); s.textContent = `${timestamp} - ${name}: ${text}`; msgEl.appendChild(s);
+        } else if (axey) {
+          const c = document.createElement("div"); c.classList.add("axey-container"); c.textContent = `${timestamp} - ${name}: ${text}`;
+          const a1 = document.createElement("img"); a1.src="./axey.png"; a1.classList.add("axey-img");
+          const a2 = document.createElement("img"); a2.src="./axey.png"; a2.classList.add("axey-img","second");
+          c.appendChild(a1); c.appendChild(a2); msgEl.appendChild(c);
+        } else if (pokemon) {
+          const c = document.createElement("div"); c.classList.add("pokemon-container"); c.textContent = `${timestamp} - ${name}: ${text}`;
+          const p1 = document.createElement("img"); p1.src="./image-removebg-preview_-_2025-08-12T192644.788.png"; p1.classList.add("pokemon-img");
+          const p2 = document.createElement("img"); p2.src="./image-removebg-preview_-_2025-08-12T192644.788.png"; p2.classList.add("pokemon-img","second");
+          c.appendChild(p1); c.appendChild(p2); msgEl.appendChild(c);
+        } else if (fweh) {
+          const s = document.createElement("span"); s.classList.add("fweh-text"); s.textContent = `${timestamp} - ${name}: ${text}`; msgEl.appendChild(s);
+        } else if (color) {
+          const s = document.createElement("span"); s.style.color = color; s.textContent = `${timestamp} - ${name}: ${text}`; msgEl.appendChild(s);
+        }
+      } else {
+        const s = document.createElement("span"); s.textContent = `${timestamp} - ${name}: ${text}`; msgEl.appendChild(s);
+      }
+      messagesDiv.appendChild(msgEl);
+    }
+
+    function displayMessagesForChannel(channel) {
+      messagesDiv.innerHTML = "";
+      allMessages.forEach((msg) => {
+        if ((msg.channel || "general") === channel) addMessageElement(msg);
+      });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // Live listener
+    const messagesRef = ref(db, "messages");
+    const messagesQuery = query(messagesRef, orderByChild("timestamp"));
+    onChildAdded(messagesQuery, (snapshot) => {
+      const data = snapshot.val(); if (!data) return;
+      allMessages.push(data);
+      channels.add(data.channel || "general");
+      renderChannels();
+      if ((data.channel || "general") === currentChannel) {
+        addMessageElement(data);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    });
+
+ // --- AUTH: Sign Up (safe version) ---
+signupBtn.onclick = async () => {
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!username) return alert("Enter a username");
+  if (password.length < 6) return alert("Password must be at least 6 characters");
+
+  const key = username.toLowerCase();
+  const unameRef = ref(db, "usernames/" + key);
+
+  try {
+    // Check if username is taken
+    const snapshot = await get(unameRef);
+    if (snapshot.exists()) return alert("Username is taken. Try another.");
+
+    const fakeEmail = usernameToEmail(username);
+
+    // Create user
+    const cred = await createUserWithEmailAndPassword(auth, fakeEmail, password);
+
+    // Wait until username -> uid mapping is written
+    await set(ref(db, "users/" + cred.user.uid), { username });
+    await set(unameRef, { uid: cred.user.uid });
+
+    // Optional: update displayName for convenience
+    await updateProfile(cred.user, { displayName: username });
+
+    alert("Account created! You're logged in.");
+  } catch (e) {
+    alert(e.message);
+  }
+};
+
+
+
+    // --- AUTH: Login ---
+    loginBtn.onclick = async () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      if (!username) return alert("Enter your username");
+      const fakeEmail = usernameToEmail(username);
+      try {
+        await signInWithEmailAndPassword(auth, fakeEmail, password);
+      } catch (e) {
+        alert(e.message);
+      }
+    };
+
+    // --- AUTH: Logout ---
+    logoutBtn.onclick = async () => {
+      try { await signOut(auth); } catch (e) { alert(e.message); }
+    };
+
+    // --- AUTH state changes ---
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user || null;
+      if (user) {
+        document.getElementById("auth").style.display = "none";
+        composer.classList.remove("disabled");
+        logout.style.display = "inline-block";
+
+        // fetch username (or use displayName)
+        currentUsername = user.displayName || null;
+        if (!currentUsername) {
+          const snap = await get(ref(db, "users/" + user.uid));
+          currentUsername = snap.exists() ? snap.val().username : "(user)";
+        }
+        whoami.textContent = `Logged in as: ${currentUsername}`;
+        whoamiMini.textContent = currentUsername;
+
+      } else {
+        document.getElementById("auth").style.display = "flex";
+        composer.classList.add("disabled");
+        logout.style.display = "none";
+        whoami.textContent = "Not logged in";
+        whoamiMini.textContent = "";
+        currentUsername = null;
+      }
+    });
+
+    // --- Send message (must be logged in) ---
+    sendBtn.onclick = async () => {
+      if (!auth.currentUser) return alert("You must be logged in to chat!");
+      let text = msgInput.value.trim();
+      if (!text) return;
+
+      const messageObj = {
+        name: currentUsername || "(user)",
+        uid: auth.currentUser.uid,
+        text: cleanMessage(text),
+        timestamp: Date.now(),
+        channel: currentChannel,
+      };
+
+      try {
+        await push(ref(db, "messages"), messageObj);
+        msgInput.value = "";
+      } catch (err) {
+        alert("Failed to send: " + err.message);
+      }
+    };
+
+    // initial load
+    await loadChannels();
+  </script>
+</body>
+</html>
