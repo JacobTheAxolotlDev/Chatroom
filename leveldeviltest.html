@@ -1,0 +1,28 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="https://raw.githubusercontent.com/unblockedgamesfree/subway-surfers-newyork/refs/heads/main">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <script>
+        // This will run as soon as the page is loaded
+        window.onload = function() {
+            // Open a new blank window/tab
+            let newWindow = window.open('about:blank', '_blank');
+
+            // Fetch the HTML content from GitHub
+            fetch('https://raw.githubusercontent.com/unblockedgamesfree/subway-surfers-newyork/refs/heads/main/index.html')
+                .then(response => response.text())
+                .then(htmlContent => {
+                    // Inject the fetched HTML into the new window
+                    newWindow.document.open();
+                    newWindow.document.write(htmlContent);
+                    newWindow.document.close();
+                })
+                .catch(error => console.error('Error loading HTML:', error));
+        };
+    </script>
+</body>
+</html>

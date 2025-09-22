@@ -36,7 +36,6 @@
     }
   </style>
 </head>
-<body>
 
 </body>
 </html>
@@ -426,7 +425,6 @@
     <div><a href="sandboxels.html">sandboxels</a></div>
     <div id="header-right">
       <span id="whoami-mini"></span>
-      <button id="dm-toggle" title="Direct Messages" style="padding:8px 10px;border-radius:8px;border:none;background:#fff;font-weight:700;cursor:pointer;">💬 DMs <span id="dm-global-badge" class="badge" style="display:none">0</span></button>
       <button id="logout">Logout</button>
     </div>
   </div>
@@ -434,16 +432,6 @@
   <!-- Upload button -->
   <label for="imageInput" class="upload-btn">📷 Upload</label>
   <input type="file" id="imageInput" accept="image/*">
-
-   <div id="dm-dropdown" class="dm-dropdown" aria-hidden="true">
-        <input id="dm-username-input" class="dm-input" placeholder="Start DM: enter username (exact)"/>
-        <div style="display:flex; gap:8px; margin-bottom:8px;">
-          <button id="dm-start-by-username" class="dm-start-btn">Start DM</button>
-          <button id="dm-show-online" class="dm-start-btn" style="background:#8fb79a">Show Online</button>
-        </div>
-        <div style="max-height:260px; overflow:auto;" id="dm-list"></div>
-      </div>
-    </div>
 
   <style>
     #imageInput { display: none; }
@@ -549,15 +537,6 @@
     const composer = document.getElementById("composer");
     const whoami = document.getElementById("whoami");
     const whoamiMini = document.getElementById("whoami-mini");
-
-        // DM DOM
-    const dmToggle = document.getElementById("dm-toggle");
-    const dmDropdown = document.getElementById("dm-dropdown");
-    const dmListEl = document.getElementById("dm-list");
-    const dmUsernameInput = document.getElementById("dm-username-input");
-    const dmStartBtn = document.getElementById("dm-start-by-username");
-    const dmShowOnlineBtn = document.getElementById("dm-show-online");
-    const dmGlobalBadge = document.getElementById("dm-global-badge");
 
     // Admin DOM
     const adminPanel = document.getElementById("admin-panel");
@@ -722,104 +701,6 @@ if (stopJamasBtn) {
       "fQ4iNM6q0xhXjqs8tBLLA5jVoSA2", //joy
       "1HZElGj4ZDOqcG0pNQEIJlc79622" //cindy
     ];
-
-        // ---------- DM helpers ----------
-    function dmIdFor(u1, u2){
-      // stable ID: alphabetical order
-      const [a,b] = [u1, u2].sort();
-      return `${a}_${b}`;
-    }
-
-    async function getUidForUsername(username) {
-      if(!username) return null;
-      const key = username.toLowerCase();
-      const snap = await get(ref(db, `usernames/${key}`));
-      if (!snap.exists()) return null;
-      return snap.val().uid;
-    }
-
-    // create or ensure DM meta exists; returns dmId
-    async function ensureDM(u1, u2) {
-      const id = dmIdFor(u1, u2);
-      const metaRef = ref(db, `dms/${id}/meta`);
-      const metaSnap = await get(metaRef);
-      if (!metaSnap.exists()) {
-        const meta = {
-          participants: { [u1]: true, [u2]: true },
-          createdAt: Date.now()
-        };
-        await set(metaRef, meta);
-      }
-      return id;
-    }
-
-    // increment unread for recipient
-    async function markDMUnreadFor(dmId, recipientUid, lastMessageText) {
-      try {
-        const notifRef = ref(db, `dmNotifications/${recipientUid}/${dmId}`);
-        const snap = await get(notifRef);
-        if (!snap.exists()) {
-          await set(notifRef, { unread: 1, lastMessage: lastMessageText || "", lastTs: Date.now() });
-        } else {
-          const curr = snap.val();
-          const newCount = (curr.unread || 0) + 1;
-          await update(notifRef, { unread: newCount, lastMessage: lastMessageText || "", lastTs: Date.now() });
-        }
-      } catch (e) {
-        console.warn("markDMUnreadFor error", e);
-      }
-    }
-
-    // clear unread for current user on viewing that dm
-    async function clearUnread(dmId) {
-      if (!myUid) return;
-      try {
-        await set(ref(db, `dmNotifications/${myUid}/${dmId}`), { unread: 0, lastTs: Date.now(), lastMessage: "" });
-      } catch (e) {
-        console.warn("clearUnread error", e);
-      }
-    }
-
-    // load a DM's messages and render in message view
-    async function displayDM(dmId) {
-      // show a "channel" title on top
-      currentChannel = `dm:${dmId}`;
-      updateActiveTab();
-      messagesDiv.innerHTML = ""; // clear
-
-      // load meta
-      const metaSnap = await get(ref(db, `dms/${dmId}/meta`));
-      const meta = metaSnap.exists() ? metaSnap.val() : { participants: {} };
-      // show participants at top
-      const otherUid = Object.keys(meta.participants || {}).find(u => u !== myUid);
-      let otherName = otherUid ? "(user)" : "(unknown)";
-      if (otherUid) {
-        const userSnap = await get(ref(db, `users/${otherUid}`));
-        if (userSnap.exists()) otherName = userSnap.val().username || otherName;
-      }
-      const header = document.createElement("div");
-      header.style.fontWeight = "800";
-      header.style.marginBottom = "8px";
-      header.innerHTML = `DM with <strong>${otherName}</strong>`;
-      messagesDiv.appendChild(header);
-
-      // fetch messages
-      const msgsSnap = await get(ref(db, `dms/${dmId}/messages`));
-      if (msgsSnap.exists()) {
-        msgsSnap.forEach(child => {
-          const m = child.val();
-          const msgEl = document.createElement('div');
-          const ts = new Date(m.timestamp).toLocaleTimeString();
-          msgEl.textContent = `${ts} - ${m.name || "(user)"}: ${m.text || ""}`;
-          messagesDiv.appendChild(msgEl);
-        });
-      }
-
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      // clear unread
-      clearUnread(dmId);
-    }
-
 
     // helper: convert username to a fake email for Firebase Auth
     function usernameToEmail(u) { return `${u}@myapp.local`.toLowerCase(); }
@@ -1353,41 +1234,32 @@ if (stopJamasBtn) {
     });
 
     // --- Send message (must be logged in) ---
-// send message: either channel or DM
     sendBtn.onclick = async () => {
-      if (!auth.currentUser) return alert("You must be logged in to chat!");
+  if (!auth.currentUser) return alert("You must be logged in to chat!");
 
-      let text = msgInput.value.trim();
-      if (!text) return;
+  // Prevent non-admins from sending to "admin-only" channel
+  if (currentChannel === "admin-only" && !adminUIDs.includes(auth.currentUser.uid)) {
+    return alert("You are not authorized to send messages to the Admin Only channel.");
+  }
 
-      // if DM
-      if (currentChannel && currentChannel.startsWith('dm:')) {
-        const dmId = currentChannel.slice(3);
-        const messageObj = {
-          name: currentUsername || "(user)",
-          uid: myUid,
-          text,
-          timestamp: Date.now()
-        };
-        try {
-          await push(ref(db, `dms/${dmId}/messages`), messageObj);
+  let text = msgInput.value.trim();
+  if (!text) return;
 
-          // get other participant and mark unread
-          const metaSnap = await get(ref(db, `dms/${dmId}/meta`));
-          if (metaSnap.exists()) {
-            const participants = metaSnap.val().participants || {};
-            const otherUid = Object.keys(participants).find(u => u !== myUid);
-            if (otherUid) {
-              await markDMUnreadFor(dmId, otherUid, text);
-            }
-          }
-          msgInput.value = "";
-          // re-render this DM's messages (or rely on realtime child_added listener)
-        } catch (e) {
-          alert('Failed to send DM: ' + e.message);
-        }
-        return;
-      }
+  const messageObj = {
+    name: currentUsername || "(user)",
+    uid: auth.currentUser.uid,
+    text: cleanMessage(text),
+    timestamp: Date.now(),
+    channel: currentChannel,
+  };
+
+  try {
+    await push(ref(db, "messages"), messageObj);
+    msgInput.value = "";
+  } catch (err) {
+    alert("Failed to send: " + err.message);
+  }
+};
 
     // --- Admin Buttons Logic ---
     createBtn.onclick = async () => {
@@ -1490,5 +1362,44 @@ if (stopJamasBtn) {
     const timer = setInterval(updateCountdown, 1000);
   </script>
 
+</body>
+</html>
+<body>
+    <style>
+        .day-info {
+            font-size: 24px;
+            padding-right: 20px;
+            padding-left: 20px;
+            border-radius: 5px;
+            padding: 0px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="day-info" id="dayInfo"></div>
+
+    <script>
+        function getDayType() {
+            const today = new Date();
+            const day = today.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
+            
+            // Determine the weekday for A/B days
+            const fridayCycle = Math.floor(today.getDate() / 7) % 2 === 0 ? 'A' : 'B';
+            
+            // Logic for weekdays
+            if (day === 1 || day === 3) { // Monday or Wednesday
+                return 'A';
+            } else if (day === 2 || day === 4) { // Tuesday or Thursday
+                return 'B';
+            } else if (day === 5) { // Friday
+                return fridayCycle;
+            } else { // Weekend (Saturday or Sunday)
+                return 'No class today';
+            }
+        }
+
+        document.getElementById('dayInfo').textContent = `Today's day is ${getDayType()} day`;
+    </script>
 </body>
 </html>

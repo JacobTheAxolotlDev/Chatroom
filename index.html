@@ -36,7 +36,6 @@
     }
   </style>
 </head>
-<body>
 
 </body>
 </html>
@@ -413,12 +412,8 @@
   <div id="header">
     <div><a href="index.html">Chat Room</a></div>
     <div><a href="music.html">Music (wip)</a></div>
-    <div><a href="other.html">Axey Game</a></div>
-    <div><a href="desmos.html">calculator</a></div>
     <div><a href="eaglercraft.1.5.2.html">Minecraft 1.5</a></div>
-    <div><a href="Alpha_Offline_Download.html">Minecraft 1.2.6</a></div>
     <div><a href="EaglercraftX_1.8_u50_Offline_Signed.html">Minecraft 1.8</a></div>
-    <div><a href="physics.html">Physics Game</a></div>
     <div><a href="menu.html">School Menu</a></div>
     <div><a href="hollowknight.html">Hollow Knight</a></div>
     <div><a href="leveldevil.html">Level Devil</a></div>
@@ -799,6 +794,7 @@ if (stopJamasBtn) {
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
       if (uname === "asherr") name += " [💩]"
       if (uname === "giooo") name += " [❓IDK❓]"
+      if (uname === "joy") name += " [🧀cheese🧀]"
 
       let text = data.text || "(no message)";
       const timestamp = new Date(data.timestamp).toLocaleTimeString();
@@ -1363,5 +1359,44 @@ if (stopJamasBtn) {
     const timer = setInterval(updateCountdown, 1000);
   </script>
 
+</body>
+</html>
+<body>
+    <style>
+        .day-info {
+            font-size: 24px;
+            padding-right: 20px;
+            padding-left: 20px;
+            border-radius: 5px;
+            padding: 0px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="day-info" id="dayInfo"></div>
+
+    <script>
+        function getDayType() {
+            const today = new Date();
+            const day = today.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
+            
+            // Determine the weekday for A/B days
+            const fridayCycle = Math.floor(today.getDate() / 7) % 2 === 0 ? 'A' : 'B';
+            
+            // Logic for weekdays
+            if (day === 1 || day === 3) { // Monday or Wednesday
+                return 'A';
+            } else if (day === 2 || day === 4) { // Tuesday or Thursday
+                return 'B';
+            } else if (day === 5) { // Friday
+                return fridayCycle;
+            } else { // Weekend (Saturday or Sunday)
+                return 'No class today';
+            }
+        }
+
+        document.getElementById('dayInfo').textContent = `Today's day is ${getDayType()} day`;
+    </script>
 </body>
 </html>
