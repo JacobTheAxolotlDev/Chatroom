@@ -6,12 +6,13 @@ I made this becuase i wanted all my tools i madee for school to be in one place,
 
 Yes, i will and you can suggest stuff in the chat.
 
-### will i add ads 
+### will i add advertizements
 
 yesnt
 
 
-
+it wont be pay to win
+i need 20 bucks tho
 
 
 made with ❤️ by jake
