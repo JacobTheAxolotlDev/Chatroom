@@ -108,6 +108,35 @@
       border-radius: 8px;
       font-size: 14px;
     }
+    /* General styles for the GitHub button */
+.github-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #24292f; /* GitHub dark gray */
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.github-button i {
+  margin-right: 8px;
+  font-size: 20px; /* Adjust icon size */
+}
+
+/* Hover effect */
+.github-button:hover {
+  background-color: #2c3138; /* Slightly lighter gray */
+  border-color: #6e7681; /* Border turns to lighter gray on hover */
+}
+
+/* Add GitHub icon using Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
     #auth button {
       padding: 10px 12px;
       border: none;
@@ -412,8 +441,12 @@
   <div id="header">
     <div><a href="index.html">Chat Room</a></div>
     <div><a href="music.html">Music (wip)</a></div>
+    <div><a href="other.html">Axey Game</a></div>
+    <div><a href="desmos.html">calculator</a></div>
     <div><a href="eaglercraft.1.5.2.html">Minecraft 1.5</a></div>
+    <div><a href="Alpha_Offline_Download.html">Minecraft 1.2.6</a></div>
     <div><a href="EaglercraftX_1.8_u50_Offline_Signed.html">Minecraft 1.8</a></div>
+    <div><a href="physics.html">Physics Game</a></div>
     <div><a href="menu.html">School Menu</a></div>
     <div><a href="hollowknight.html">Hollow Knight</a></div>
     <div><a href="leveldevil.html">Level Devil</a></div>
@@ -424,7 +457,9 @@
       <button id="logout">Logout</button>
     </div>
   </div>
-
+ <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
+    <i class="fab fa-github"></i> View on GitHub
+  </a>
   <!-- Upload button -->
   <label for="imageInput" class="upload-btn">📷 Upload</label>
   <input type="file" id="imageInput" accept="image/*">
@@ -470,7 +505,7 @@
       <strong>Tips:</strong><br/>
       To color a message, start with "red:", "blue:", "green:", or hex like "#ff6600:".<br/>
       Try special styles too: "rainbow:", "gold:", "uranium:", "slime:", "axey:", "pokemon:", or "fweh:".
-      Also, next update adds direct messages!<br/>
+      Also, newxt update ads leveling and points!<br/>
       Example: <code>pokemon: Gotta catch 'em all!</code>
     </div>
   </div>
@@ -792,13 +827,8 @@ if (stopJamasBtn) {
       if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
       if (uname === "jahmal") name += " {🦐 Co-Owner🦐}";
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
-      if (uname === "asher") name += " [💩]"
+      if (uname === "asherr") name += " [💩]"
       if (uname === "giooo") name += " [❓IDK❓]"
-      if (uname === "joy") name += " [🧀cheese🧀]"
-      if (uname === "test") name += " [testing]"
-      if (uname === "testing") name += " [testing]"
-      if (uname === "tester") name += " [testing]"
-      if (uname === "globalacc") name += " [testing]"
 
       let text = data.text || "(no message)";
       const timestamp = new Date(data.timestamp).toLocaleTimeString();
