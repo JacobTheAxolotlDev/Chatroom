@@ -10,16 +10,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Falling Images</title>
+
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-color: #f0f0f0;
-      position: relative;
+    @font-face {
+    font-family: 'Blaze_of_Glory';
+    src: url('./Blaze_of_Glory.otf') format('opentype');
+  }
+    /* Text effect for 'cooked:' prefix */
+    .cooked-text {
+    font-family: "Comic Neue", sans-serif;
     }
-    .falling-image {
+        .falling-image {
       position: absolute;
       z-index: -1; /* Set the z-index to the very back */
       animation: fall 3s linear forwards;
@@ -32,21 +33,6 @@
       100% {
         top: calc(100vh - 100px); /* Stops when it reaches the "ground" */
       }
-    }
-  </style>
-</head>
-
-</body>
-</html>
-
-  <style>
-    @font-face {
-    font-family: 'Blaze_of_Glory';
-    src: url('./Blaze_of_Glory.otf') format('opentype');
-  }
-    /* Text effect for 'cooked:' prefix */
-    .cooked-text {
-    font-family: "Comic Neue", sans-serif;
     }
     :root{
       --green-1:#b7e4c7;
@@ -90,7 +76,9 @@
     #header-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
     #logout { display:none; padding:8px 12px; border:none; border-radius:8px; background:#ffffff; color:#1f4d2a; cursor:pointer; font-weight:700; }
     #logout:hover{ filter:brightness(0.95); }
-
+    .linebreak {
+  margin-bottom: 20px; /* Adds 20 pixels of space below the div */
+}
     /* Auth panel */
     #auth {
       width: 420px;
@@ -112,7 +100,7 @@
 .github-button {
   display: inline-flex;
   align-items: center;
-  padding: 5px 10px;
+  padding: 2px 4px;
   background-color: #24292f; /* GitHub dark gray */
   color: #ffffff;
   font-size: 16px;
@@ -460,9 +448,7 @@
     #admin-panel button:hover { background: var(--green-3); }
   </style>
 </head>
-<div id="exclaimerbanner">
-  <marquee> this is now open source! </marquee>
-  </div>
+
 <body>
   <div id="header">
     <div><a href="index.html">Chat Room</a></div>
@@ -483,9 +469,15 @@
       <button id="logout">Logout</button>
     </div>
   </div>
+  <div id="exclaimerbanner">
+  <marquee> this is now open source! </marquee>
+  </div>
  <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
     <i class="fab fa-github"></i> <image width= "50px" height= "50px" src="./GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
   </a>
+  <div id="linebreak">
+    <marquee>   </marquee>
+    </div>
   <!-- Upload button -->
   <label for="imageInput" class="upload-btn">📷 Upload</label>
   <input type="file" id="imageInput" accept="image/*">
@@ -531,7 +523,8 @@
       <strong>Tips:</strong><br/>
       To color a message, start with "red:", "blue:", "green:", or hex like "#ff6600:".<br/>
       Try special styles too: "rainbow:", "gold:", "uranium:", "slime:", "axey:", "pokemon:", or "fweh:".
-      Also, newxt update ads leveling and points!<br/>
+      Make sure after you put the effect, there is no quotes and after the work you put a Colon! ":"
+      Also, next update adds direct messages!<br/>
       Example: <code>pokemon: Gotta catch 'em all!</code>
     </div>
   </div>
@@ -853,7 +846,7 @@ if (stopJamasBtn) {
       if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
       if (uname === "jahmal") name += " {🦐 Co-Owner🦐}";
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
-      if (uname === "asherr") name += " [💩]"
+      if (uname === "asher") name += " [🧈 Butter 🧈]"
       if (uname === "giooo") name += " [❓IDK❓]"
 
       let text = data.text || "(no message)";
