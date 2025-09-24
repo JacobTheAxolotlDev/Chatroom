@@ -274,6 +274,14 @@
     }
     @keyframes goldShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
+    .diamond-text{
+      background-image:linear-gradient(90deg,#01FFFF,#7FFFFE,#B1FFFF,#E8FAFF,#9AE7F4);
+      background-size:300% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:diamondShift 4s ease-in-out infinite;
+    }
+    @keyframes diamondShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
     .electric-text{
       background-image:linear-gradient(90deg,#7df9ff,#7df9ff,#7df9ff,#7df9ff,#7df9ff);
       background-size:300% 100%;
@@ -879,12 +887,13 @@ if (stopJamasBtn) {
 
 
       let color = null;
-      let rainbow = false, baylor = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, slime = false, axey = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, diamond = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, slime = false, axey = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
       const baylorMatch = text.match(/^baylor:\s*(.*)/i);
       const goldMatch = text.match(/^gold:\s*(.*)/i);
+      const diamondMatch = text.match(/^diamond:\s*(.*)/i);
       const electricMatch = text.match(/^electric:\s*(.*)/i);
       const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
       const laserMatch = text.match(/^laser:\s*(.*)/i);
@@ -910,6 +919,7 @@ if (stopJamasBtn) {
       else if (namedColorMatch) { color = namedColorMatch[1].toLowerCase(); text = namedColorMatch[2]; }
       else if (rainbowMatch) { rainbow = true; text = rainbowMatch[1]; }
       else if (goldMatch) { gold = true; text = goldMatch[1]; }
+      else if (diamondMatch) { diamond = true; text = diamondMatch[1]; }
       else if (electricMatch) { electric = true; text = electricMatch[1]; }
       else if (baylorMatch) { baylor = true; text = baylorMatch[1]; }
       else if (uraniumMatch) { uranium = true; text = uraniumMatch[1]; }
@@ -946,6 +956,11 @@ if (stopJamasBtn) {
       } else if (gold) {
         const s = document.createElement("span");
         s.classList.add("gold-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (diamond) {
+        const s = document.createElement("span");
+        s.classList.add("diamond-text");
         s.textContent = messageContent;
         msgEl.appendChild(s);
         } else if (electric) {

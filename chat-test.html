@@ -10,16 +10,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Falling Images</title>
+
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background-color: #f0f0f0;
-      position: relative;
+    @font-face {
+    font-family: 'Blaze_of_Glory';
+    src: url('./Blaze_of_Glory.otf') format('opentype');
+  }
+    /* Text effect for 'cooked:' prefix */
+    .cooked-text {
+    font-family: "Comic Neue", sans-serif;
     }
-    .falling-image {
+        .falling-image {
       position: absolute;
       z-index: -1; /* Set the z-index to the very back */
       animation: fall 3s linear forwards;
@@ -32,21 +33,6 @@
       100% {
         top: calc(100vh - 100px); /* Stops when it reaches the "ground" */
       }
-    }
-  </style>
-</head>
-
-</body>
-</html>
-
-  <style>
-    @font-face {
-    font-family: 'Blaze_of_Glory';
-    src: url('./Blaze_of_Glory.otf') format('opentype');
-  }
-    /* Text effect for 'cooked:' prefix */
-    .cooked-text {
-    font-family: "Comic Neue", sans-serif;
     }
     :root{
       --green-1:#b7e4c7;
@@ -90,7 +76,9 @@
     #header-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
     #logout { display:none; padding:8px 12px; border:none; border-radius:8px; background:#ffffff; color:#1f4d2a; cursor:pointer; font-weight:700; }
     #logout:hover{ filter:brightness(0.95); }
-
+    .linebreak {
+  margin-bottom: 20px; /* Adds 20 pixels of space below the div */
+}
     /* Auth panel */
     #auth {
       width: 420px;
@@ -112,7 +100,7 @@
 .github-button {
   display: inline-flex;
   align-items: center;
-  padding: 5px 10px;
+  padding: 2px 4px;
   background-color: #24292f; /* GitHub dark gray */
   color: #ffffff;
   font-size: 16px;
@@ -171,7 +159,7 @@
 
     /* Chat panel */
     #chat {
-      width: 500px;
+      width: 550px;
       margin: 12px 0 30px;
       padding: 15px 20px;
       background: var(--panel);
@@ -286,6 +274,14 @@
     }
     @keyframes goldShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
+    .diamond-text{
+      background-image:linear-gradient(90deg,#01FFFF,#7FFFFE,#B1FFFF,#E8FAFF,#9AE7F4);
+      background-size:300% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:diamondShift 4s ease-in-out infinite;
+    }
+    @keyframes diamondShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
     .electric-text{
       background-image:linear-gradient(90deg,#7df9ff,#7df9ff,#7df9ff,#7df9ff,#7df9ff);
       background-size:300% 100%;
@@ -332,6 +328,12 @@
     .axey-img{ position:absolute; width:30px; height:30px; animation:axeyOrbit 3s linear infinite; pointer-events:none; user-select:none;}
     .axey-img.second{ animation-delay:1.5s; }
     @keyframes axeyOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+
+    .butter-container{ position:relative; display:inline-block; padding:0px; color:black; font-weight:bold; }
+    .butter-img{ position:absolute; width:30px; height:30px; animation:butterOrbit 3s linear infinite; pointer-events:none; user-select:none;}
+    .butter-img.second{ animation-delay:1.5s; }
+    @keyframes butterOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
 
     /* ---------- Jamas (orbiting + self-spin, always facing center) ---------- */
 .jamas-container{
@@ -460,17 +462,13 @@
     #admin-panel button:hover { background: var(--green-3); }
   </style>
 </head>
-<div id="exclaimerbanner">
-  <marquee> this is now open source! </marquee>
-  </div>
+
 <body>
   <div id="header">
     <div><a href="index.html">Chat Room</a></div>
     <div><a href="music.html">Music (wip)</a></div>
-    <div><a href="other.html">Axey Game</a></div>
     <div><a href="desmos.html">calculator</a></div>
     <div><a href="eaglercraft.1.5.2.html">Minecraft 1.5</a></div>
-    <div><a href="Alpha_Offline_Download.html">Minecraft 1.2.6</a></div>
     <div><a href="EaglercraftX_1.8_u50_Offline_Signed.html">Minecraft 1.8</a></div>
     <div><a href="physics.html">Physics Game</a></div>
     <div><a href="menu.html">School Menu</a></div>
@@ -478,14 +476,21 @@
     <div><a href="leveldevil.html">Level Devil</a></div>
     <div><a href="terraria.html">[NEW!!!] Terraria</a></div>
     <div><a href="sandboxels.html">sandboxels</a></div>
+    <div><a href="thinkgydo.html">calculator</a></div>
     <div id="header-right">
       <span id="whoami-mini"></span>
       <button id="logout">Logout</button>
     </div>
   </div>
+  <div id="exclaimerbanner">
+  <marquee> this is now open source! </marquee>
+  </div>
  <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
     <i class="fab fa-github"></i> <image width= "50px" height= "50px" src="./GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
   </a>
+  <div id="linebreak">
+    <marquee>   </marquee>
+    </div>
   <!-- Upload button -->
   <label for="imageInput" class="upload-btn">📷 Upload</label>
   <input type="file" id="imageInput" accept="image/*">
@@ -531,7 +536,8 @@
       <strong>Tips:</strong><br/>
       To color a message, start with "red:", "blue:", "green:", or hex like "#ff6600:".<br/>
       Try special styles too: "rainbow:", "gold:", "uranium:", "slime:", "axey:", "pokemon:", or "fweh:".
-      Also, newxt update ads leveling and points!<br/>
+      Make sure after you put the effect, there is no quotes and after the work you put a Colon! ":"
+      Also, next update adds direct messages!<br/>
       Example: <code>pokemon: Gotta catch 'em all!</code>
     </div>
   </div>
@@ -853,7 +859,7 @@ if (stopJamasBtn) {
       if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
       if (uname === "jahmal") name += " {🦐 Co-Owner🦐}";
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
-      if (uname === "asherr") name += " [💩]"
+      if (uname === "asher") name += " [🧈 Butter 🧈]"
       if (uname === "giooo") name += " [❓IDK❓]"
 
       let text = data.text || "(no message)";
@@ -881,18 +887,20 @@ if (stopJamasBtn) {
 
 
       let color = null;
-      let rainbow = false, baylor = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, slime = false, axey = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, diamond = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, slime = false, axey = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
       const baylorMatch = text.match(/^baylor:\s*(.*)/i);
       const goldMatch = text.match(/^gold:\s*(.*)/i);
+      const diamondMatch = text.match(/^diamond:\s*(.*)/i);
       const electricMatch = text.match(/^electric:\s*(.*)/i);
       const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
       const laserMatch = text.match(/^laser:\s*(.*)/i);
       const glowinggoldMatch = text.match(/^glowinggold:\s*(.*)/i);
       const slimeMatch = text.match(/^slime:\s*(.*)/i);
       const axeyMatch = text.match(/^axey:\s*(.*)/i);
+      const butterMatch = text.match(/^butter:\s*(.*)/i);
       const jamasMatch = text.match(/jamas:\s*(.*)/i)
       const breadMatch = text.match(/^bread:\s*(.*)/i);
       const fwehMatch = text.match(/^fweh:\s*(.*)/i);
@@ -911,6 +919,7 @@ if (stopJamasBtn) {
       else if (namedColorMatch) { color = namedColorMatch[1].toLowerCase(); text = namedColorMatch[2]; }
       else if (rainbowMatch) { rainbow = true; text = rainbowMatch[1]; }
       else if (goldMatch) { gold = true; text = goldMatch[1]; }
+      else if (diamondMatch) { diamond = true; text = diamondMatch[1]; }
       else if (electricMatch) { electric = true; text = electricMatch[1]; }
       else if (baylorMatch) { baylor = true; text = baylorMatch[1]; }
       else if (uraniumMatch) { uranium = true; text = uraniumMatch[1]; }
@@ -918,6 +927,7 @@ if (stopJamasBtn) {
       else if (glowinggoldMatch) { glowinggold = true; text = glowinggoldMatch[1]; }
       else if (slimeMatch) { slime = true; text = slimeMatch[1]; }
       else if (axeyMatch) { axey = true; text = axeyMatch[1]; }
+      else if (butterMatch) { butter = true; text = butterMatch[1]; }
       else if (jamasMatch) { jamas = true; text = jamasMatch[1]; }
       else if (breadMatch) { bread = true; text = breadMatch[1]; }
       else if (fwehMatch) { fweh = true; text = fwehMatch[1]; }
@@ -946,6 +956,11 @@ if (stopJamasBtn) {
       } else if (gold) {
         const s = document.createElement("span");
         s.classList.add("gold-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (diamond) {
+        const s = document.createElement("span");
+        s.classList.add("diamond-text");
         s.textContent = messageContent;
         msgEl.appendChild(s);
         } else if (electric) {
@@ -988,6 +1003,19 @@ if (stopJamasBtn) {
         const a2 = document.createElement("img");
         a2.src = "./axey.png";
         a2.classList.add("axey-img", "second");
+        c.appendChild(a1);
+        c.appendChild(a2);
+        msgEl.appendChild(c);
+      } else if (butter) {
+        const c = document.createElement("div");
+        c.classList.add("butter-container");
+        c.textContent = messageContent;
+        const a1 = document.createElement("img");
+        a1.src = "../butter.png";
+        a1.classList.add("butter-img");
+        const a2 = document.createElement("img");
+        a2.src = "./butter.png";
+        a2.classList.add("butter-img", "second");
         c.appendChild(a1);
         c.appendChild(a2);
         msgEl.appendChild(c);

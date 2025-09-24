@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>logger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        #logContainer {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #f4f4f4;
+        }
+        .log-entry {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simple Event Logger</h1>
+    <button id="testButton">Click Me!</button>
+
+    <div id="logContainer"></div>
+
+    <script>
+        // Event logging function
+        function logEvent(eventType, eventDetails) {
+            const timestamp = new Date().toLocaleString();
+            const logMessage = `${timestamp} - ${eventType}: ${eventDetails}`;
+            
+            // Log to the console
+            console.log(logMessage);
+
+            // Log to the page
+            const logContainer = document.getElementById('logContainer');
+            const logEntry = document.createElement('div');
+            logEntry.classList.add('log-entry');
+            logEntry.textContent = logMessage;
+            logContainer.appendChild(logEntry);
+        }
+
+        // Monitor events
+        window.addEventListener('load', () => {
+            logEvent('Page Loaded', 'Website opened');
+        });
+
+        document.getElementById('testButton').addEventListener('click', () => {
+            logEvent('Button Clicked', 'Test Button was pressed');
+        });
+
+        window.addEventListener('mousemove', (event) => {
+            const mousePosition = `X: ${event.clientX}, Y: ${event.clientY}`;
+            logEvent('Mouse Moved', mousePosition);
+        });
+
+        window.addEventListener('keydown', (event) => {
+            logEvent('Key Pressed', `Key: ${event.key}`);
+        });
+
+        window.addEventListener('resize', () => {
+            logEvent('Window Resized', `New dimensions: ${window.innerWidth}x${window.innerHeight}`);
+        });
+    </script>
+
+</body>
+</html>
