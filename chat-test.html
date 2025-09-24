@@ -5,8 +5,7 @@
   <title>Friends Chatroom - Channels</title>
   <link rel="icon" type="image/x-icon" href="./favicon.png">
   <!-- Comic Neue -->
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet"/>
-<!DOCTYPE html>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@500;700&display=swap" rel="stylesheet"/>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -63,6 +62,7 @@
       font-family: "Comic Neue", cursive, sans-serif;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
       align-items: center;
       min-height: 100vh;
       transition: padding-left .2s ease;
@@ -112,7 +112,7 @@
 .github-button {
   display: inline-flex;
   align-items: center;
-  padding: 10px 20px;
+  padding: 5px 10px;
   background-color: #24292f; /* GitHub dark gray */
   color: #ffffff;
   font-size: 16px;
@@ -124,13 +124,13 @@
 }
 
 .github-button i {
-  margin-right: 8px;
+  margin-right: 0px;
   font-size: 20px; /* Adjust icon size */
 }
 
 /* Hover effect */
 .github-button:hover {
-  background-color: #2c3138; /* Slightly lighter gray */
+  background-color: #363636; /* Slightly lighter gray */
   border-color: #6e7681; /* Border turns to lighter gray on hover */
 }
 
@@ -162,16 +162,16 @@
       font-size: 14px;
       color: #000;
       text-align: center;
-      padding: 10px 14px;
+      padding: 1px 1px;
       cursor: pointer;
-      width: 420px;
+      width: 1420px;
       font-weight: 100px;
       text-shadow: 8px 8px rgba(0,0,0,0);
     }
 
     /* Chat panel */
     #chat {
-      width: 420px;
+      width: 500px;
       margin: 12px 0 30px;
       padding: 15px 20px;
       background: var(--panel);
@@ -293,6 +293,16 @@
       animation:electricShift 4s ease-in-out infinite;
     }
     @keyframes electricShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+    .baylor-text{ position:relative; display:inline-block; padding:0px; color:#001f1e; font-weight:normal;
+      background-image:linear-gradient(90deg,#03fcf8,#003d3c,#03fcf8,#7df9ff,#003d3c);
+      text-shadow:-4px -4px 2 #0303fc,2px -2px 0 #03fcf8,-4px 4px 2 #0303fc,2px 2px 0 #03fcf8; user-select:none; }
+      background-size:300% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:baylorShift 4s ease-in-out infinite;
+    }
+    @keyframes baylorShift{ 0%{background-position:0% 20%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
 
     .uranium-text{ color:#00ff00; animation:uraniumGlow 1s ease-in-out infinite;
       text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00; }
@@ -474,7 +484,7 @@
     </div>
   </div>
  <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
-    <i class="fab fa-github"></i> View on GitHub
+    <i class="fab fa-github"></i> <image width= "50px" height= "50px" src="./GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
   </a>
   <!-- Upload button -->
   <label for="imageInput" class="upload-btn">📷 Upload</label>
@@ -871,10 +881,11 @@ if (stopJamasBtn) {
 
 
       let color = null;
-      let rainbow = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, slime = false, axey = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, slime = false, axey = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
+      const baylorMatch = text.match(/^baylor:\s*(.*)/i);
       const goldMatch = text.match(/^gold:\s*(.*)/i);
       const electricMatch = text.match(/^electric:\s*(.*)/i);
       const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
@@ -901,6 +912,7 @@ if (stopJamasBtn) {
       else if (rainbowMatch) { rainbow = true; text = rainbowMatch[1]; }
       else if (goldMatch) { gold = true; text = goldMatch[1]; }
       else if (electricMatch) { electric = true; text = electricMatch[1]; }
+      else if (baylorMatch) { baylor = true; text = baylorMatch[1]; }
       else if (uraniumMatch) { uranium = true; text = uraniumMatch[1]; }
       else if (laserMatch) { laser = true; text = laserMatch[1]; }
       else if (glowinggoldMatch) { glowinggold = true; text = glowinggoldMatch[1]; }
@@ -939,6 +951,11 @@ if (stopJamasBtn) {
         } else if (electric) {
         const s = document.createElement("span");
         s.classList.add("electric-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+        } else if (baylor) {
+        const s = document.createElement("span");
+        s.classList.add("baylor-text");
         s.textContent = messageContent;
         msgEl.appendChild(s);
       } else if (uranium) {
