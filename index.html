@@ -12,6 +12,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    footerimage{
+      height: 50px;
+      width: 50px;
+      float: left;
+      margin-left: 100px;
+    }
+    footer {
+    height: 200px;
+    background: #169110;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
     @font-face {
     font-family: 'Blaze_of_Glory';
     src: url('./Blaze_of_Glory.otf') format('opentype');
@@ -425,6 +439,12 @@
     .oiia-img.second{ animation-delay:1.5s; }
     @keyframes oiiaOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
 
+    .maxwell-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
+      text-shadow:-2px -2px 0 black,2px -2px 0 white,-2px 2px 0 black,2px 2px 0 white; user-select:none; }
+    .maxwell-img{ position:absolute; width:30px; height:30px; animation:maxwellOrbit 3s linear infinite; pointer-events:none; user-select:none; }
+    .maxwell-img.second{ animation-delay:1.5s; }
+    @keyframes maxwellOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
     .undertale-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
       text-shadow:-2px -2px 0 red,2px -2px 0 black,-2px 2px 0 aqua,2px 2px 0 blue; user-select:none; }
     .undertale-img{ position:absolute; width:30px; height:30px; animation:undertaleOrbit 3s linear infinite; pointer-events:none; user-select:none; }
@@ -488,7 +508,7 @@
     </div>
   </div>
   <div id="exclaimerbanner">
-  <marquee> 🚨 THE CHATROOM IS DOWN RN, THIS WAS INTENTIONAL, STOP SPAMMING. 🚨 </marquee>
+  <marquee> </marquee>
   </div>
  <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
     <i class="fab fa-github"></i> <image width= "50px" height= "50px" src="./GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
@@ -893,7 +913,7 @@ if (stopJamasBtn) {
 
 
       let color = null;
-      let rainbow = false, baylor = false, diamond = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, axey = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, diamond = false, gold = false, electric = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, axey = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
@@ -915,6 +935,7 @@ if (stopJamasBtn) {
       const minecraftMatch = text.match(/^minecraft:\s*(.*)/i);
       const silksongMatch = text.match(/^silksong:\s*(.*)/i);
       const oiiaMatch = text.match(/^oiia:\s*(.*)/i);
+      const maxwellMatch = text.match(/^maxwell:\s*(.*)/i);
       const undertaleMatch = text.match(/^undertale:\s*(.*)/i);
       const cookedMatch = text.match(/^cooked:\s*(.*)/i);  // Detect "cooked:" prefix
       const hexMatch = text.match(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}):\s*(.*)/);
@@ -943,6 +964,7 @@ if (stopJamasBtn) {
       else if (minecraftMatch) { minecraft = true; text = minecraftMatch[1]; }
       else if (silksongMatch) { silksong = true; text = silksongMatch[1]; }
       else if (oiiaMatch) { oiia = true; text = oiiaMatch[1]; }
+      else if (maxwellMatch) { maxwell = true; text = maxwellMatch[1]; }
       else if (undertaleMatch) { undertale = true; text = undertaleMatch[1]; }
       else if (hexMatch) { color = `#${hexMatch[1]}`; text = hexMatch[2]; }
 
@@ -1137,6 +1159,19 @@ if (stopJamasBtn) {
         const m2 = document.createElement("img");
         m2.src = "./OIIA-Website-loop.gif";
         m2.classList.add("oiia-img", "second");
+        c.appendChild(m1);
+        c.appendChild(m2);
+        msgEl.appendChild(c);
+        } else if (maxwell) {
+        const c = document.createElement("div");
+        c.classList.add("maxwell-container");
+        c.textContent = messageContent;
+        const m1 = document.createElement("img");
+        m1.src = "./maxwellspin-ezgif.com-crop.gif";
+        m1.classList.add("maxwell-img");
+        const m2 = document.createElement("img");
+        m2.src = "./maxwellspin-ezgif.com-crop.gif";
+        m2.classList.add("maxwell-img", "second");
         c.appendChild(m1);
         c.appendChild(m2);
         msgEl.appendChild(c);
@@ -1514,5 +1549,20 @@ if (stopJamasBtn) {
 
         document.getElementById('dayInfo').textContent = `Today's day is ${getDayType()} day`;
     </script>
-</body>
+</body> 
 </html>
+<footer>
+  
+    <img src="./favicon.png" width= "50px" height= "50px" style="float:left" >
+    
+  Why i made this Website <br>
+
+  This website was made for all my tools for school and stuff ya aya<br>
+
+  Contact: <br>
+  <address>
+    <a href="mailto:thejacobhanson2@gmal.com">dummy email</a> <br>
+    only email for support
+    </address>
+    made by your truly
+</footer>
