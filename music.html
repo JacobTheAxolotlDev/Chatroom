@@ -4,9 +4,7 @@
     <link rel="icon" type="image/x-icon" href="./favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
-    body {
-  overflow: hidden;
-}
+
     menu {
         overflow: hidden;
     }
@@ -316,6 +314,23 @@
       cursor: pointer;
     }
     #admin-panel button:hover { background: var(--green-3); }
+    .collapsible-content {
+  max-height: 0; /* Initially hide the content */
+  overflow: hidden;
+  transition: max-height 0.3s ease-out; /* Smooth transition */
+}
+
+.collapsible-content.expanded {
+  max-height: 2000px; /* Adjust this value to accommodate your content */
+  /* Or use height: auto; if you want it to perfectly fit content, but be aware of transition limitations with 'auto' */
+}
+
+.collapsible-trigger {
+  cursor: pointer; /* Indicate it's clickable */
+  background-color: #b7e4c7;
+  justify-content: center;
+  border: 0px solid #ccc;
+}
   </style>
 </head>
 <div id="header">
@@ -329,10 +344,69 @@
     <div><a href="physics.html">Physics Game</a></div>
     <div><a href="menu.html">School Menu</a></div>
 </div>
+<marquee> If the audio does not work or is at 0:00 / 0:00 then be patient. </marquee>
 <body>
   <h1>Music Library (WIP)</h1>
-
+  <div class="collapsible-container">
+  <div class="collapsible-trigger"><img width="250" height= "250"src="./ab67616d0000b27324edb22d068eb245a924b7f2.jpeg"></div>
+  <div class="collapsible-content">
+    <h2> Your Best Nightmare </h2>
 <audio controls>
-  <source src="./undertale_079._Your_Best_Nightmare.mp3" type="audio/mpeg">
+  <source src="./music/undertale_079._Your_Best_Nightmare.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
+<h2> Once Upon a time </h2>
+<audio controls>
+  <source src="./music/undertale_001._Once_Upon_a_Time.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<h2> Unnecessary Tension </h2>
+<audio controls>
+  <source src="./music/undertale_008._Unnecessary_Tension.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<h2> Fallen Down </h2>
+<audio controls>
+  <source src="./music/undertale_004._Fallen_Down.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<h2> Determination </h2>
+<audio controls>
+  <source src="./music/undertale_011._Determination.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<h2> Home </h2>
+<audio controls>
+  <source src="./music/undertale_012._Home.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<h2> sans </h2>
+<audio controls>
+<source src="./music/undertale_015._sans.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<h2> Snowdin Town</h2>
+<audio controls>
+<source src="./music/undertale_022._Snowdin_Town.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+<h2> Spear Of Justice </h2>
+<audio controls>
+<source src="./music/undertale_046._Spear_of_Justice.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  const triggers = document.querySelectorAll('.collapsible-trigger');
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', function() {
+      const content = this.nextElementSibling; // Get the next sibling (the content div)
+      content.classList.toggle('expanded');
+    });
+  });
+});
+</script>
