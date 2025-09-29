@@ -17,10 +17,8 @@
   <div id="header">
     <div><a href="index.html">Chat Room</a></div>
     <div><a href="./gamesandotherstuff/music.html">Music (wip)</a></div>
-    <div><a href="./gamesandotherstuff/desmos.html">calculator</a></div>
     <div><a href="./gamesandotherstuff/eaglercraft.1.5.2.html">Minecraft 1.5</a></div>
     <div><a href="./gamesandotherstuff/EaglercraftX_1.8_u50_Offline_Signed.html">Minecraft 1.8</a></div>
-    <div><a href="./gamesandotherstuff/physics.html">Physics Game</a></div>
     <div><a href="./gamesandotherstuff/menu.html">School Menu</a></div>
     <div><a href="./gamesandotherstuff/hollowknight.html">Hollow Knight</a></div>
     <div><a href="./gamesandotherstuff/leveldevil.html">Level Devil</a></div>
@@ -36,10 +34,10 @@
   <marquee> </marquee>
   </div>
  <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
-    <i class="fab fa-github"></i> <image width= "50px" height= "50px" src="./images/GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
+    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="./images/GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
   </a>
   <a href="https://github.com/JacobTheAxolotlDev" target="_blank" class="github-button">
-    <i class="fab fa-github"></i> <image width= "50px" height= "50px" src="./images/cropped_circle_image.png"> View my other Repositories
+    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="./images/cropped_circle_image.png"> View my other Repositories
   </a>
   <div id="linebreak">
     <marquee>   </marquee>
@@ -72,13 +70,9 @@
     </div>
 
     <div id="tips">
-      <strong>Tips:</strong><br/>
-      To color a message, start with "red:", "blue:", "green:", or hex like "#ff6600:".<br/>
-      Try special styles too: "rainbow:", "gold:", "uranium:", "slime:", "axey:", "pokemon:", or "fweh:".
-      Make sure after you put the effect, there is no quotes and after the work you put a Colon! ":"
-      Also, next update adds direct messages!<br/>
-      Example: <code>pokemon: Gotta catch 'em all!</code>
-    </div>
+      <strong>Rules:</strong><br/>
+      No Discrimination of any time, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor.
+     </div>
   </div>
 
   <!-- Admin Panel (LEFT) -->
@@ -92,8 +86,7 @@
     <iframe width= "200" height= "400" src="https://loganstoolsforschool.w3spaces.com/gamesandotherstuff/adminpanelsecretnosasher.html">
     </iframe>
   </div>
-<script type="module" src="script.js">
-</script>
+<script type="module" src="script.js"> </script>
   <!-- Logan's Tools Panel -->
   <div id="logan-panel">
     <iframe src="https://loganstoolsforschool.w3spaces.com/gamesandotherstuff/farebasetest.html" 
@@ -150,8 +143,10 @@
   </script>
 
 </html>
-<body>
-    <div class="day-info" id="dayInfo"></div>
+<div class="day-info" id="dayInfo">
+        <div class="day-label">Today's day is</div>
+        <div class="day-type"></div>
+    </div>
 
     <script>
         function getDayType() {
@@ -173,9 +168,11 @@
             }
         }
 
-        document.getElementById('dayInfo').textContent = `Today's day is ${getDayType()} day`;
+        const dayType = getDayType();
+        document.querySelector('.day-type').textContent = dayType;
     </script>
 </body> 
+</div>
 <footer>
   
     <img src="./images/favicon.png" width= "50px" height= "50px" style="float:left" >
@@ -190,4 +187,16 @@
     only email for support
     </address>
     made by your truly
+    <button onclick="openWebsiteInBlank()">Open About Blank</button>
+
+    <script>
+        function openWebsiteInBlank() {
+            // Open a new blank tab
+            let newTab = window.open('about:blank', '_blank');
+
+            // Load the website into the new tab
+            newTab.location.href = 'https://Loganstoolsforschool.w3spaces.com'; // Replace with your desired website
+        }
+    </script
+    </script>
 </footer>

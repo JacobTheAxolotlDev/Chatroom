@@ -103,17 +103,17 @@
   padding: 2px 4px;
   background-color: #24292f; /* GitHub dark gray */
   color: #ffffff;
-  font-size: 16px;
+  font-size: 8px;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 3px;
   text-decoration: none;
   transition: background-color 0.3s ease;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
 }
 
 .github-button i {
   margin-right: 0px;
-  font-size: 20px; /* Adjust icon size */
+  font-size: 10px; /* Adjust icon size */
 }
 
 /* Hover effect */
@@ -122,6 +122,9 @@
   border-color: #6e7681; /* Border turns to lighter gray on hover */
 }
 
+.abday{
+  float: left;
+}
 /* Add GitHub icon using Font Awesome */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
@@ -391,6 +394,51 @@
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 }
+.day-info {
+            position: absolute;
+            left: 0;
+            transform: translateY(-50%); /* Center it vertically */
+            top: 50%;
+            font-size: 24px;
+            padding: 10px;
+        }
+
+
+        /* Styling for the day-info box */
+.day-info {
+    position: absolute;
+    left: 20px; /* Space from the left edge */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px; /* Set the width of the box */
+    height: 250px; /* Set the height of the box */
+    background-image: url('images/calender.png'); /* Set the background image */
+    background-size: cover; /* Ensures the image covers the whole box */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    color: rgb(0, 0, 0); /* Text color */
+    border-radius: 10px; /* Rounded corners */
+    border: 0px solid black; /* Border with width, style, and color */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+
+        /* Styling for the label (top part) */
+        .day-label {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        /* Styling for the day type (larger, bottom part) */
+        .day-type {
+            font-size: 36px;
+            font-weight: bold;
+        }
 
 
     .bread-container{ position:relative; display:inline-block; padding:0px; color:#eec07b; font-weight:bold; }
