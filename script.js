@@ -66,7 +66,7 @@ let fallIntervalId = null;
 // create a falling image (same visual behaviour as your CSS expects)
 function createFallingImage() {
   const img = document.createElement('img');
-  img.src = './jamasdog.jpeg';
+  img.src = './images/jamasdog.jpeg';
   img.classList.add('falling-image');
 
   img.style.left = `${Math.random() * 100}vw`;
@@ -539,8 +539,8 @@ if (stopJamasBtn) {
         p5.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
         p5.classList.add("pokemon-img", "fifth");
         const p6 = document.createElement("img");
-        p5.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
-        p5.classList.add("pokemon-img", "sixth");
+        p6.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
+        p6.classList.add("pokemon-img", "sixth");
         c.appendChild(p1);
         c.appendChild(p2);
         c.appendChild(p3);
