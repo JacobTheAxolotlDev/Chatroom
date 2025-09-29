@@ -538,11 +538,15 @@ if (stopJamasBtn) {
         const p5 = document.createElement("img");
         p5.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
         p5.classList.add("pokemon-img", "fifth");
+        const p6 = document.createElement("img");
+        p5.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
+        p5.classList.add("pokemon-img", "sixth");
         c.appendChild(p1);
         c.appendChild(p2);
         c.appendChild(p3);
         c.appendChild(p4);
         c.appendChild(p5);
+        c.appendChild(p6);
         msgEl.appendChild(c);
       } else if (minecraft) {
         const c = document.createElement("div");
