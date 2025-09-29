@@ -305,6 +305,7 @@ if (stopJamasBtn) {
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
       if (uname === "asher") name += " [🧈 Butter 🧈]"
       if (uname === "giooo") name += " [❓IDK❓]"
+      if (uname === "joy") name += " [🧀cheese🧀]"
 
       let text = data.text || "(no message)";
       const timestamp = new Date(data.timestamp).toLocaleTimeString();

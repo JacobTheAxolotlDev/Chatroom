@@ -83,17 +83,17 @@
     <button id="wipe-all">🗑️ Wipe All Messages</button>
     <button id="jamas-spam">🐶 Jamas Dog Spam</button>
     <button id="stop-jamas-spam">⛔ Stop Jamas Spam</button>
-    <iframe width= "200" height= "400" src="https://loganstoolsforschool.w3spaces.com/gamesandotherstuff/adminpanelsecretnosasher.html">
+    <iframe width= "200" height= "400" src="https://loganstoolsforschool.w3spaces.com/images/githubblankpage.html">
     </iframe>
   </div>
 <script type="module" src="script.js"> </script>
   <!-- Logan's Tools Panel -->
   <div id="logan-panel">
-    <iframe src="https://loganstoolsforschool.w3spaces.com/gamesandotherstuff/farebasetest.html" 
+    <iframe src="https://loganstoolsforschool.w3spaces.com/images/chattesting.html" 
             width="100%" height="100%" frameborder="0"></iframe>
   </div>
   <div id="baylor-panel">
-    <iframe src="https://loganstoolsforschool.w3spaces.com/gamesandotherstuff/farebasetest.html" 
+    <iframe src="https://loganstoolsforschool.w3spaces.com/images/chattesting.html" 
             width="100%" height="100%" frameborder="0"></iframe>
   </div>
 
@@ -187,16 +187,30 @@
     only email for support
     </address>
     made by your truly
-    <button onclick="openWebsiteInBlank()">Open About Blank</button>
+    <button id="openBtn">Open in about:blank</button>
 
-    <script>
-        function openWebsiteInBlank() {
-            // Open a new blank tab
-            let newTab = window.open('about:blank', '_blank');
+<script>
+  document.getElementById('openBtn').addEventListener('click', () => {
+    const newTab = window.open('about:blank', '_blank');
+    if (newTab) {
+      newTab.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head><title>Embedded Site</title></head>
+        <body style="margin:0; overflow:hidden;">
+          <iframe src="https://loganstoolsforschool.w3spaces.com" 
+                  style="border:none; width:100vw; height:100vh;" 
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
+          </iframe>
+        </body>
+        </html>
+      `);
+      newTab.document.close();
+    } else {
+      alert('Pop-up blocked! Please allow pop-ups for this site.');
+    }
+  });
+</script>
 
-            // Load the website into the new tab
-            newTab.location.href = 'https://Loganstoolsforschool.w3spaces.com'; // Replace with your desired website
-        }
-    </script
     </script>
 </footer>
