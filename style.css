@@ -401,12 +401,17 @@
     .pokemon-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
       text-shadow:-2px -2px 0 red,2px -2px 0 red,-2px 2px 0 red,2px 2px 0 red; user-select:none; }
     .pokemon-img{ position:absolute; width:30px; height:30px; animation:pokemonOrbit 3s linear infinite; pointer-events:none; user-select:none; }
-    .pokemon-img.second{ animation-delay:1.5s; }
-    .pokemon-img.third{ animation-delay:1s; }
-    .pokemon-img.fourth{ animation-delay:1.5s; }
-    .pokemon-img.fifth{ animation-delay:1.5s; }
-    @keyframes pokemonOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
+    .pokemon-img.second{ animation-delay:0.5s; z-index: 1;}
+    .pokemon-img.third{ animation-delay:1s; z-index: 2;}
+    .pokemon-img.fourth{ animation-delay:1.4s; z-index: 3;}
+    .pokemon-img.fifth{ animation-delay:1.6s; z-index: 4; }
+    @keyframes pokemonOrbit{   0% {
+    transform: rotate(0deg) translateX(70px) rotate(0deg); /* Increased translateX for spacing */
+  }
+  100% {
+    transform: rotate(360deg) translateX(70px) rotate(-360deg); /* Same translateX here */
+  }
+}
     .minecraft-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
       text-shadow:-2px -2px 0 green,2px -2px 0 green,-2px 2px 0 green,2px 2px 0 green; user-select:none; }
     .minecraft-img{ position:absolute; width:30px; height:30px; animation:minecraftOrbit 3s linear infinite; pointer-events:none; user-select:none; }

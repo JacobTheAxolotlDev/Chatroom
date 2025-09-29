@@ -531,7 +531,7 @@ if (stopJamasBtn) {
         p2.classList.add("pokemon-img", "second");
         const p3 = document.createElement("img");
         p3.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
-        p3.classList.add("pokemon-img", "second", "third");
+        p3.classList.add("pokemon-img",  "third");
         const p4 = document.createElement("img");
         p4.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
         p4.classList.add("pokemon-img", "fourth");
@@ -540,6 +540,9 @@ if (stopJamasBtn) {
         p5.classList.add("pokemon-img", "fifth");
         c.appendChild(p1);
         c.appendChild(p2);
+        c.appendChild(p3);
+        c.appendChild(p4);
+        c.appendChild(p5);
         msgEl.appendChild(c);
       } else if (minecraft) {
         const c = document.createElement("div");
