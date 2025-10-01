@@ -1,87 +1,11 @@
-// script.js with DM system merged
+// script.js with DM system merged into main chat box (fixed so send goes to only one target)
 // --- your existing imports ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { getDatabase, ref, push, set, onChildAdded, serverTimestamp, get, child, query, orderByChild } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
-// existing Firebase config + app init should already be here
-
-// ------------------------------------------------------------
-// existing chat code (channels, messages, etc.)
-// ------------------------------------------------------------
-// ... keep all of your chat functionality untouched here ...
-
-// ------------------------------------------------------------
-// DIRECT MESSAGING SYSTEM (merged from dm-system.js)
-// ------------------------------------------------------------
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getDatabase, ref, push, set, onChildAdded, off, get, query, orderByChild } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
 const db = getDatabase();
 const auth = getAuth();
-
-function createDMUI() {
-  const dmRoot = document.createElement('div');
-  dmRoot.id = 'dm-root';
-  dmRoot.style.width = '100%';
-  dmRoot.style.maxWidth = '640px';
-  dmRoot.style.margin = '12px 0';
-  dmRoot.style.display = 'flex';
-  dmRoot.style.gap = '12px';
-
-  const list = document.createElement('div');
-  list.id = 'dm-list';
-  list.style.width = '220px';
-  list.style.background = 'var(--panel)';
-  list.style.padding = '10px';
-  list.style.borderRadius = '10px';
-  list.innerHTML = `<h4 style="margin:6px 0">Direct Messages</h4>`;
-
-  const newForm = document.createElement('div');
-  newForm.style.display = 'flex';
-  newForm.style.gap = '6px';
-  newForm.style.marginBottom = '8px';
-  const input = document.createElement('input');
-  input.placeholder = 'username...';
-  input.style.flex = '1';
-  const startBtn = document.createElement('button');
-  startBtn.textContent = 'Start';
-  newForm.appendChild(input);
-  newForm.appendChild(startBtn);
-  list.appendChild(newForm);
-
-  const dmListBox = document.createElement('div');
-  dmListBox.id = 'dm-list-box';
-  dmListBox.style.display = 'flex';
-  dmListBox.style.flexDirection = 'column';
-  list.appendChild(dmListBox);
-
-  const panel = document.createElement('div');
-  panel.id = 'dm-panel';
-  panel.style.flex = '1';
-  panel.style.background = 'var(--panel)';
-  panel.style.padding = '10px';
-  panel.style.borderRadius = '10px';
-  panel.innerHTML = `<div id="dm-header" style="display:flex;justify-content:space-between;margin-bottom:8px"><div id="dm-target">No conversation</div><button id="close-dm" style="display:none">Close</button></div><div id="dm-messages" style="height:320px;overflow:auto;background:#fff;border:1px solid #eee;padding:8px;border-radius:8px"></div><div id="dm-composer" style="margin-top:8px; display:none"><input id="dm-msg" placeholder="Message" style="width: calc(100% - 110px);"/><button id="dm-send" style="width:100px;">Send</button></div>`;
-
-  dmRoot.appendChild(list);
-  dmRoot.appendChild(panel);
-
-  const chat = document.getElementById('chat');
-  chat.parentNode.insertBefore(dmRoot, chat.nextSibling);
-
-  return {
-    listBox: dmListBox,
-    input,
-    startBtn,
-    messagesDiv: panel.querySelector('#dm-messages'),
-    composer: panel.querySelector('#dm-composer'),
-    dmMsgInput: panel.querySelector('#dm-msg'),
-    dmSendBtn: panel.querySelector('#dm-send'),
-    headerTarget: panel.querySelector('#dm-target'),
-    closeBtn: panel.querySelector('#close-dm')
-  };
-}
-
-const ui = createDMUI();
 
 function usernameKey(u) { return (u || '').toLowerCase().trim(); }
 function dmIdFor(u1, u2) { return [u1, u2].sort().join('_'); }
@@ -103,91 +27,92 @@ async function ensureDMExists(dmId, u1, u2) {
 }
 
 let activeDM = null;
-
-function clearActiveDM() {
-  activeDM = null;
-  ui.messagesDiv.innerHTML = '';
-  ui.headerTarget.textContent = 'No conversation';
-  ui.composer.style.display = 'none';
-  ui.closeBtn.style.display = 'none';
-}
+let dmUnsub = null;
 
 async function openDM(dmId, otherUid, otherName) {
   const user = auth.currentUser;
   if (!user) return;
-  const metaSnap = await get(ref(db, `dms/${dmId}/meta`));
-  if (!metaSnap.exists()) return;
+
+  if (dmUnsub && activeDM) {
+    off(ref(db, `dms/${activeDM.dmId}/messages`));
+    dmUnsub = null;
+  }
 
   activeDM = { dmId, otherUid, otherName };
-  ui.messagesDiv.innerHTML = '';
-  ui.headerTarget.textContent = `Chat with ${otherName}`;
-  ui.composer.style.display = 'flex';
-  ui.closeBtn.style.display = 'inline-block';
+  const messagesDiv = document.getElementById('messages');
+  messagesDiv.innerHTML = `Direct chat with <strong>${otherName}</strong><br><br>`;
 
   const msgsRef = ref(db, `dms/${dmId}/messages`);
   const msgsQuery = query(msgsRef, orderByChild('timestamp'));
-  onChildAdded(msgsQuery, (snap) => {
+  dmUnsub = onChildAdded(msgsQuery, (snap) => {
     const m = snap.val();
     if (!m) return;
     const el = document.createElement('div');
     el.textContent = `${m.name}: ${m.text}`;
-    ui.messagesDiv.appendChild(el);
-    ui.messagesDiv.scrollTop = ui.messagesDiv.scrollHeight;
+    messagesDiv.appendChild(el);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 }
 
-ui.dmSendBtn.onclick = async () => {
-  if (!activeDM) return;
-  const text = ui.dmMsgInput.value.trim();
+// Hook send button to send to DM if active, else to normal chat
+const sendBtn = document.getElementById('send');
+sendBtn.onclick = async (e) => {
+  e.preventDefault(); // stop any default form behavior
+  const input = document.getElementById('msg');
+  const text = input.value.trim();
   if (!text) return;
   const u = auth.currentUser;
   if (!u) return;
 
-  const messageObj = { uid: u.uid, name: u.displayName || 'Anon', text, timestamp: Date.now() };
-  await push(ref(db, `dms/${activeDM.dmId}/messages`), messageObj);
-  ui.dmMsgInput.value = '';
+  if (activeDM) {
+    // send ONLY to DM
+    const messageObj = { uid: u.uid, name: u.displayName || u.email || u.uid.slice(0,6), text, timestamp: Date.now() };
+    await push(ref(db, `dms/${activeDM.dmId}/messages`), messageObj);
+    input.value = '';
+  } else {
+  }
 };
 
-ui.closeBtn.onclick = clearActiveDM;
+function addDMStarter() {
+  const chat = document.getElementById('chat');
+  if (document.getElementById('dm-username')) return; // prevent duplicate UI
 
-ui.startBtn.onclick = async () => {
-  const other = ui.input.value.trim();
-  if (!other) return;
-  const otherUid = await getUidForUsername(other);
-  if (!otherUid) return alert('User not found');
-  const me = auth.currentUser;
-  if (!me) return alert('Log in first');
+  const starter = document.createElement('div');
+  starter.style.margin = '8px 0';
+  starter.innerHTML = `
+    <input id="dm-username" placeholder="Start DM with username..." style="padding:6px"/>
+    <button id="dm-start">Start DM</button>
+    <button id="dm-exit">Back to Public Chat</button>
+  `;
+  chat.insertBefore(starter, document.getElementById('messages'));
 
-  const dmId = dmIdFor(me.uid, otherUid);
-  await ensureDMExists(dmId, me.uid, otherUid);
-  ui.input.value = '';
-  openDM(dmId, otherUid, other);
-};
+  document.getElementById('dm-start').onclick = async () => {
+    const other = document.getElementById('dm-username').value.trim();
+    if (!other) return;
+    const otherUid = await getUidForUsername(other);
+    if (!otherUid) return alert('User not found');
+    const me = auth.currentUser;
+    if (!me) return alert('Log in first');
 
-async function loadUserDMs() {
-  const user = auth.currentUser;
-  if (!user) return;
-  ui.listBox.innerHTML = '';
-  const snap = await get(ref(db, `user-dms/${user.uid}`));
-  if (!snap.exists()) {
-    ui.listBox.textContent = 'No conversations yet.';
-    return;
-  }
-  const entries = Object.keys(snap.val() || {});
-  for (let dmId of entries) {
-    const metaSnap = await get(ref(db, `dms/${dmId}/meta`));
-    if (!metaSnap.exists()) continue;
-    const participants = Object.keys(metaSnap.val().participants || {});
-    const otherUid = participants.find(id => id !== user.uid);
-    const row = document.createElement('div');
-    row.textContent = `DM with ${otherUid}`;
-    row.style.cursor = 'pointer';
-    row.onclick = () => openDM(dmId, otherUid, otherUid);
-    ui.listBox.appendChild(row);
-  }
+    const dmId = dmIdFor(me.uid, otherUid);
+    await ensureDMExists(dmId, me.uid, otherUid);
+    openDM(dmId, otherUid, other);
+  };
+
+  document.getElementById('dm-exit').onclick = () => {
+    if (dmUnsub && activeDM) {
+      off(ref(db, `dms/${activeDM.dmId}/messages`));
+      dmUnsub = null;
+    }
+    activeDM = null;
+    const messagesDiv = document.getElementById('messages');
+    messagesDiv.innerHTML = '';
+    if (typeof loadPublicMessages === 'function') loadPublicMessages();
+  };
 }
 
-onAuthStateChanged(auth, (user) => { if (user) loadUserDMs(); else { ui.listBox.innerHTML = 'Log in to see DMs'; clearActiveDM(); } });
-setInterval(() => { if (auth.currentUser) loadUserDMs(); }, 10000);
+onAuthStateChanged(auth, (user) => {
+  if (user) addDMStarter();
+});
 
-console.log('DM system merged into script.js');
+console.log('DM system fixed: messages now go ONLY to DM or ONLY to public chat');
