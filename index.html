@@ -65,7 +65,7 @@
 
     <!-- composer (no Name field anymore) -->
     <div id="composer" class="disabled">
-      <input maxlength="100" id="msg" placeholder="Message" autocomplete="off" />
+      <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
       <button id="send">Send</button>
     </div>
 
@@ -114,7 +114,7 @@
 
   <script>
     // --- CONFIG ---
-    const targetDate = new Date("2025-10-05T12:30:00"); // <-- change to your target
+    const targetDate = new Date("2025-10-01T11:05:00"); // <-- change to your target
     const labelText = "Countdown until DM Update:";   // <-- customize label text
 
     document.getElementById("countdown-label").textContent = labelText;
@@ -124,7 +124,7 @@
       const diff = targetDate - now;
 
       if (diff <= 0) {
-        document.getElementById("countdown-timer").textContent = "Updating!";
+        document.getElementById("countdown-timer").textContent = "Working On DM Update";
         clearInterval(timer);
         return;
       }
@@ -197,8 +197,7 @@
         <!DOCTYPE html>
         <html lang="en">
         <head><title>New Tab</title></head>
-        <link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAw1BMVEVHcEz////////9/f39/f79/f33+Pj////b3d74+fny8/P19vYAAAD////w8fH////////9/f3///8+fu7ZRCpBmEtNnVXaTDbbUz79/Pz0uCtIm1EqdO2FqPJplvDqpJ282MDifG87l0DW4fvXOBWqzrDvurbt8v55oPLkjIH00Mx0sHuRvpVpq3BrrHL2wEn51Y/4zHbw6eP4uBf86MP0sw6EpvJEhdRSie50prrFrCrsrqfqkSrssavxrDPP48yyx/Yvv4yqAAAAEnRSTlMAWZFT48ytmAumbmsCSV/Uv52LM4rJAAABN0lEQVQokY2SiXKCMBCGEUHBW5qQhGgRKopn7zq9ff+n6mZLNIAz7T/OZDdf8rO7xrL+p749Gg5Hdv8CsoOT7ApqBCU1TNYOKmrX2DpereJ1hf56LhhhjBHCFqazh0lCOOeMwW8e44Z3Nk0Y52TO+ZyQxDRGT7hH3kUQiDjRRSnWVMEH4+ShUnGzcH16/CKfl9pxYb2LomehNvLp9AWULyF2ATqw3kfRLZ6eXKEmNxA7f0Fti/BaCaC2HWNBUTjThRwBqnWsW3mTIS1aWYJtrlvBIWQ0DCne/T4Un8QhWL6K9hIo3e1pKg+TqdrxjcHv4G4o4YhMX43BW11MspRKKSlNM0y7+g9tYSpm281mO8NJBa3zU2hV52owy+oIE4lO+fl5/gkL36s93N7Adx3H9Qe9GioOlNMflcoty3IDwqwAAAAASUVORK5CYII=">
-        <body style="margin:0; overflow:hidden;">
+        <link rel="icon" type="image/x-icon" href="./images/new-tab-page.png"        <body style="margin:0; overflow:hidden;">
           <iframe src="https://loganstoolsforschool.w3spaces.com" 
                   style="border:none; width:100vw; height:100vh;" 
                   sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
