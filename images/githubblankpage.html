@@ -11,7 +11,7 @@
     }
     h1 { text-align: center; }
     table {
-      width: 100%;
+      width: 80%;
       border-collapse: collapse;
       margin-top: 0px;
       background: white;
@@ -69,6 +69,12 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    // Handle deletes
+    onChildRemoved(messagesQuery, (snapshot) => {
+      const removedId = snapshot.key;
+      allMessages = allMessages.filter(m => m._id !== removedId);
+      displayMessagesForChannel(currentChannel);
+    });
 
     const tableBody = document.getElementById("messagesBody");
 

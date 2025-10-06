@@ -218,6 +218,24 @@
       border: none;
       border-radius: 0;
     }
+    #rudy-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      background: #fff;
+      border-left: 3px solid var(--green-2);
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+      display: none; /* hidden by default */
+      z-index: 9;
+    }
+    #rudy-panel iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 0;
+    }
 
     #messages {
       width: 100%;
@@ -316,6 +334,12 @@
       0%,100%{ color:#ff0000; text-shadow:0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000,0 0 40px #cc0000;}
       50%{ color:#ff6666; text-shadow:0 0 10px #ff6666,0 0 20px #ff6666,0 0 30px #ff3333,0 0 50px #cc0000;}
     }
+    .idk-text{ color:#8e6767; animation:idkGlow 1s ease-in-out infinite;
+      text-shadow:0 0 5px #ff9898,0 0 10px #b4ffb4,0 0 20px #005f5f,0 0 40px #cc00FF; }
+    @keyframes idkGlow{
+      0%,100%{ color:#ff0730; text-shadow:0 0 5px #ff0880,0 0 10px #ff0000,0 0 20px #ff0FF0,0 0 40px #cc0000;}
+      50%{ color:#ff6666; text-shadow:0 0 10px #ff6666,0 0 20px #f6f666,0 0 30px #ff3333,0 0 50px #cc0000;}
+    }
     .glowinggold-text{ color:#b8860b; animation:glowinggoldGlow 1s ease-in-out infinite;
       text-shadow:0 0 5px #fffacd,0 0 10px #fffacd,0 0 20px #fffacd,0 0 40px #fffacd; }
     @keyframes glowinggoldGlow{
@@ -332,6 +356,11 @@
     .axey-img{ position:absolute; width:30px; height:30px; animation:axeyOrbit 3s linear infinite; pointer-events:none; user-select:none;}
     .axey-img.second{ animation-delay:1.5s; }
     @keyframes axeyOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .gurt-container{ position:relative; display:inline-block; padding:0px; color: rgb(255, 216, 143); font-weight:bold; }
+    .gurt-img{ position:absolute; width:30px; height:30px; animation:gurtOrbit 3s linear infinite; pointer-events:none; user-select:none;}
+    .gurt-img.second{ animation-delay:1.5s; }
+    @keyframes gurtOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
 
     .espurr-container{ position:relative; display:inline-block; padding:0px; color:#ff7af6; font-weight:bold; font-style: italic; font-variant: small-caps; }
     .espurr-img{ position:absolute; width:30px; height:30px; animation:espurrOrbit 3s linear infinite; pointer-events:none; user-select:none;}

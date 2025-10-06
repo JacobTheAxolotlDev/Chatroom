@@ -1,12 +1,10 @@
-// script.js (DM system — fix v5)
-// Change: Two distinct send buttons (one for general, one for DMs) to prevent double-sends.
-
+// ---------- Imports ----------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 import { getDatabase, ref, push, set, onChildAdded, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
-// --- FIREBASE CONFIG ---
-const firebaseConfig = { /* same config */
+// ---------- Firebase Config ----------
+const firebaseConfig = {
   apiKey: "AIzaSyBYJW83DPFsEBNM1wV_3SJ0sT8aerGPx7A",
   authDomain: "chatroomfunyay.firebaseapp.com",
   databaseURL: "https://chatroomfunyay-default-rtdb.firebaseio.com",
@@ -20,20 +18,27 @@ const firebaseConfig = { /* same config */
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
-setPersistence(auth, browserLocalPersistence).catch(() => {/* ignore */});
 
-function usernameKey(u){ return (u||'').toLowerCase().trim(); }
-function dmIdFor(u1,u2){ return [u1,u2].sort().join('_'); }
+setPersistence(auth, browserLocalPersistence).catch(() => { /* ignore */ });
 
-async function getUidForUsername(username){
+// ---------- Helpers ----------
+function usernameKey(u) {
+  return (u || '').toLowerCase().trim();
+}
+
+function dmIdFor(u1, u2) {
+  return [u1, u2].sort().join('_');
+}
+
+async function getUidForUsername(username) {
   if (!username) return null;
   const snap = await get(ref(db, `usernames/${usernameKey(username)}`));
   return snap.exists() ? snap.val().uid : null;
 }
 
-async function ensureDMExists(dmId, u1, u2, otherName){
+async function ensureDMExists(dmId, u1, u2, otherName) {
   const metaSnap = await get(ref(db, `dms/${dmId}/meta`));
-  if (!metaSnap.exists()){
+  if (!metaSnap.exists()) {
     await set(ref(db, `dms/${dmId}/meta`), {
       participants: { [u1]: true, [u2]: true },
       createdAt: Date.now(),
@@ -44,39 +49,46 @@ async function ensureDMExists(dmId, u1, u2, otherName){
   }
 }
 
-async function getDisplayName(uid){
+async function getDisplayName(uid) {
   const user = auth.currentUser;
   if (user && user.uid === uid && user.displayName) return user.displayName;
   const snap = await get(ref(db, `users/${uid}`));
-  if (snap.exists()) return snap.val().username || uid.slice(0,6);
-  return uid.slice(0,6);
+  if (snap.exists()) return snap.val().username || uid.slice(0, 6);
+  return uid.slice(0, 6);
 }
 
+// ---------- State ----------
 let activeChannel = "general";
 let currentUnsub = null;
 
-function showChannelTabActive(channelId){
+// ---------- UI Helpers ----------
+function showChannelTabActive(channelId) {
   const channelsDiv = document.getElementById('channels');
   if (!channelsDiv) return;
-  [...channelsDiv.children].forEach(c => c.classList.toggle('active', c.dataset && c.dataset.channel === channelId));
+  [...channelsDiv.children].forEach(c =>
+    c.classList.toggle('active', c.dataset && c.dataset.channel === channelId)
+  );
 }
 
-async function openChannel(channelId, label){
-  try{ if (typeof currentUnsub === 'function') currentUnsub(); }catch(e){}
+// ---------- Channel Handling ----------
+async function openChannel(channelId, label) {
+  try {
+    if (typeof currentUnsub === 'function') currentUnsub();
+  } catch(e) {}
   currentUnsub = null;
-
   activeChannel = channelId;
   showChannelTabActive(channelId);
 
   const messagesDiv = document.getElementById('messages');
   if (!messagesDiv) return;
+
   messagesDiv.innerHTML = `<em>Loading ${label || channelId}...</em>`;
 
   const msgsRef = ref(db, 'messages');
   const msgsQuery = query(msgsRef, orderByChild('channel'), equalTo(channelId));
-
   messagesDiv.innerHTML = '';
-  currentUnsub = onChildAdded(msgsQuery, (snap) => {
+
+  currentUnsub = onChildAdded(msgsQuery, snap => {
     const m = snap.val();
     if (!m) return;
     const el = document.createElement('div');
@@ -86,19 +98,22 @@ async function openChannel(channelId, label){
   });
 }
 
-// --- Two send buttons ---
-function setupSendButtons(){
+// ---------- Send Buttons ----------
+function setupSendButtons() {
+  const composer = document.getElementById('composer');
+  if (!composer) return;
+
   const msgInput = document.getElementById('msg');
   if (!msgInput) return;
 
   const generalBtn = document.createElement('button');
   generalBtn.id = 'send-general';
   generalBtn.textContent = 'Send to General';
+
   const dmBtn = document.createElement('button');
   dmBtn.id = 'send-dm';
   dmBtn.textContent = 'Send to DM';
 
-  const composer = document.getElementById('composer');
   composer.appendChild(generalBtn);
   composer.appendChild(dmBtn);
 
@@ -109,9 +124,10 @@ function setupSendButtons(){
   });
 }
 
-async function sendMessage(targetChannel){
+async function sendMessage(targetChannel) {
   const input = document.getElementById('msg');
   if (!input) return;
+
   const text = input.value.trim();
   if (!text) return;
 
@@ -120,7 +136,7 @@ async function sendMessage(targetChannel){
 
   const messageObj = {
     uid: user.uid,
-    name: user.displayName || (await getDisplayName(user.uid)) || user.uid.slice(0,6),
+    name: user.displayName || (await getDisplayName(user.uid)) || user.uid.slice(0, 6),
     text,
     timestamp: Date.now(),
     channel: targetChannel
@@ -130,8 +146,8 @@ async function sendMessage(targetChannel){
   input.value = '';
 }
 
-// ---------- DM starter UI ----------
-function addDMStarter(){
+// ---------- DM Starter ----------
+function addDMStarter() {
   const chat = document.getElementById('chat');
   if (!chat) return;
   if (document.getElementById('dm-starter')) return;
@@ -144,16 +160,15 @@ function addDMStarter(){
     <button id="dm-start">Start DM</button>
     <button id="dm-exit">Back to Public</button>
   `;
-
   chat.insertBefore(starter, document.getElementById('messages'));
 
   const usernameInput = document.getElementById('dm-username');
   const startBtn = document.getElementById('dm-start');
   const exitBtn = document.getElementById('dm-exit');
 
-  function updateUIForAuth(user){
+  function updateUIForAuth(user) {
     if (!usernameInput) return;
-    if (!user){
+    if (!user) {
       usernameInput.disabled = true;
       usernameInput.placeholder = 'Log in to start a DM';
       startBtn.disabled = true;
@@ -169,6 +184,7 @@ function addDMStarter(){
     if (!other) return;
     const otherUid = await getUidForUsername(other);
     if (!otherUid) return alert('User not found');
+
     const me = auth.currentUser;
     if (!me) return alert('Log in first');
 
@@ -179,27 +195,27 @@ function addDMStarter(){
   });
 
   exitBtn.addEventListener('click', () => {
-    if (typeof currentUnsub === 'function') try{ currentUnsub(); }catch(e){}
+    if (typeof currentUnsub === 'function') try { currentUnsub(); } catch(e) {}
     currentUnsub = null;
     openChannel('general', 'General');
   });
 
   updateUIForAuth(auth.currentUser);
-  onAuthStateChanged(auth, (user) => updateUIForAuth(user));
+  onAuthStateChanged(auth, user => updateUIForAuth(user));
 }
 
-// ---------- render DM tabs ----------
-async function renderDMChannels(uid){
-  try{
+// ---------- Render DM Tabs ----------
+async function renderDMChannels(uid) {
+  try {
     const listSnap = await get(ref(db, `user-dms/${uid}`));
     const channelsDiv = document.getElementById('channels');
     if (!channelsDiv) return;
 
     [...channelsDiv.querySelectorAll('[data-dm-tab]')].forEach(n => n.remove());
-
     if (!listSnap.exists()) return;
+
     const dmIds = Object.keys(listSnap.val() || {});
-    for (let dmId of dmIds){
+    for (let dmId of dmIds) {
       const metaSnap = await get(ref(db, `dms/${dmId}/meta`));
       const label = metaSnap.exists() ? (metaSnap.val().name || `DM ${dmId}`) : `DM ${dmId}`;
       const tab = document.createElement('div');
@@ -210,20 +226,20 @@ async function renderDMChannels(uid){
       tab.addEventListener('click', () => openChannel(dmId, label));
       channelsDiv.appendChild(tab);
     }
-  }catch(e){ console.warn('renderDMChannels error', e); }
+  } catch(e) {
+    console.warn('renderDMChannels error', e);
+  }
 }
 
+// ---------- Bootstrap ----------
 addDMStarter();
 setupSendButtons();
 
-onAuthStateChanged(auth, async (user) => {
-  if (user){
-    try{ await renderDMChannels(user.uid); }catch(e){}
-    if (activeChannel === 'general') {
-      openChannel('general', 'General');
-    } else {
-      openChannel(activeChannel, activeChannel);
-    }
+onAuthStateChanged(auth, async user => {
+  if (user) {
+    try { await renderDMChannels(user.uid); } catch(e) {}
+    if (activeChannel === 'general') openChannel('general', 'General');
+    else openChannel(activeChannel, activeChannel);
   } else {
     openChannel('general', 'General');
   }
