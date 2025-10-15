@@ -306,6 +306,14 @@
     }
     @keyframes goldShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
+    .gren-text{
+      background-image:linear-gradient(90deg,#0bb80b,#00ff11,#cdffd4,#09ff00,#1fb80b);
+      background-size:300% 100%;
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      animation:grenShift 4s ease-in-out infinite;
+    }
+    @keyframes grenShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
     .diamond-text{
       background-image:linear-gradient(90deg,#01FFFF,#7FFFFE,#B1FFFF,#E8FAFF,#9AE7F4);
       background-size:300% 100%;
@@ -332,7 +340,7 @@
     @keyframes baylorShift{ 0%{background-position:0% 20%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
 
-    .uranium-text{ color:#00ff00; animation:uraniumGlow 1s ease-in-out infinite;
+    .uranium-text{ color:#00ff00;  animation:uraniumGlow 1s ease-in-out infinite;
       text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00; }
     @keyframes uraniumGlow{
       0%,100%{ color:#00ff00; text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00;}
@@ -366,6 +374,12 @@
     .axey-img{ position:absolute; width:30px; height:30px; animation:axeyOrbit 3s linear infinite; pointer-events:none; user-select:none;}
     .axey-img.second{ animation-delay:1.5s; }
     @keyframes axeyOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+    .gio-container{ position:relative; display:inline-block; padding:0px; color:rgb(44, 238, 44); font-weight:normal; }
+    .gio-img{ position:absolute; width:30px; height:30px; animation:gioOrbit 3s linear infinite; pointer-events:none; user-select:none;}
+    .gio-img.second{ animation-delay:1.5s; }
+    @keyframes gioOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
 
     .gurt-container{ position:relative; display:inline-block; padding:0px; color: rgb(255, 216, 143); font-weight:bold; }
     .gurt-img{ position:absolute; width:30px; height:30px; animation:gurtOrbit 3s linear infinite; pointer-events:none; user-select:none;}

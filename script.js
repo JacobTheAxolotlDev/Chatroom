@@ -340,12 +340,13 @@ if (stopJamasBtn) {
 
 
       let color = null;
-      let rainbow = false, baylor = false, diamond = false, gold = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
       const baylorMatch = text.match(/^baylor:\s*(.*)/i);
       const goldMatch = text.match(/^gold:\s*(.*)/i);
+      const grenMatch = text.match(/^gren:\s*(.*)/i);
       const diamondMatch = text.match(/^diamond:\s*(.*)/i);
       const electricMatch = text.match(/^electric:\s*(.*)/i);
       const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
@@ -354,6 +355,7 @@ if (stopJamasBtn) {
       const glowinggoldMatch = text.match(/^glowinggold:\s*(.*)/i);
       const slimeMatch = text.match(/^slime:\s*(.*)/i);
       const axeyMatch = text.match(/^axey:\s*(.*)/i);
+      const gioMatch = text.match(/^gio:\s*(.*)/i);
       const gurtMatch = text.match(/^gurt:\s*(.*)/i);
       const espurrMatch = text.match(/^espurr:\s*(.*)/i);
       const butterMatch = text.match(/^butter:\s*(.*)/i);
@@ -376,6 +378,7 @@ if (stopJamasBtn) {
       else if (namedColorMatch) { color = namedColorMatch[1].toLowerCase(); text = namedColorMatch[2]; }
       else if (rainbowMatch) { rainbow = true; text = rainbowMatch[1]; }
       else if (goldMatch) { gold = true; text = goldMatch[1]; }
+      else if (grenMatch) { gren = true; text = grenMatch[1]; }
       else if (diamondMatch) { diamond = true; text = diamondMatch[1]; }
       else if (electricMatch) { electric = true; text = electricMatch[1]; }
       else if (baylorMatch) { baylor = true; text = baylorMatch[1]; }
@@ -385,6 +388,7 @@ if (stopJamasBtn) {
       else if (glowinggoldMatch) { glowinggold = true; text = glowinggoldMatch[1]; }
       else if (slimeMatch) { slime = true; text = slimeMatch[1]; }
       else if (axeyMatch) { axey = true; text = axeyMatch[1]; }
+      else if (gioMatch) { gio = true; text = gioMatch[1]; }
       else if (gurtMatch) { gurt = true; text = gurtMatch[1]; }
       else if (espurrMatch) { espurr = true; text = espurrMatch[1]; }
       else if (butterMatch) { butter = true; text = butterMatch[1]; }
@@ -417,6 +421,11 @@ if (stopJamasBtn) {
       } else if (gold) {
         const s = document.createElement("span");
         s.classList.add("gold-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (gren) {
+        const s = document.createElement("span");
+        s.classList.add("gren-text");
         s.textContent = messageContent;
         msgEl.appendChild(s);
       } else if (diamond) {
@@ -469,6 +478,19 @@ if (stopJamasBtn) {
         const a2 = document.createElement("img");
         a2.src = "./images/axey.png";
         a2.classList.add("axey-img", "second");
+        c.appendChild(a1);
+        c.appendChild(a2);
+        msgEl.appendChild(c);
+      } else if (gio) {
+        const c = document.createElement("div");
+        c.classList.add("gio-container");
+        c.textContent = messageContent;
+        const a1 = document.createElement("img");
+        a1.src = "./images/image-removebg-preview_-_2025-10-15T095130.742.png";
+        a1.classList.add("gio-img");
+        const a2 = document.createElement("img");
+        a2.src = "./images/image-removebg-preview_-_2025-10-15T095130.742.png";
+        a2.classList.add("gio-img", "second");
         c.appendChild(a1);
         c.appendChild(a2);
         msgEl.appendChild(c);
