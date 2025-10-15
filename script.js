@@ -864,6 +864,13 @@ if (stopJamasBtn) {
       }
     });
 
+     msgInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {  // Check if the key pressed is Enter
+        e.preventDefault();  // Prevent the default behavior of Enter key (e.g., form submission)
+        sendMessage();  // Call the sendMessage function
+      }
+    });
+
     // --- Send message (must be logged in) ---
     sendBtn.onclick = async () => {
   if (!auth.currentUser) return alert("You must be logged in to chat!");
