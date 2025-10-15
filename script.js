@@ -3,7 +3,7 @@
       getDatabase, ref, push, onChildAdded, onChildChanged, onChildRemoved, onValue,
       query, orderByChild, get, set
     } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
-
+    
     import {
       getAuth,
       setPersistence,
@@ -14,6 +14,7 @@
       updateProfile,
       signOut
     } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+    
 
     // --- Your Firebase config ---
     
@@ -44,6 +45,9 @@
     const composer = document.getElementById("composer");
     const whoami = document.getElementById("whoami");
     const whoamiMini = document.getElementById("whoami-mini");
+    const banUserBtn = document.getElementById("ban-user");
+    const unbanUserBtn = document.getElementById("unban-user");
+
 
     // Admin DOM
     const adminPanel = document.getElementById("admin-panel");
@@ -207,8 +211,10 @@ if (stopJamasBtn) {
       "V4AdzBN1B2MdZEt5CnXgt4kwMA63", //geo
       "fQ4iNM6q0xhXjqs8tBLLA5jVoSA2", //joy
       "1HZElGj4ZDOqcG0pNQEIJlc79622", //cindy
-      "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2" //gurt/rudy
+      "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2", //gurt/rudy
+      "uYDrDMHHMTPCVlROOCYsS5uC8F33"
     ];
+
 
     // helper: convert username to a fake email for Firebase Auth
     function usernameToEmail(u) { return `${u}@myapp.local`.toLowerCase(); }

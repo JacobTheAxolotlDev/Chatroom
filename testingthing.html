@@ -160,8 +160,28 @@
       "V4AdzBN1B2MdZEt5CnXgt4kwMA63",
       "fQ4iNM6q0xhXjqs8tBLLA5jVoSA2",
       "1HZElGj4ZDOqcG0pNQEIJlc79622",
-      "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2"
+      "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2",
+      "uYDrDMHHMTPCVlROOCYsS5uC8F33"
     ];
+    // --- Banned users live listener ---
+import { onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+const bannedRef = ref(db, "banned");
+let bannedUIDs = new Set();
+
+// live sync banned list
+onValue(bannedRef, (snapshot) => {
+  bannedUIDs.clear();
+  if (snapshot.exists()) {
+    snapshot.forEach(child => bannedUIDs.add(child.key));
+  }
+  // instantly check if current user just got banned
+  if (currentUser && bannedUIDs.has(currentUser.uid)) {
+    alert("You have been banned.");
+    signOut(auth);
+  }
+});
+
 
     // Utils
     function usernameToEmail(u){ return `${u}@myapp.local`.toLowerCase(); }
@@ -375,16 +395,14 @@
 
     onAuthStateChanged(auth, async (user) => {
       currentUser = user || null;
-      if (user){
-        // banned UIDs example (keeps from chatting)
-        const bannedUIDs = []; // add if needed
-        if (bannedUIDs.includes(user.uid)){
-          document.getElementById("auth").style.display = "none";
-          composer.classList.add("hidden");
-          logoutBtn.classList.remove("hidden");
-          whoami.textContent = "BANNED";
-          return;
-        }
+      if (user) {
+  if (bannedUIDs.has(user.uid)) {
+    alert("You are banned.");
+    await signOut(auth);
+    return;
+  }
+  // continue with normal login UI updates
+
 
         document.getElementById("auth").style.display = "none";
         composer.classList.remove("hidden");
@@ -489,6 +507,39 @@
         alert("Wiped");
       } catch (e){ alert("Failed: " + e.message); }
     };
+
+    const banUserBtn = document.createElement("button");
+banUserBtn.textContent = "Ban User";
+banUserBtn.onclick = async () => {
+  if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid))
+    return alert("Admins only");
+  const uidToBan = prompt("Enter UID to ban:");
+  if (!uidToBan) return;
+  try {
+    await set(ref(db, "banned/" + uidToBan), true);
+    alert("User banned instantly.");
+  } catch (e) {
+    alert("Ban failed: " + e.message);
+  }
+};
+
+const unbanUserBtn = document.createElement("button");
+unbanUserBtn.textContent = "Unban User";
+unbanUserBtn.onclick = async () => {
+  if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid))
+    return alert("Admins only");
+  const uidToUnban = prompt("Enter UID to unban:");
+  if (!uidToUnban) return;
+  try {
+    await remove(ref(db, "banned/" + uidToUnban));
+    alert("User unbanned.");
+  } catch (e) {
+    alert("Unban failed: " + e.message);
+  }
+};
+
+adminPanel.appendChild(banUserBtn);
+adminPanel.appendChild(unbanUserBtn);
 
     // Initial load
     await loadChannels();

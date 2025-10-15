@@ -41,6 +41,16 @@
       --panel:#ffffff;
       --panel-2:#e3f3e8;
     }
+    
+    /*:root{
+      --green-1:#0f1724;
+      --green-2:#60a5fa;
+      --green-3:#60a5fa;
+      --panel:#0b1220;
+      --panel-2:#60a5fa;
+    }
+    */
+    
     *{box-sizing:border-box}
     body {
       margin: 0;
@@ -469,6 +479,35 @@
             font-size: 36px;
             font-weight: bold;
         }
+.suggestion-info {
+    position: absolute;
+    right: 20px; /* Space from the left edge */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px; /* Set the width of the box */
+    height: 250px; /* Set the height of the box */
+    background-image: url('images/suggestions.png'); /* Set the background image */
+    background-size: cover; /* Ensures the image covers the whole box */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    color: rgb(0, 0, 0); /* Text color */
+    border-radius: 10px; /* Rounded corners */
+    border: 0px solid black; /* Border with width, style, and color */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+
+        /* Styling for the label (top part) */
+        .suggestion-label {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
 
 
     .bread-container{ position:relative; display:inline-block; padding:0px; color:#eec07b; font-weight:bold; }
