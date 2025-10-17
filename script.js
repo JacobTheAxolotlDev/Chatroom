@@ -1,3 +1,16 @@
+// Wait for the page to load
+window.onload = function() {
+  // Keep the loading screen visible for 3 seconds (3000 milliseconds)
+  setTimeout(function() {
+    // Hide the loading screen
+    document.getElementById('loading-screen').style.display = 'none';
+    
+    // Show the main content
+    document.getElementById('main-content').style.display = 'block';
+  }, 3000);  // Change 3000 to your desired delay in milliseconds
+};
+
+   
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
     import {
       getDatabase, ref, push, onChildAdded, onChildChanged, onChildRemoved, onValue,
@@ -384,7 +397,7 @@ if (stopJamasBtn) {
       else if (baylorMatch) { baylor = true; text = baylorMatch[1]; }
       else if (uraniumMatch) { uranium = true; text = uraniumMatch[1]; }
       else if (laserMatch) { laser = true; text = laserMatch[1]; }
-      else if (laserMatch) { idk = true; text = idkMatch[1]; }
+      else if (idkMatch) { idk = true; text = idkMatch[1]; }
       else if (glowinggoldMatch) { glowinggold = true; text = glowinggoldMatch[1]; }
       else if (slimeMatch) { slime = true; text = slimeMatch[1]; }
       else if (axeyMatch) { axey = true; text = axeyMatch[1]; }
