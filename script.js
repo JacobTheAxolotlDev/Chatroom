@@ -7,7 +7,7 @@ window.onload = function() {
     
     // Show the main content
     document.getElementById('main-content').style.display = 'block';
-  }, 3000);  // Change 3000 to your desired delay in milliseconds
+  }, 300);  // Change 3000 to your desired delay in milliseconds
 };
 
    
@@ -353,13 +353,14 @@ if (stopJamasBtn) {
 
 
       let color = null;
-      let rainbow = false, baylor = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
       const baylorMatch = text.match(/^baylor:\s*(.*)/i);
       const goldMatch = text.match(/^gold:\s*(.*)/i);
       const grenMatch = text.match(/^gren:\s*(.*)/i);
+      const glitchMatch = text.match(/^glitch:\s*(.*)/i);
       const diamondMatch = text.match(/^diamond:\s*(.*)/i);
       const electricMatch = text.match(/^electric:\s*(.*)/i);
       const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
@@ -410,6 +411,7 @@ if (stopJamasBtn) {
       else if (fwehMatch) { fweh = true; text = fwehMatch[1]; }
       else if (pokemonMatch) { pokemon = true; text = pokemonMatch[1]; }
       else if (minecraftMatch) { minecraft = true; text = minecraftMatch[1]; }
+      else if (glitchMatch) { glitch = true; text = glitchMatch[1]; }
       else if (silksongMatch) { silksong = true; text = silksongMatch[1]; }
       else if (oiiaMatch) { oiia = true; text = oiiaMatch[1]; }
       else if (maxwellMatch) { maxwell = true; text = maxwellMatch[1]; }
@@ -626,6 +628,11 @@ if (stopJamasBtn) {
         m2.classList.add("minecraft-img", "second");
         c.appendChild(m1);
         c.appendChild(m2);
+        msgEl.appendChild(c);
+     } else if (glitch) {
+        const c = document.createElement("div");
+        c.classList.add("glitch-container");
+        c.textContent = messageContent;
         msgEl.appendChild(c);
         } else if (silksong) {
         const c = document.createElement("div");

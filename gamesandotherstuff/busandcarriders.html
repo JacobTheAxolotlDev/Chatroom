@@ -1,10 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
-  <base href="https://loganstoolsforschool.w3spaces.com">
   <meta charset="UTF-8" />
   <title>Logans Tools For School</title>
-  <link rel="icon" type="image/x-icon" href="./images/favicon.png">
+  <link rel="icon" type="image/x-icon" href="https://loganstoolsforschool.w3spaces.com/images/images/favicon.png">
   <!-- Comic Neue -->
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@500;700&display=swap" rel="stylesheet"/>
 <html lang="en">
@@ -12,15 +11,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/style.css">
+  <script>
+    // Wait for the page to load
+window.onload = function() {
+  // Keep the loading screen visible for 3 seconds (3000 milliseconds)
+  setTimeout(function() {
+    // Hide the loading screen
+    document.getElementById('loading-screen').style.display = 'none';
+    
+    // Show the main content
+    document.getElementById('main-content').style.display = 'block';
+  }, 300);  // Change 3000 to your desired delay in milliseconds
+};
+</script>
   </head>
-    <div id="header">
-    <div><a href="https://loganstoolsforschool.w3spaces.com/index.html">Chat Room</a></div>
-    <div><a href="./gamesandotherstuff/music.html">Music (wip)</a></div>
-    <div><a href="https://loganstoolsforschool.w3spaces.com/SchoolResources.html">School stuff</a></div>
-    <div><a href="https://loganstoolsforschool.w3spaces.com/Games.html">all games and stuff</a></div>
-    <div id="header-right">
-      <span id="whoami-mini"></span>
-      <button id="logout">Logout</button>
-         </div>
+  <!-- Loading screen -->
+  <div id="loading-screen">
+    <img src="https://loganstoolsforschool.w3spaces.com/images/3dgifmaker77391.gif" alt="Loading..." id="loading-image"> <br>
+    <h1> Loading...</h1>
   </div>
  <iframe width="1365" height="767" src="https://docs.google.com/spreadsheets/d/11Ds4YPYAoWCD7St8WNWYCzSdLB-HtpVlwhTnOsGk0eQ/edit?gid=46060569#gid=46060569"></iframe>
