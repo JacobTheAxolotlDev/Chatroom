@@ -18,7 +18,14 @@
   height: auto;
 }
 
-
+#commit-message {
+            font-size: 1.2em;
+            color: #333;
+        }
+        .loading {
+            font-size: 1.2em;
+            color: #007BFF;
+        }
   
   footerimage{
       height: 50px;

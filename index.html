@@ -105,7 +105,33 @@
        Glitch (new)
            </div>
   </div>
+  <h1> Most Recent Update: </h1>
+<div id="commit-message" class="loading">Loading...</div>
+<script>
+        // Replace with your own GitHub username and repository name
+        const user = 'JacobTheAxolotlDev';  // GitHub username
+        const repo = 'Chatroom';  // Repository name
 
+        // GitHub API URL to get the commits from the repository
+        const apiUrl = `https://api.github.com/repos/${user}/${repo}/commits`;
+
+        // Fetch the latest commit message from GitHub API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(commits => {
+                if (commits.length > 0) {
+                    // Get the most recent commit message
+                    const latestCommitMessage = commits[0].commit.message;
+                    document.getElementById('commit-message').innerText = latestCommitMessage;
+                } else {
+                    document.getElementById('commit-message').innerText = 'No commits found.';
+                }
+            })
+            .catch(error => {
+                document.getElementById('commit-message').innerText = 'Error fetching commit data.';
+                console.error('Error:', error);
+            });
+    </script>
   <!-- Admin Panel (LEFT) -->
   <div id="admin-panel">
     <h3>⚙️ Admin Tools</h3>
