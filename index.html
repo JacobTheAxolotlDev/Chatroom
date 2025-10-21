@@ -105,6 +105,37 @@
        Glitch (new)
            </div>
   </div>
+<!--<script>
+  function loadCSS(file) {
+    const existing = document.querySelector(`link[href^="${file}"]`);
+    if (existing) existing.remove();
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = file + '?t=' + Date.now();
+    document.head.appendChild(link);
+  }
+
+  function loadJSModule(file) {
+    const existing = document.querySelector(`script[src^="${file}"]`);
+    if (existing) existing.remove();
+    const script = document.createElement('script');
+    script.type = 'module';  // <-- important!
+    script.src = file + '?t=' + Date.now();
+    document.body.appendChild(script);
+  }
+
+  // Initial load
+  loadCSS('style.css');
+  loadJSModule('script.js');
+
+  // Reload every 1 second
+  setInterval(() => {
+    loadCSS('style.css');
+    loadJSModule('script.js');
+  }, 1000);
+</script>
+-->
+
   <h1> Most Recent Update: </h1>
 <div id="commit-message" class="loading">Loading...</div>
 <script>
@@ -243,17 +274,10 @@
   
     <img src="./images/favicon.png" width= "50px" height= "50px" style="float:left" >
     
-  Why i made this Website <br>
-
-  This website was made for all my tools for school and stuff ya aya<br>
-
-  Contact: <br>
-  <address>
-    <a href="mailto:thejacobhanson2@gmail.com">dummy email</a> <br>
-    only email for support
-    </address>
-    made by your truly
-    <button id="openBtn">Open in about:blank</button>
+  hi<br>
+there is like nothing here<br>
+    made by yours truly<br>
+    <button id="openBtn">Open in about:blank</button> <br>
 
 <script>
   document.getElementById('openBtn').addEventListener('click', () => {
@@ -279,4 +303,4 @@
 </script>
 </div>
     </script>
-</footer>
+

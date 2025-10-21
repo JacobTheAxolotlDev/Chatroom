@@ -78,7 +78,8 @@ const stopJamasBtn = document.getElementById('stop-jamas-spam');
 // Firebase DB ref for the shared fall rate (stored as NUMBER = milliseconds)
 const fallRateRef = ref(db, 'settings/fallRate');
 
-let fallIntervalId = null;
+// keep a global variable to track interval across reloads
+window.fallIntervalId = window.fallIntervalId || null;
 
 // create a falling image (same visual behaviour as your CSS expects)
 function createFallingImage() {
@@ -99,16 +100,16 @@ function setFallRateMs(ms) {
   let numeric = Number(ms);
   if (!isFinite(numeric) || numeric <= 0) numeric = 5000; // fallback to 5000 ms
 
-  const msInt = Math.max(1, Math.round(numeric)); // store/use integer ms, min 1
+  const msInt = Math.max(1, Math.round(numeric));
 
   // clear previously running interval
-  if (fallIntervalId !== null) {
-    clearInterval(fallIntervalId);
-    fallIntervalId = null;
+  if (window.fallIntervalId !== null) {
+    clearInterval(window.fallIntervalId);
+    window.fallIntervalId = null;
   }
 
   // start a new interval that spawns images every msInt milliseconds
-  fallIntervalId = setInterval(createFallingImage, msInt);
+  window.fallIntervalId = setInterval(createFallingImage, msInt);
   console.log('[fallRate] set to', msInt, 'ms');
 }
 
@@ -143,7 +144,6 @@ if (jamasBtn) {
       return alert('Admins only.');
     }
     try {
-      // Set to 1 ms (interpreted as 1 millisecond). Browsers may throttle anything below ~1-4 ms.
       await set(fallRateRef, 1);
       alert('Jamas Dog Spam activated — fallRate set to 1 ms.');
     } catch (e) {
@@ -165,6 +165,7 @@ if (stopJamasBtn) {
     }
   };
 }
+
 
 
     // Auth DOM
