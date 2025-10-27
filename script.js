@@ -78,6 +78,7 @@ const stopJamasBtn = document.getElementById('stop-jamas-spam');
 // Firebase DB ref for the shared fall rate (stored as NUMBER = milliseconds)
 const fallRateRef = ref(db, 'settings/fallRate');
 
+
 // keep a global variable to track interval across reloads
 window.fallIntervalId = window.fallIntervalId || null;
 
@@ -136,6 +137,18 @@ onValue(fallRateRef, (snap) => {
   console.error('Failed to listen to fallRate:', err);
 });
 
+
+const BannedUIDSRef = ref(db, "settings/BannedUIDs");
+
+(async () => {
+  const snap = await get(BannedUIDSRef);
+  if (!snap.exists()) {
+    await set(BannedUIDSRef, []); // 👈 creates the path
+    console.log("[BannedUIDs] initialized as empty array");
+  }
+})();
+
+
 // Admin buttons write explicit millisecond values to the DB.
 // Buttons are client-side-protected by adminUIDs check that you already have.
 if (jamasBtn) {
@@ -165,7 +178,17 @@ if (stopJamasBtn) {
     }
   };
 }
+async function checkBanned() {
+    const snap = await get(ref(db, "settings/BannedUIDs"));
+    if (!snap.exists()) {
+        console.log("BannedUIDs does NOT exist. Creating now...");
+        await set(ref(db, "settings/BannedUIDs"), []);
+    } else {
+        console.log("BannedUIDs exists:", snap.val());
+    }
+}
 
+checkBanned();
 
 
     // Auth DOM
@@ -313,10 +336,16 @@ if (stopJamasBtn) {
     // List of banned UIDs (you can add more)
     const bannedUIDs = [
       "LSYwLmYBuOQGYTRS076QgkmLefq2",   // replace with the actual UID
-      "wFfXjSlXkQaoaNU2gLfqPPY04t92"
+      "wFfXjSlXkQaoaNU2gLfqPPY04t92",
+      "xbbLnqiQOmgCKPSYV6gA4Z4pQCA3",
+      "Xss28QtbkFRk9jMvEOedcjhZZt12",
+      "EBEFMou0U1N2q5IRNLFE3tfopZ02",
+      "9jlZq3uYlLdBwhCwZnKtGfHjyYE3"
     ];
+    
 
-
+    
+    
     function addMessageElement(data) {
       let name = data.name || "Anonymous";
       const uname = (name || "").trim().toLowerCase();

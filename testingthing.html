@@ -312,7 +312,7 @@ onValue(bannedRef, (snapshot) => {
         ctr.className = "controls";
 
         const editBtn = document.createElement("button");
-        editBtn.textContent = "Edit";
+        editBtn.textContent = "Edit Text";
         editBtn.onclick = async () => {
           // Inline prompt to edit (simple). You may replace with inline input if desired.
           let newText = prompt("Edit message:", data.text || "");
@@ -325,6 +325,24 @@ onValue(bannedRef, (snapshot) => {
           }
           try {
             await update(ref(db, "messages/" + data._id), { text: newText, edited: true, editedAt: Date.now() });
+          } catch (e) {
+            alert("Edit failed: " + e.message);
+          }
+        };
+        const editnameBtn = document.createElement("button");
+        editnameBtn.textContent = "Edit Name";
+        editnameBtn.onclick = async () => {
+          // Inline prompt to edit (simple). You may replace with inline input if desired.
+          let newText = prompt("Edit name:", data.name || "");
+          if (newText === null) return;
+          newText = newText.trim();
+          if (!newText) {
+            if (!confirm("Empty name — delete instead?")) return;
+            try { await remove(ref(db, "messages/" + data._id)); } catch (e){ alert("Delete failed: " + e.message); }
+            return;
+          }
+          try {
+            await update(ref(db, "messages/" + data._id), { name: newText, edited: true, editedAt: Date.now() });
           } catch (e) {
             alert("Edit failed: " + e.message);
           }
@@ -347,11 +365,12 @@ onValue(bannedRef, (snapshot) => {
         flagBtn.onclick = async () => {
           if (!confirm("Replace content with '[removed]'? (keeps message record)")) return;
           try {
-            await update(ref(db, "messages/" + data._id), { text: "[removed by admin]", redacted: true, redactedAt: Date.now() });
+            await update(ref(db, "messages/" + data._id), { text: "[removed by admin]", name: "[removed by admin]", redacted: true, redactedAt: Date.now() });
           } catch (e){ alert("Failed: " + e.message); }
         };
 
         ctr.appendChild(editBtn);
+        ctr.appendChild(editnameBtn);
         ctr.appendChild(delBtn);
         if (adminUIDs.includes(currentUser.uid)) ctr.appendChild(flagBtn);
 

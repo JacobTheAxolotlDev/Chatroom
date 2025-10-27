@@ -16,7 +16,7 @@
   <!-- Loading screen -->
   <div id="loading-screen">
     <img src="images/3dgifmaker77391.gif" alt="Loading..." id="loading-image"> <br>
-    <h1> Loading...</h1>
+    <h1> Loading... </h1>
   </div>
 <body>
  <!-- <div id="main-content"> -->
@@ -68,7 +68,14 @@
       <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
       <button id="send">Send</button>
     </div>
+<script>
+if (bannedUIDs.includes(user.uid)) {
+  alert("You are banned.");
+  await signOut(auth);
+  return;
+}
 
+  </script>
     <div id="tips">
       <strong>Rules:</strong><br/>
       No Discrimination of any time, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor.
@@ -105,7 +112,8 @@
        Glitch (new)
            </div>
   </div>
-<!--<script>
+<!--
+<script>
   function loadCSS(file) {
     const existing = document.querySelector(`link[href^="${file}"]`);
     if (existing) existing.remove();
@@ -143,7 +151,7 @@
         const user = 'JacobTheAxolotlDev';  // GitHub username
         const repo = 'Chatroom';  // Repository name
 
-        // GitHub API URL to get the commits from the repository
+        // 1GitHub API URL to get the commits from the repository
         const apiUrl = `https://api.github.com/repos/${user}/${repo}/commits`;
 
         // Fetch the latest commit message from GitHub API
@@ -207,7 +215,7 @@
 
   <script>
     // --- CONFIG ---
-    const targetDate = new Date("2025-10-27T11:05:00"); // <-- change to your target
+    const targetDate = new Date("2025-11-27T11:05:00"); // <-- change to your target
     const labelText = "Countdown until Emoji Update:";   // <-- customize label text
 
     document.getElementById("countdown-label").textContent = labelText;
@@ -287,7 +295,7 @@ there is like nothing here<br>
         <!DOCTYPE html>
         <html lang="en">
         <head><title>New Tab</title></head>
-        <link rel="icon" type="image/x-icon" href="./images/new-tab-page.png"        <body style="margin:0; overflow:hidden;">
+        <link rel="icon" type="image/x-icon" href="chrome://resources/images/chrome_logo_dark.svg"        <body style="margin:0; overflow:hidden;">
           <iframe src="https://loganstoolsforschool.w3spaces.com" 
                   style="border:none; width:100vw; height:100vh;" 
                   sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
