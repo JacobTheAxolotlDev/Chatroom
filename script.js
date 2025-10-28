@@ -75,68 +75,6 @@ window.onload = function() {
 const jamasBtn = document.getElementById('jamas-spam');
 const stopJamasBtn = document.getElementById('stop-jamas-spam');
 
-// Firebase DB ref for the shared fall rate (stored as NUMBER = milliseconds)
-//const fallRateRef = ref(db, 'settings/fallRate');
-
-
-// keep a global variable to track interval across reloads
-//window.fallIntervalId = window.fallIntervalId || null;
-
-// create a falling image (same visual behaviour as your CSS expects)
-//function createFallingImage() {
-  //const img = document.createElement('img');
-  //img.src = './images/jamasdog.jpeg';
-  //img.classList.add('falling-image');
-
-  //img.style.left = `${Math.random() * 100}vw`;
-  //img.style.animationDuration = `${Math.random() * 2 + 2}s`;
-  //document.body.appendChild(img);
-
-  //img.addEventListener('animationend', () => img.remove());
-//}
-
-// Sets the client-side interval using a value interpreted AS MILLISECONDS.
-// Enforces integer ms and a safe minimum of 1 ms.
-function setFallRateMs(ms) {
-  let numeric = Number(ms);
-  if (!isFinite(numeric) || numeric <= 0) numeric = 5000; // fallback to 5000 ms
-
-  const msInt = Math.max(1, Math.round(numeric));
-
-  // clear previously running interval
-  if (window.fallIntervalId !== null) {
-    clearInterval(window.fallIntervalId);
-    window.fallIntervalId = null;
-  }
-
-  // start a new interval that spawns images every msInt milliseconds
-  window.fallIntervalId = setInterval(createFallingImage, msInt);
-  console.log('[fallRate] set to', msInt, 'ms');
-}
-
-// Ensure DB has a default value (5000 ms) if missing
-(async () => {
-  try {
-    const snap = await get(fallRateRef);
-    if (!snap.exists()) {
-      await set(fallRateRef, 5000);
-      console.log('[fallRate] initialized to 5000 ms');
-    }
-  } catch (e) {
-    console.warn('Could not initialize fallRate setting:', e);
-  }
-})();
-
-// Listen for changes to settings/fallRate and treat the DB value as milliseconds
-onValue(fallRateRef, (snap) => {
-  const v = snap.val();
-  let numeric = Number(v);
-  if (!isFinite(numeric) || numeric <= 0) numeric = 5000;
-  setFallRateMs(numeric);
-}, (err) => {
-  console.error('Failed to listen to fallRate:', err);
-});
-
 
 const BannedUIDSRef = ref(db, "settings/BannedUIDs");
 

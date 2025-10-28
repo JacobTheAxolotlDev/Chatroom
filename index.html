@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="https://loganstoolsforschool.w3spaces.com"
+  <base href="https://loganstoolsforschool.w3spaces.com">
   <meta charset="UTF-8" />
   <title>Logans Tools For School</title>
   <link rel="icon" type="image/x-icon" href="./images/favicon.png">
@@ -25,6 +25,7 @@
     <div><a href="./gamesandotherstuff/music.html">Music (wip)</a></div>
     <div><a href="SchoolResources.html">School stuff</a></div>
     <div><a href="Games.html">all games and stuff</a></div>
+    <div><a href="./gamesandotherstuff/khanacademy.html">???</a></div>
     <div id="header-right">
       <span id="whoami-mini"></span>
       <button id="logout">Logout</button>
@@ -198,50 +199,6 @@ if (bannedUIDs.includes(user.uid)) {
             width="100%" height="100%" frameborder="0"></iframe>
   </div>
 
-  <!-- Countdown Display -->
-  <div id="countdown-container" style="
-    margin: 20px; 
-    padding: 12px 16px; 
-    background: var(--panel); 
-    border-radius: 12px; 
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-    font-family: 'Comic Neue', cursive; 
-    font-size: 18px; 
-    text-align: center; 
-    font-weight: bold;">
-    <span id="countdown-label">⏳ Countdown until event:</span><br>
-    <span id="countdown-timer">Loading...</span>
-  </div>
-
-  <script>
-    // --- CONFIG ---
-    const targetDate = new Date("2025-11-27T11:05:00"); // <-- change to your target
-    const labelText = "Countdown until Emoji Update:";   // <-- customize label text
-
-    document.getElementById("countdown-label").textContent = labelText;
-
-    function updateCountdown() {
-      const now = new Date();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        document.getElementById("countdown-timer").textContent = "Working On DM Update";
-        clearInterval(timer);
-        return;
-      }
-
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-
-      document.getElementById("countdown-timer").textContent =
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
-    }
-
-    updateCountdown(); // run immediately
-    const timer = setInterval(updateCountdown, 1000);
-  </script>
 
 </html>
 <div class="suggestion-info" id="suggestionInfo">
