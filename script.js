@@ -76,24 +76,24 @@ const jamasBtn = document.getElementById('jamas-spam');
 const stopJamasBtn = document.getElementById('stop-jamas-spam');
 
 // Firebase DB ref for the shared fall rate (stored as NUMBER = milliseconds)
-const fallRateRef = ref(db, 'settings/fallRate');
+//const fallRateRef = ref(db, 'settings/fallRate');
 
 
 // keep a global variable to track interval across reloads
-window.fallIntervalId = window.fallIntervalId || null;
+//window.fallIntervalId = window.fallIntervalId || null;
 
 // create a falling image (same visual behaviour as your CSS expects)
-function createFallingImage() {
-  const img = document.createElement('img');
-  img.src = './images/jamasdog.jpeg';
-  img.classList.add('falling-image');
+//function createFallingImage() {
+  //const img = document.createElement('img');
+  //img.src = './images/jamasdog.jpeg';
+  //img.classList.add('falling-image');
 
-  img.style.left = `${Math.random() * 100}vw`;
-  img.style.animationDuration = `${Math.random() * 2 + 2}s`;
-  document.body.appendChild(img);
+  //img.style.left = `${Math.random() * 100}vw`;
+  //img.style.animationDuration = `${Math.random() * 2 + 2}s`;
+  //document.body.appendChild(img);
 
-  img.addEventListener('animationend', () => img.remove());
-}
+  //img.addEventListener('animationend', () => img.remove());
+//}
 
 // Sets the client-side interval using a value interpreted AS MILLISECONDS.
 // Enforces integer ms and a safe minimum of 1 ms.
