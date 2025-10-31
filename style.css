@@ -20,7 +20,7 @@
 
 #commit-message {
             font-size: 1.2em;
-            color: #333;
+            color: var(--green-3);
         }
         .loading {
             font-size: 1.2em;
@@ -35,7 +35,7 @@
     }
     footer {
     height: 200px;
-    background: #169110;
+    background: var(--green-3);
     width: 100%;
     color: white;
     text-align: center;
@@ -64,12 +64,19 @@
       }
     }
     :root{
+      --green-1:#030303;
+      --green-2:#fbb854;
+      --green-3:#a25910;
+      --panel:#ffa724;
+      --panel-2:#e68200;
+    }
+   /* :root{
       --green-1:#b7e4c7;
       --green-2:#5a9e67;
       --green-3:#3c6e40;
       --panel:#ffffff;
       --panel-2:#e3f3e8;
-    }
+    }*/
     
     /*:root{
       --green-1:#0f1724;
@@ -180,7 +187,7 @@
     #whoami {
       margin-top: 8px;
       font-size: 14px;
-      color: #1f4d2a;
+      color: var(--green-3);
       width: 420px;
       text-align: center;
       user-select: none;
@@ -214,7 +221,7 @@
       display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; width:100%;
     }
     .channel-tab {
-      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: #a3c19c; color: white; font-weight: bold; user-select:none;
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: var(--green-2); color: white; font-weight: bold; user-select:none;
       transition: background-color .25s ease; text-transform: capitalize; flex-shrink:0;
     }
     .channel-tab.active, .channel-tab:hover { background-color: var(--green-2); }
@@ -551,6 +558,28 @@
             margin-bottom: 10px;
         }
 
+.pumpkin {
+    position: absolute;
+    left: 170px; /* Space from the left edge */
+    top: 135%;
+    transform: translateY(-50%);
+    width: 250px; /* Set the width of the box */
+    height: 250px; /* Set the height of the box */
+    background-image: url('./images/image-removebg-preview_-_2025-10-31T090457.888.png'); /* Set the background image */
+    background-size: cover; /* Ensures the image covers the whole box */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    color: rgb(0, 0, 0); /* Text color */
+    border-radius: 10px; /* Rounded corners */
+    border: 0px solid black; /* Border with width, style, and color */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
 
 
     .bread-container{ position:relative; display:inline-block; padding:0px; color:#eec07b; font-weight:bold; }
@@ -652,8 +681,8 @@
       left: 0;
       width: 260px;
       height: 100%;
-      background: #fff;
-      border-right: 3px solid var(--green-2);
+      background: var(--green-3);
+      border-right: 3px solid var(--panel-2);
       box-shadow: 2px 0 8px rgba(0,0,0,0.2);
       display: none; /* hidden by default */
       z-index: 25;
@@ -662,7 +691,7 @@
     }
     #admin-panel h3 {
       margin: 4px 0 12px;
-      color: var(--green-3);
+      color: var(--green-2);
     }
     #admin-panel button {
       display: block;
@@ -671,7 +700,7 @@
       padding: 10px;
       border: none;
       border-radius: 10px;
-      background: var(--green-2);
+      background: var(--panel-2);
       color: #fff;
       font-weight: 800;
       cursor: pointer;
@@ -680,7 +709,7 @@
      #imageInput { display: none; }
     .upload-btn {
       display: inline-block;
-      background: #51f542;
+      background: var(--panel-2);
       color: #fff;
       padding: 6px 12px;
       border-radius: 8px;
