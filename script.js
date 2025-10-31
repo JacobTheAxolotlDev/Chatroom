@@ -297,7 +297,7 @@ checkBanned();
       if (uname === "gurt") name += " [🥛yogurt🥛]"
 
       let text = data.text || "(no message)";
-      const timestamp = new Date(data.timestamp).toLocaleTimeString();
+      const timestamp = new Date(data.timestamp).toLocaleString(undefined, { hour12: false });
 
       if ((data.channel || "general") !== currentChannel) return;
 
