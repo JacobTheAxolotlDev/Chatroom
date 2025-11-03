@@ -183,11 +183,9 @@ checkBanned();
       "INrpu9xmk0hZ16BLM8Z5GuPbTi12", // Logan
       "FF2pCJaZ3vRb1l3fYBYVnaFHcZk2",  // Baylor
       "1xniuFbfwIP44QBRWZbbpsvH60X2", //jahaml
-      "fQ4iNM6q0xhXjqs8tBLLA5jVoSA2", //joy
       "1HZElGj4ZDOqcG0pNQEIJlc79622", //cindy
-      "uYDrDMHHMTPCVlROOCYsS5uC8F33",
-      "OiV6tg5fSYYdrAxInDwaaGTWMrq2", //ethan
-      "CpWZJ5RQVGcOBAYEWNSb3Yxkr3Q2" //rahkeem
+      "uYDrDMHHMTPCVlROOCYsS5uC8F33", //hunter
+      "OiV6tg5fSYYdrAxInDwaaGTWMrq2" //ethan
     ];
 
 
