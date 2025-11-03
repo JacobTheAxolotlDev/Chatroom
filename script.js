@@ -183,11 +183,11 @@ checkBanned();
       "INrpu9xmk0hZ16BLM8Z5GuPbTi12", // Logan
       "FF2pCJaZ3vRb1l3fYBYVnaFHcZk2",  // Baylor
       "1xniuFbfwIP44QBRWZbbpsvH60X2", //jahaml
-      "V4AdzBN1B2MdZEt5CnXgt4kwMA63", //geo
       "fQ4iNM6q0xhXjqs8tBLLA5jVoSA2", //joy
       "1HZElGj4ZDOqcG0pNQEIJlc79622", //cindy
-      "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2", //gurt/rudy
-      "uYDrDMHHMTPCVlROOCYsS5uC8F33"
+      "uYDrDMHHMTPCVlROOCYsS5uC8F33",
+      "OiV6tg5fSYYdrAxInDwaaGTWMrq2", //ethan
+      "CpWZJ5RQVGcOBAYEWNSb3Yxkr3Q2" //rahkeem
     ];
 
 
@@ -291,13 +291,20 @@ checkBanned();
       if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
       if (uname === "jahmal") name += " {🦐 Co-Owner🦐}";
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
-      if (uname === "asher") name += " [🧈 Butter 🧈]"
       if (uname === "giooo") name += " [❓IDK❓]"
       if (uname === "joy") name += " [🧀cheese🧀]"
+      if (uname === "rahkeem?") name += " [Content Mod]"
       if (uname === "gurt") name += " [🥛yogurt🥛]"
+      if (uname === "thejudeinator") name += " [cool dude]"
 
       let text = data.text || "(no message)";
-      const timestamp = new Date(data.timestamp).toLocaleString(undefined, { hour12: false });
+      const timestamp = new Date(data.timestamp).toLocaleString(undefined, { 
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+});
 
       if ((data.channel || "general") !== currentChannel) return;
 
@@ -818,11 +825,6 @@ checkBanned();
           document.getElementById("logan-panel").style.display = "block";
         } else {
           document.getElementById("logan-panel").style.display = "none";
-        }
-        if (user.uid === "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2") {
-          document.getElementById("rudy-panel").style.display = "block";
-        } else {
-          document.getElementById("rudy-panel").style.display = "none";
         }
         if (user.uid === "FF2pCJaZ3vRb1l3fYBYVnaFHcZk2") {
           document.getElementById("baylor-panel").style.display = "block";
