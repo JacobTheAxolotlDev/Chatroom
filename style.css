@@ -646,9 +646,12 @@
     @keyframes minecraftOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
 
     .frozen-container{ position:relative; display:inline-block; padding:0px; color:rgb(116, 225, 255); font-weight:bold;
-      text-shadow:-2px -2px 0 rgb(6, 47, 251),0px -0px 0 rgb(0, 170, 255),-2px 2px 0 rgb(0, 238, 255),0px 0px 0 rgb(74, 255, 222); user-select:none; }
+      text-shadow:-0px -2px 0 rgb(6, 47, 251),0px -0px 0 rgb(0, 170, 255),-2px 2px 0 rgb(0, 238, 255),0px 0px 0 rgb(74, 255, 222); user-select:none; }
     
-    .glitch-container{ position:relative; display:inline-block; padding:0px; color:rgb(255, 255, 255); font-weight:frozen;
+    .slimenew-container{ position:relative; display:inline-block; padding:0px; color:rgb(186, 255, 157); font-weight:normal;
+      text-shadow:-3px -3px 0 rgb(20, 173, 0),0px -0px 0 rgb(8, 169, 0),-0px 0px 0 rgb(34, 168, 0),0px 0px 0 rgb(11, 144, 1); user-select:none; }
+    
+    .glitch-container{ position:relative; display:inline-block; padding:0px; color:rgb(255, 255, 255); font-weight:normal;
       text-shadow:-4px -8px 0 rgb(6, 47, 251),4px -4px 0 rgb(255, 0, 0),-8px 8px 0 rgb(153, 0, 255),2px 4px 0 rgb(252, 74, 255); user-select:none; }
 
     .silksong-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;

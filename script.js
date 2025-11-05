@@ -326,7 +326,7 @@ checkBanned();
 
 
       let color = null;
-      let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, special = false, frozen = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, special = false, frozen = false, slimenew = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
@@ -335,6 +335,7 @@ checkBanned();
       const grenMatch = text.match(/^gren:\s*(.*)/i);
       const glitchMatch = text.match(/^glitch:\s*(.*)/i);
       const frozenMatch = text.match(/^frozen:\s*(.*)/i);
+      const slimenewMatch = text.match(/^slimenew:\s*(.*)/i);
       const diamondMatch = text.match(/^diamond:\s*(.*)/i);
       const electricMatch = text.match(/^electric:\s*(.*)/i);
       const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
@@ -389,6 +390,7 @@ checkBanned();
       else if (minecraftMatch) { minecraft = true; text = minecraftMatch[1]; }
       else if (glitchMatch) { glitch = true; text = glitchMatch[1]; }
       else if (frozenMatch) { frozen = true; text = frozenMatch[1]; }
+      else if (slimenewMatch) { slimenew = true; text = slimenewMatch[1]; }
       else if (silksongMatch) { silksong = true; text = silksongMatch[1]; }
       else if (oiiaMatch) { oiia = true; text = oiiaMatch[1]; }
       else if (maxwellMatch) { maxwell = true; text = maxwellMatch[1]; }
@@ -616,6 +618,11 @@ checkBanned();
         c.classList.add("frozen-container");
         c.textContent = messageContent;
         msgEl.appendChild(c);
+        } else if (slimenew) {
+          const c = document.createElement("div");
+          c.classList.add("slimenew-container");
+          c.textContent = messageContent;
+          msgEl.appendChild(c);
         } else if (silksong) {
         const c = document.createElement("div");
         c.classList.add("silksong-container");
