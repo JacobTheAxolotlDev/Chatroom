@@ -188,6 +188,10 @@ checkBanned();
       "OiV6tg5fSYYdrAxInDwaaGTWMrq2", //ethan
       "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2" //rudy
     ];
+    const loganbayloruids = [
+      "INrpu9xmk0hZ16BLM8Z5GuPbTi12", // Logan
+      "FF2pCJaZ3vRb1l3fYBYVnaFHcZk2"  // Baylor
+    ]
 
 
     // helper: convert username to a fake email for Firebase Auth
@@ -232,6 +236,9 @@ checkBanned();
   if (adminUIDs.includes(auth.currentUser?.uid)) {
     channels.add("admin-only"); // add "admin-only" channel for admins
   }
+  if (loganbayloruids.includes(auth.currentUser?.uid)) {
+    channels.add("baylor-logan"); // add "baylor-logan" channel for baylor and logan
+  }
 
   if (channels.size === 0) channels = new Set(["general"]);
   if (!channels.has(currentChannel)) currentChannel = [...channels][0];
@@ -245,6 +252,9 @@ checkBanned();
   [...channels].sort().forEach((channel) => {
     // Hide Admin Only channel unless the user is an admin
     if (channel === "admin-only" && !adminUIDs.includes(auth.currentUser?.uid)) {
+      return; // Skip this channel for non-admins
+    }
+    if (channel === "baylor-logan" && !loganbayloruids.includes(auth.currentUser?.uid)) {
       return; // Skip this channel for non-admins
     }
 
@@ -887,6 +897,9 @@ checkBanned();
   // Prevent non-admins from sending to "admin-only" channel
   if (currentChannel === "admin-only" && !adminUIDs.includes(auth.currentUser.uid)) {
     return alert("You are not authorized to send messages to the Admin Only channel.");
+  }
+  if (currentChannel === "baylor-logan" && !loganbayloruids.includes(auth.currentUser.uid)) {
+    return alert("You are not authorized to send messages to the baylor logan channel.");
   }
 
   let text = msgInput.value.trim();
