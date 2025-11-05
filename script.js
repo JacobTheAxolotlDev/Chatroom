@@ -185,7 +185,8 @@ checkBanned();
       "1xniuFbfwIP44QBRWZbbpsvH60X2", //jahaml
       "1HZElGj4ZDOqcG0pNQEIJlc79622", //cindy
       "uYDrDMHHMTPCVlROOCYsS5uC8F33", //hunter
-      "OiV6tg5fSYYdrAxInDwaaGTWMrq2" //ethan
+      "OiV6tg5fSYYdrAxInDwaaGTWMrq2", //ethan
+      "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2" //rudy
     ];
 
 
@@ -291,7 +292,6 @@ checkBanned();
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
       if (uname === "giooo") name += " [❓IDK❓]"
       if (uname === "joy") name += " [🧀cheese🧀]"
-      if (uname === "rahkeem?") name += " [Content Mod]"
       if (uname === "gurt") name += " [🥛yogurt🥛]"
       if (uname === "thejudeinator") name += " [cool dude]"
 
@@ -326,7 +326,7 @@ checkBanned();
 
 
       let color = null;
-      let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, special = false, frozen = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
@@ -334,6 +334,7 @@ checkBanned();
       const goldMatch = text.match(/^gold:\s*(.*)/i);
       const grenMatch = text.match(/^gren:\s*(.*)/i);
       const glitchMatch = text.match(/^glitch:\s*(.*)/i);
+      const frozenMatch = text.match(/^frozen:\s*(.*)/i);
       const diamondMatch = text.match(/^diamond:\s*(.*)/i);
       const electricMatch = text.match(/^electric:\s*(.*)/i);
       const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
@@ -349,6 +350,7 @@ checkBanned();
       const jamasMatch = text.match(/jamas:\s*(.*)/i)
       const breadMatch = text.match(/^bread:\s*(.*)/i);
       const fwehMatch = text.match(/^fweh:\s*(.*)/i);
+      const specialMatch = text.match(/^special:\s*(.*)/i);
       const pokemonMatch = text.match(/^pokemon:\s*(.*)/i);
       const minecraftMatch = text.match(/^minecraft:\s*(.*)/i);
       const silksongMatch = text.match(/^silksong:\s*(.*)/i);
@@ -382,9 +384,11 @@ checkBanned();
       else if (jamasMatch) { jamas = true; text = jamasMatch[1]; }
       else if (breadMatch) { bread = true; text = breadMatch[1]; }
       else if (fwehMatch) { fweh = true; text = fwehMatch[1]; }
+      else if (specialMatch) { special = true; text = specialMatch[1]; }
       else if (pokemonMatch) { pokemon = true; text = pokemonMatch[1]; }
       else if (minecraftMatch) { minecraft = true; text = minecraftMatch[1]; }
       else if (glitchMatch) { glitch = true; text = glitchMatch[1]; }
+      else if (frozenMatch) { frozen = true; text = frozenMatch[1]; }
       else if (silksongMatch) { silksong = true; text = silksongMatch[1]; }
       else if (oiiaMatch) { oiia = true; text = oiiaMatch[1]; }
       else if (maxwellMatch) { maxwell = true; text = maxwellMatch[1]; }
@@ -607,6 +611,11 @@ checkBanned();
         c.classList.add("glitch-container");
         c.textContent = messageContent;
         msgEl.appendChild(c);
+        } else if (frozen) {
+        const c = document.createElement("div");
+        c.classList.add("frozen-container");
+        c.textContent = messageContent;
+        msgEl.appendChild(c);
         } else if (silksong) {
         const c = document.createElement("div");
         c.classList.add("silksong-container");
@@ -662,6 +671,11 @@ checkBanned();
       } else if (fweh) {
         const s = document.createElement("span");
         s.classList.add("fweh-text");
+        s.textContent = messageContent;
+        msgEl.appendChild(s);
+      } else if (special) {
+        const s = document.createElement("span");
+        s.classList.add("special-text");
         s.textContent = messageContent;
         msgEl.appendChild(s);
       } else if (color) {

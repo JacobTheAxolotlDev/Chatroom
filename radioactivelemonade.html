@@ -44,8 +44,14 @@
   #header a { text-decoration:none; color:inherit; }
 
   /* small header-right area */
-  #header-right { margin-left:auto; display:flex; gap:10px; align-items:center; }
-  #whoami-mini { font-weight:700; color:var(--green-3); }
+  #header-right {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center; /* Add this line */
+}
+  #whoami-mini { font-weight:700; color:#000; }
 
   /* Main content panel matching your chat panel style */
   #main-content {
@@ -127,18 +133,13 @@
   </style>
 </head>
 <body>
-  <div id="header">
-    <div><a href="index.html">Chat Room</a></div>
-    <div><a href="./gamesandotherstuff/music.html">Music (wip)</a></div>
-    <div><a href="SchoolResources.html">School stuff</a></div>
-    <div><a href="Games.html">all games and stuff</a></div>
 
     <div id="header-right">
       <span id="whoami-mini"></span>
       <button id="logout" style="display:none;padding:8px 12px;border-radius:8px;border:none;background:#fff;color:#1f4d2a;font-weight:700;cursor:pointer">Logout</button>
     </div>
   </div>
-<img src="./images/Untitled_drawing_1_.png" alt="Centered Image" style="display: block; margin: auto;">
+<img src="./images/Untitled_drawing_2_.png" alt="Centered Image" style="display: block; margin: auto;">
   <div class="centered">
     <div id="main-content">
 
