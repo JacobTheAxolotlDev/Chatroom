@@ -197,7 +197,25 @@ if (bannedUIDs.includes(user.uid)) {
     <iframe src="./images/yes.html" 
             width="100%" height="100%" frameborder="0"></iframe>
   </div>
+<script type="module">
+  import { onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
+const bannedRef = ref(db, "banned");
+let bannedUIDs = new Set();
+
+// live sync banned list
+onValue(bannedRef, (snapshot) => {
+  bannedUIDs.clear();
+  if (snapshot.exists()) {
+    snapshot.forEach(child => bannedUIDs.add(child.key));
+  }
+  // instantly check if current user just got banned
+  if (currentUser && bannedUIDs.has(currentUser.uid)) {
+    alert("You have been banned.");
+    signOut(auth);
+  }
+});
+</script>
 
 </html>
 <div class="suggestion-info" id="suggestionInfo">

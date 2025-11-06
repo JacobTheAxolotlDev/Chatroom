@@ -1,0 +1,86 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Number to Words Converter</title>
+</head>
+<body>
+    <h2 style="color: white;">Large Number to Word Converter</h2>
+    <p style="color: white;">Enter any number (up to 20 Decillion):</p>
+    <input style="background-color: orange; border-color: white; color: white;" type="text" id="numberInput" placeholder="Enter any number">
+    <button style="background-color: orange; border-color: white; color: white;" onclick="convertToWords()">Convert</button>
+    
+    <p style="color: white;" id="result"></p>
+
+    <script>
+        function convertToWords() {
+            const num = document.getElementById('numberInput').value.trim();
+            if (num === '' || isNaN(num) || num.includes('.') || num[0] === '-') {
+                document.getElementById('result').innerText = 'Please enter a valid integer number.';
+                return;
+            }
+
+            const numWords = convertNumberToWords(num);
+            document.getElementById('result').innerText = 'The number ' + num + ' in words is: ' + numWords;
+        }
+
+        function convertNumberToWords(num) {
+            const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+            const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+            const thousands = [
+                '', 'Thousand', 'Million', 'Billion', 'Trillion', 'Quadrillion', 'Quintillion', 'Sextillion', 'Septillion',
+                'Octillion', 'Nonillion', 'Decillion', 'Undecillion', 'Duodecillion', 'Tredecillion', 'Quattuordecillion',
+                'Quindecillion', 'Sexdecillion', 'Septendecillion', 'Octodecillion', 'Novemdecillion', 'Vigintillion'
+            ];
+
+            if (num === '0') return 'Zero';
+
+            let word = '';
+            let groupCount = 0;
+
+            // Process the number in chunks of 3 digits
+            while (num.length > 0) {
+                let group = num.slice(-3); // Take last 3 digits
+                num = num.slice(0, -3); // Remove last 3 digits
+                let groupWord = convertThreeDigitGroup(group);
+                if (groupWord) {
+                    word = groupWord + ' ' + thousands[groupCount] + ' ' + word;
+                }
+                groupCount++;
+            }
+
+            return word.trim();
+
+            function convertThreeDigitGroup(group) {
+                let n = parseInt(group, 10);
+                if (n === 0) return '';
+                let groupWord = '';
+
+                // Handle hundreds
+                if (n >= 100) {
+                    groupWord += ones[Math.floor(n / 100)] + ' Hundred ';
+                    n %= 100;
+                }
+
+                // Handle tens (20-99)
+                if (n >= 20) {
+                    groupWord += tens[Math.floor(n / 10)] + ' ';
+                    n %= 10;
+                }
+
+                // Handle teens (10-19)
+                if (n >= 10) {
+                    groupWord += teens[n - 10] + ' ';
+                } else if (n > 0) {
+                    groupWord += ones[n] + ' ';
+                }
+
+                return groupWord.trim();
+            }
+        }
+    </script>
+</body>
+</html>

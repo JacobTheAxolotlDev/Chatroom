@@ -76,15 +76,6 @@ const jamasBtn = document.getElementById('jamas-spam');
 const stopJamasBtn = document.getElementById('stop-jamas-spam');
 
 
-const BannedUIDSRef = ref(db, "settings/BannedUIDs");
-
-(async () => {
-  const snap = await get(BannedUIDSRef);
-  if (!snap.exists()) {
-    await set(BannedUIDSRef, []); // 👈 creates the path
-    console.log("[BannedUIDs] initialized as empty array");
-  }
-})();
 
 
 // Admin buttons write explicit millisecond values to the DB.
@@ -116,17 +107,7 @@ if (stopJamasBtn) {
     }
   };
 }
-async function checkBanned() {
-    const snap = await get(ref(db, "settings/BannedUIDs"));
-    if (!snap.exists()) {
-        console.log("BannedUIDs does NOT exist. Creating now...");
-        await set(ref(db, "settings/BannedUIDs"), []);
-    } else {
-        console.log("BannedUIDs exists:", snap.val());
-    }
-}
 
-checkBanned();
 
 
     // Auth DOM
@@ -821,6 +802,7 @@ checkBanned();
       currentUser = user || null;
       if (user) {
         // 🚫 Check if user is banned
+        
         if (bannedUIDs.includes(user.uid)) {
           document.getElementById("auth").style.display = "none";
           composer.classList.add("disabled");
@@ -961,6 +943,6 @@ checkBanned();
         alert('Failed to wipe: ' + e.message);
       }
     };
-
+      
     // initial load
     await loadChannels();
