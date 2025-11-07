@@ -263,12 +263,13 @@ if (stopJamasBtn) {
 
     // List of banned UIDs (you can add more)
     const bannedUIDs = [
-      "LSYwLmYBuOQGYTRS076QgkmLefq2",   // replace with the actual UID
-      "wFfXjSlXkQaoaNU2gLfqPPY04t92",
-      "xbbLnqiQOmgCKPSYV6gA4Z4pQCA3",
-      "Xss28QtbkFRk9jMvEOedcjhZZt12",
-      "EBEFMou0U1N2q5IRNLFE3tfopZ02",
-      "9jlZq3uYlLdBwhCwZnKtGfHjyYE3"
+      "Dklx86tLqhXRiBgrPPIyocGTRUo1",   // replace with the actual UID
+      "Dklx86tLqhXRiBgrPPIyocGTRUo1",
+      "Dklx86tLqhXRiBgrPPIyocGTRUo1",
+      "Dklx86tLqhXRiBgrPPIyocGTRUo1",
+      "Dklx86tLqhXRiBgrPPIyocGTRUo1",
+      "Dklx86tLqhXRiBgrPPIyocGTRUo1",
+      "Dklx86tLqhXRiBgrPPIyocGTRUo1"
     ];
     
 
@@ -284,7 +285,6 @@ if (stopJamasBtn) {
       if (uname === "giooo") name += " [❓IDK❓]"
       if (uname === "joy") name += " [🧀cheese🧀]"
       if (uname === "gurt") name += " [🥛yogurt🥛]"
-      if (uname === "thejudeinator") name += " [cool dude]"
 
       let text = data.text || "(no message)";
       const timestamp = new Date(data.timestamp).toLocaleString(undefined, { 

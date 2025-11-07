@@ -63,20 +63,20 @@
         top: calc(100vh - 100px); /* Stops when it reaches the "ground" */
       }
     }
-    :root{
+    /* autum theme:root{
       --green-1:#030303;
       --green-2:#fbb854;
       --green-3:#a25910;
       --panel:#ffa724;
       --panel-2:#e68200;
-    }
-   /* :root{
+    } */
+    :root{
       --green-1:#b7e4c7;
       --green-2:#5a9e67;
       --green-3:#3c6e40;
       --panel:#ffffff;
       --panel-2:#e3f3e8;
-    }*/
+    }
     
     /*:root{
       --green-1:#0f1724;
@@ -689,7 +689,7 @@
       left: 0;
       width: 260px;
       height: 100%;
-      background: var(--green-3);
+      background: white;
       border-right: 3px solid var(--panel-2);
       box-shadow: 2px 0 8px rgba(0,0,0,0.2);
       display: none; /* hidden by default */
@@ -708,7 +708,7 @@
       padding: 10px;
       border: none;
       border-radius: 10px;
-      background: var(--panel-2);
+      background: var(--green-3);
       color: #fff;
       font-weight: 800;
       cursor: pointer;
