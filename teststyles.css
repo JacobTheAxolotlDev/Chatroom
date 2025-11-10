@@ -47,7 +47,7 @@
   }
     /* Text effect for 'cooked:' prefix */
     .cooked-text {
-    font-family: "Comic Sans", sans-serif;
+    font-family: "Comic Neue", sans-serif;
     }
         .falling-image {
       position: absolute;
@@ -71,11 +71,11 @@
       --panel-2:#e68200;
     } */
     :root{
-      --green-1:#b7e4c7;
-      --green-2:#5a9e67;
-      --green-3:#3c6e40;
+      --green-1:#ceffc6;
+      --green-2:#11ce00;
+      --green-3:#08a400;
       --panel:#ffffff;
-      --panel-2:#e3f3e8;
+      --panel-2:#d2d2d2;
     }
     
     /*:root{
@@ -91,7 +91,7 @@
     body {
       margin: 0;
       background-color: var(--green-1);
-      font-family: "Comic Neue", cursive, sans-serif;
+      font-family: "Elms Sans", sans-serif;
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
@@ -100,7 +100,7 @@
       transition: background-color 1.5s; /* Smooth transition */
     }
     /* When admin panel is visible, shift the content to the right */
-    body.admin-open { padding-left: 260px; }
+    body.admin-open { padding-left: 0; }
 
     /* Header */
     #header {
@@ -109,7 +109,7 @@
       color: white;
       padding: 12px 16px;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: normal;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -191,7 +191,7 @@
       width: 420px;
       text-align: center;
       user-select: none;
-      font-weight: bold;
+      font-weight: normal;
     }
 
     #exclaimerbanner {
@@ -221,7 +221,7 @@
       display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; width:100%;
     }
     .channel-tab {
-      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: var(--green-2); color: white; font-weight: bold; user-select:none;
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: var(--green-1); color: rgb(34, 34, 34); font-weight: normal; user-select:none;
       transition: background-color .25s ease; text-transform: capitalize; flex-shrink:0;
     }
     .channel-tab.active, .channel-tab:hover { background-color: var(--green-2); }
