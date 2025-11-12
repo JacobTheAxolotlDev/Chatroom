@@ -32,15 +32,15 @@ window.onload = function() {
     // --- Your Firebase config ---
     
     const firebaseConfig = {
-      apiKey: "AIzaSyBYJW83DPFsEBNM1wV_3SJ0sT8aerGPx7A",
-      authDomain: "chatroomfunyay.firebaseapp.com",
-      databaseURL: "https://chatroomfunyay-default-rtdb.firebaseio.com",
-      projectId: "chatroomfunyay",
-      storageBucket: "chatroomfunyay.firebasestorage.app",
-      messagingSenderId: "741967066444",
-      appId: "1:741967066444:web:b6e386b842d3c29febcbe9",
-      measurementId: "G-4CXD16WBVL",
-    };
+  apiKey: "AIzaSyC0ppSfYRPCje-BusGftdn1kCMHgs-Z_BU",
+  authDomain: "loganstoolsforschool.firebaseapp.com",
+  databaseURL: "https://loganstoolsforschool-default-rtdb.firebaseio.com",
+  projectId: "loganstoolsforschool",
+  storageBucket: "loganstoolsforschool.firebasestorage.app",
+  messagingSenderId: "883702419905",
+  appId: "1:883702419905:web:8e9888e6d6f305ec165f40",
+  measurementId: "G-P2HVQ9K0XD"
+};
 
     // --- Init ---
     const app = initializeApp(firebaseConfig);
@@ -161,17 +161,17 @@ if (stopJamasBtn) {
     let currentUsername = null; // cached username
 
     const adminUIDs = [
-      "INrpu9xmk0hZ16BLM8Z5GuPbTi12", // Logan
-      "FF2pCJaZ3vRb1l3fYBYVnaFHcZk2",  // Baylor
+      "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
+      "g4S1cjjtcdbVJSdLyMfJZbyFXdg1",  // Baylor
       "1xniuFbfwIP44QBRWZbbpsvH60X2", //jahaml
       "1HZElGj4ZDOqcG0pNQEIJlc79622", //cindy
-      "uYDrDMHHMTPCVlROOCYsS5uC8F33", //hunter
+      "BEtgUMBZhBbtiV9mI2TRzB7LT5y2", //hunter
       "OiV6tg5fSYYdrAxInDwaaGTWMrq2", //ethan
       "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2" //rudy
     ];
     const loganbayloruids = [
-      "INrpu9xmk0hZ16BLM8Z5GuPbTi12", // Logan
-      "FF2pCJaZ3vRb1l3fYBYVnaFHcZk2"  // Baylor
+      "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
+      "g4S1cjjtcdbVJSdLyMfJZbyFXdg1"  // Baylor
     ]
 
 
@@ -280,6 +280,7 @@ if (stopJamasBtn) {
       const uname = (name || "").trim().toLowerCase();
       if (uname === "logan") name += " {👑Owner👑}";
       if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
+      if (uname === "asher") name += " {🧈butter🧈}";
       if (uname === "jahmal") name += " {🦐 Co-Owner🦐}";
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
       if (uname === "giooo") name += " [❓IDK❓]"
@@ -832,7 +833,7 @@ if (stopJamasBtn) {
         whoamiMini.textContent = currentUsername;
 
         // Logan + Baylor special panels
-        if (user.uid === "INrpu9xmk0hZ16BLM8Z5GuPbTi12") {
+        if (user.uid === "DawxSQun3uTvB8QIHidkqtlB42K3") {
           document.getElementById("logan-panel").style.display = "block";
         } else {
           document.getElementById("logan-panel").style.display = "none";

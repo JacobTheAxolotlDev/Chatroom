@@ -14,7 +14,7 @@
 
 /* Style the image (you can set the size) */
 #loading-image {
-  width: 150px; /* You can adjust the size of the image */
+  width: 850px; /* You can adjust the size of the image */
   height: auto;
 }
 
@@ -34,7 +34,7 @@
       margin-left: 100px;
     }
     footer {
-    height: 200px;
+    height: 400px;
     background: var(--green-3);
     width: 100%;
     color: white;
@@ -717,7 +717,7 @@
      #imageInput { display: none; }
     .upload-btn {
       display: inline-block;
-      background: var(--panel-2);
+      background: var(--green-2);
       color: #fff;
       padding: 6px 12px;
       border-radius: 8px;
