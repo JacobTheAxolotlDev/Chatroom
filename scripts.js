@@ -164,10 +164,10 @@ if (stopJamasBtn) {
       "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
       "g4S1cjjtcdbVJSdLyMfJZbyFXdg1",  // Baylor
       "1xniuFbfwIP44QBRWZbbpsvH60X2", //jahaml
-      "1HZElGj4ZDOqcG0pNQEIJlc79622", //cindy
+      "XC7vgJaODMdG2DHZV8qBp7avJEh2", //cindy
       "BEtgUMBZhBbtiV9mI2TRzB7LT5y2", //hunter
-      "OiV6tg5fSYYdrAxInDwaaGTWMrq2", //ethan
-      "I8dNaLXmjMeUSwYZQ3uCm0tnTMM2" //rudy
+      "a2t4fEnYYeS3eegaK9JVT4KRbwz1", //ethan
+      "mWmWZx15e8TMaUQUPfnXanYrYYa2" //rudy
     ];
     const loganbayloruids = [
       "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
@@ -288,6 +288,7 @@ if (stopJamasBtn) {
       if (uname === "gurt") name += " [🥛yogurt🥛]"
 
       let text = data.text || "(no message)";
+      text = text.replace(/:GDNormal:/g, '<img src="https://community.fastly.steamstatic.com/economy/emoticon/GDNormal" class="gd-emoji">');
       const timestamp = new Date(data.timestamp).toLocaleString(undefined, { 
     month: 'numeric',
     day: 'numeric',
