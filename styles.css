@@ -16,7 +16,13 @@
   height: 32px;
   vertical-align: middle;
 }
-
+#testbutton {
+  color: white;
+  background-color: green;
+  border-color: darkgreen;
+  border-width: 2px;
+  border-style: solid;
+}
 
 /* Style the image (you can set the size) */
 #loading-image {

@@ -1,0 +1,40 @@
+ <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Logans Tools For School</title>
+  <link rel="icon" type="image/x-icon" href="https://loganstoolsforschool.w3spaces.com/images/images/favicon.png">
+  <!-- Comic Neue -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@500;700&display=swap" rel="stylesheet"/>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
+  <script>
+   /* Get the element you want displayed in fullscreen */ 
+var elem = document.getElementById("gameplayer");
+
+/* Function to open fullscreen mode */
+function openFullscreen() {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) { /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) { /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
+</script>
+  </head>
+
+  <style>
+    gameplayer{
+      width: 1265px;
+      height: 666px;
+    }
+</style>
+  <div id="gameplayer">
+<iframe src="https://kartbros.io" frameborder="0" allow="autoplay" allowfullscreen="" seamless="" scrolling="no"width="1265" height="666"></iframe>
+</div>
+<button onclick="openFullscreen()">open in full screen </button>
