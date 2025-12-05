@@ -2,6 +2,20 @@
 <html>
 <head>
   <meta charset="UTF-8" />
+  <script type="text/javascript">
+  // Function to check the screen width
+  function checkScreenWidth() {
+    if (window.innerWidth > 900) {
+      window.location.href = "https://loganstoolsforschool.w3spaces.com/"; // Change this to your mobile-specific URL
+    }
+  }
+
+  // Call the function when the page loads
+  window.onload = checkScreenWidth;
+
+  // Optional: Also check if the user resizes the window (in case they change device orientation or resize the browser)
+  window.onresize = checkScreenWidth;
+</script>
   <title>Logans Tools For School</title>
   <link rel="icon" type="image/x-icon" href="./images/favicon.png">
   <!-- Comic Neue -->

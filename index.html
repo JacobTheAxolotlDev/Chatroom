@@ -3,11 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <title>Logans Tools For School</title>
+<script type="text/javascript">
+  // Function to check the screen width
+  function checkScreenWidth() {
+    if (window.innerWidth < 900) {
+      window.location.href = "https://loganstoolsforschool.w3spaces.com/mobile.html"; // Change this to your mobile-specific URL
+    }
+  }
+
+  // Call the function when the page loads
+  window.onload = checkScreenWidth;
+
+  // Optional: Also check if the user resizes the window (in case they change device orientation or resize the browser)
+  window.onresize = checkScreenWidth;
+</script>
+
+
   <link rel="icon" type="image/x-icon" href="./images/favicon.png">
   <!-- Comic Neue -->
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@500;700&display=swap" rel="stylesheet"/>
 <html lang="en">
-<head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
@@ -227,7 +243,7 @@ onValue(bannedRef, (snapshot) => {
             const day = today.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
             
             // Determine the weekday for A/B days
-            const fridayCycle = Math.floor(today.getDate() / 7) % 2 === 0 ? 'B' : 'A';
+            const fridayCycle = Math.floor(today.getDate() / 7) % 2 === 0 ? 'A' : 'B';
             
             // Logic for weekdays
             if (day === 1 || day === 3) { // Monday or Wednesday

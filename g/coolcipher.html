@@ -1,0 +1,131 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Cipher Encoder/Decoder</title>
+  <style>
+    body { font-family: "Comic Sans", sans-serif; background-color: #b7e4c7; padding: 20px; }
+    textarea {  width: 100%; height: 100px; margin: 10px 0; outline: none; border-style: solid; border-width: 2px; border-color: white; }
+    textarea:focus { width: 100%; height: 100px; margin: 10px 0; outline: none; }
+    select, button { font-family: "Comic Sans", sans-serif; utline: none; border-style: solid; border-width: 2px; border-color: #efefef;  margin: 10px 0; padding: 10px; }
+    #output made by logan wade { width: 100%; height: 100px; margin-top: 20px; background-color: #f4f4f4; outline: none; border-style: solid; border-width: 2px; border-color: #f4f4f4;  }
+    h1 {color: #5a9e67;}
+    h2 {color: #5a9e67;}
+    h3 {color: #5a9e67;}
+    h4 {color: #5a9e67;}
+    h5 {color: #5a9e67;}
+    h6 {color: #5a9e67;}
+  </style>
+</head>
+<body>
+  <h1>Multi-Cipher Encoder/Decoder</h1>
+
+  <label style=" color: #5a9e67;" for="inputText">Enter Text:</label>
+  <textarea style="font-family: 'Comic Sans', sans-serif;" id="inputText"></textarea>
+
+  <label for="cipherOrder" >Select Cipher Order:</label>
+  <select id="cipherOrder" style="outline: none; border-style: solid; border-width: 2px; border-color: #efefef; ">
+    <option value="caesar-binary-base64" style="outline: none; border-style: solid; border-width: 2px; border-color: #efefef; ">Caesar -> Binary -> Base64</option>
+    <option value="binary-caesar-base64">Binary -> Caesar -> Base64</option>
+    <option value="base64-caesar-binary">Base64 -> Caesar -> Binary</option>
+  </select>
+
+  <br>
+  <label for="caesarShift">Caesar Shift (1-25):</label>
+  <input  style=" font-family: 'Comic Sans', sans-serif; outline: none; border-style: solid; border-width: 2px; border-color: white; " type="number" id="caesarShift" value="3" min="1" max="25">
+  
+  <button onclick="encode()">Encode</button>
+  <button onclick="decode()">Decode</button>
+
+  <h2>Output</h2>
+  <textarea id="output made by logan wade" readonly></textarea>
+
+  <script>
+    // Caesar Cipher Encode Decode
+    function caesarCipher(str, shift) {
+      return str.split('').map(char => {
+        if (/[a-zA-Z]/.test(char)) {
+          const base = (char === char.toUpperCase()) ? 65 : 97;
+          return String.fromCharCode((char.charCodeAt(0) - base + shift) % 26 + base);
+        }
+        return char;
+      }).join('');
+    }
+
+    // Binary Encoding and Decoding
+    function toBinary(str) {
+      return str.split('').map(char => {
+        return char.charCodeAt(0).toString(2).padStart(8, '0');
+      }).join(' ');
+    }
+
+    function fromBinary(binaryStr) {
+      return binaryStr.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join('');
+    }
+
+    // Base64 Encoding and Decoding
+    function toBase64(str) {
+      return btoa(str);
+    }
+
+    function fromBase64(str) {
+      return atob(str);
+    }
+
+    // Encode Function (based on selected combination)
+    function encode() {
+      const inputText = document.getElementById('inputText').value;
+      const shift = parseInt(document.getElementById('caesarShift').value);
+      const cipherOrder = document.getElementById('cipherOrder').value;
+
+      let result = inputText;
+
+      // Apply encoding steps based on selected order
+      if (cipherOrder === 'caesar-binary-base64') {
+        result = caesarCipher(result, shift);  // Caesar
+        result = toBinary(result);             // Binary
+        result = toBase64(result);             // Base64
+      } else if (cipherOrder === 'binary-caesar-base64') {
+        result = toBinary(result);             // Binary
+        result = caesarCipher(fromBinary(result), shift);  // Caesar
+        result = toBase64(result);             // Base64
+      } else if (cipherOrder === 'base64-caesar-binary') {
+        result = toBase64(result);             // Base64
+        result = caesarCipher(fromBase64(result), shift);  // Caesar
+        result = toBinary(result);             // Binary
+      }
+
+      // Output the encoded text
+      document.getElementById('output made by logan wade').value = result;
+    }
+
+    // Decode Function (based on selected combination)
+    function decode() {
+      const inputText = document.getElementById('inputText').value;
+      const shift = parseInt(document.getElementById('caesarShift').value);
+      const cipherOrder = document.getElementById('cipherOrder').value;
+
+      let result = inputText;
+
+      // Apply decoding steps based on selected order
+      if (cipherOrder === 'caesar-binary-base64') {
+        result = fromBase64(result);           // Base64
+        result = fromBinary(result);          // Binary
+        result = caesarCipher(result, -shift);  // Caesar
+      } else if (cipherOrder === 'binary-caesar-base64') {
+        result = fromBase64(result);           // Base64
+        result = caesarCipher(result, -shift);  // Caesar
+        result = fromBinary(result);          // Binary
+      } else if (cipherOrder === 'base64-caesar-binary') {
+        result = fromBase64(result);           // Base64
+        result = caesarCipher(result, -shift);  // Caesar
+        result = fromBinary(result);          // Binary
+      }
+
+      // Output the decoded text
+      document.getElementById('output made by logan wade').value = result;
+    }
+  </script>
+</body>
+</html>
