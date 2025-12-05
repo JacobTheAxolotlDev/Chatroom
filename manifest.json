@@ -1,0 +1,21 @@
+{
+  "name": "Logans Tools for School",
+  "short_name": "LTFS",
+  "description": "app made by me, logan",
+  "start_url": "/",
+  "display": "standalone",  
+  "background_color": "#b7e4c7",
+  "theme_color": "#b7e4c7",
+  "icons": [
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./apple-touch-icon-precomposed.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
