@@ -904,6 +904,41 @@ if (stopJamasBtn) {
     alert("Failed to send: " + err.message);
   }
 };
+msgInput.addEventListener('keydown', async (event) => {
+  // Check if the pressed key is Enter (key code 13 or event.key === 'Enter')
+  if (event.key === 'Enter' && !event.shiftKey) { 
+    // Prevent the default action (to avoid creating new lines in the input)
+    event.preventDefault();
+
+    if (!auth.currentUser) return alert("You must be logged in to chat!");
+
+    // Prevent non-admins from sending to "admin-only" channel
+    if (currentChannel === "admin-only" && !adminUIDs.includes(auth.currentUser.uid)) {
+      return alert("You are not authorized to send messages to the Admin Only channel.");
+    }
+    if (currentChannel === "baylor-logan" && !loganbayloruids.includes(auth.currentUser.uid)) {
+      return alert("You are not authorized to send messages to the baylor logan channel.");
+    }
+
+    let text = msgInput.value.trim();
+    if (!text) return;
+
+    const messageObj = {
+      name: currentUsername || "(user)",
+      uid: auth.currentUser.uid,
+      text: cleanMessage(text),
+      timestamp: Date.now(),
+      channel: currentChannel,
+    };
+
+    try {
+      await push(ref(db, "messages"), messageObj);
+      msgInput.value = ""; // Clear the input field after sending
+    } catch (err) {
+      alert("Failed to send: " + err.message);
+    }
+  }
+});
 
     // --- Admin Buttons Logic ---
     createBtn.onclick = async () => {

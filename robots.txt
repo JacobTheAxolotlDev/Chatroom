@@ -1,0 +1,6 @@
+ User-agent: *
+Disallow: /images/idkidk.html
+Disallow: /images/yes.html
+Disallow: /testingthinga.html
+Disallow: /uidfinder.html
+Disallow: /adminpanelsecretnosasher.html
