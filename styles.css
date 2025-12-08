@@ -132,7 +132,7 @@
     }
     #header a { color: inherit; text-decoration: none; }
     #header-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
-    #logout { display:none; padding:8px 12px; border:none; border-radius:8px; background:#ffffff; color:#1f4d2a; cursor:pointer; font-weight:700; }
+    #logout { display:none; padding:8px 12px; border:none; border-radius:8px; background:#ffffff; color:#377c47; cursor:pointer; font-weight:700; }
     #logout:hover{ filter:brightness(0.95); }
     .linebreak {
   margin-bottom: 20px; /* Adds 20 pixels of space below the div */
@@ -260,7 +260,7 @@
       display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; width:100%;
     }
     .channel-tab {
-      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: var(--green-2); color: white; font-weight: bold; user-select:none;
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: #8fb79a; color: white; font-weight: bold; user-select:none;
       transition: background-color .25s ease; text-transform: capitalize; flex-shrink:0;
     }
     .channel-tab.active, .channel-tab:hover { background-color: var(--green-2); }

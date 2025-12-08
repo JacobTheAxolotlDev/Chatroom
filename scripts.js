@@ -8,6 +8,39 @@ function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
 };
+// Load swears.json file
+let swears = [];
+fetch('./swears.json')
+  .then(response => response.json())
+  .then(data => {
+    swears = data.swears;
+  })
+  .catch(error => console.error('Error loading swear words:', error));
+// Function to filter swear words
+function filterSwears(text) {
+  swears.forEach(swear => {
+    const regex = new RegExp(`\\b${swear}\\b`, 'gi');  // Match whole words
+    text = text.replace(regex, '****');  // Replace swear words with ****
+  });
+  return text;
+}
+// Load swears.json file
+let boy = [];
+fetch('./boy.json')
+  .then(response => response.json())
+  .then(data => {
+    boy = data.boy;
+  })
+  .catch(error => console.error('Error loading swear words:', error));
+// Function to filter swear words
+function filterboy(text) {
+  boy.forEach(swear => {
+    const regex = new RegExp(`\\b${swear}\\b`, 'gi');  // Match whole words
+    text = text.replace(regex, '𝓯𝓮𝓶𝓫𝓸𝔂');  // Replace swear words with ****
+  });
+  return text;
+}
+
 // Wait for the page to load
 window.onload = function() {
   // Keep the loading screen visible for 3 seconds (3000 milliseconds)
@@ -899,28 +932,25 @@ sendBtn.onclick = async () => {
     return alert("You are not authorized to send messages to the baylor logan channel.");
   }
 
-  // Check if user is on cooldown
-  const userId = auth.currentUser.uid;
-  const now = Date.now();
-  if (userCooldowns[userId] && now - userCooldowns[userId] < cooldownTime) {
-    return alert("Please wait before sending another message.");
-  }
-
   let text = msgInput.value.trim();
   if (!text) return;
+
+  // Filter swears
+  text = filterSwears(text);
+  
+  text = filterboy(text);
 
   const messageObj = {
     name: currentUsername || "(user)",
     uid: auth.currentUser.uid,
-    text: cleanMessage(text),
+    text: text,
     timestamp: Date.now(),
     channel: currentChannel,
   };
 
   try {
     await push(ref(db, "messages"), messageObj);
-    msgInput.value = ""; // Clear the input field after sending
-    userCooldowns[userId] = now; // Set the last sent time to current time
+    msgInput.value = "";  // Clear input
   } catch (err) {
     alert("Failed to send: " + err.message);
   }
@@ -949,6 +979,10 @@ msgInput.addEventListener('keydown', async (event) => {
 
     let text = msgInput.value.trim();
     if (!text) return;
+    // Filter swears
+
+  text = filterSwears(text);
+  text = filterboy(text);
 
     const messageObj = {
       name: currentUsername || "(user)",
