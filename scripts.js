@@ -1,3 +1,13 @@
+
+window.onload = function() {
+    function openPopup() {
+  document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+};
 // Wait for the page to load
 window.onload = function() {
   // Keep the loading screen visible for 3 seconds (3000 milliseconds)
@@ -875,7 +885,10 @@ if (stopJamasBtn) {
     });
 
     // --- Send message (must be logged in) ---
-    sendBtn.onclick = async () => {
+    const cooldownTime = 1000; // Cooldown time in milliseconds (3 seconds)
+const userCooldowns = {}; // Track cooldowns per user
+
+sendBtn.onclick = async () => {
   if (!auth.currentUser) return alert("You must be logged in to chat!");
 
   // Prevent non-admins from sending to "admin-only" channel
@@ -884,6 +897,13 @@ if (stopJamasBtn) {
   }
   if (currentChannel === "baylor-logan" && !loganbayloruids.includes(auth.currentUser.uid)) {
     return alert("You are not authorized to send messages to the baylor logan channel.");
+  }
+
+  // Check if user is on cooldown
+  const userId = auth.currentUser.uid;
+  const now = Date.now();
+  if (userCooldowns[userId] && now - userCooldowns[userId] < cooldownTime) {
+    return alert("Please wait before sending another message.");
   }
 
   let text = msgInput.value.trim();
@@ -899,15 +919,15 @@ if (stopJamasBtn) {
 
   try {
     await push(ref(db, "messages"), messageObj);
-    msgInput.value = "";
+    msgInput.value = ""; // Clear the input field after sending
+    userCooldowns[userId] = now; // Set the last sent time to current time
   } catch (err) {
     alert("Failed to send: " + err.message);
   }
 };
+
 msgInput.addEventListener('keydown', async (event) => {
-  // Check if the pressed key is Enter (key code 13 or event.key === 'Enter')
   if (event.key === 'Enter' && !event.shiftKey) { 
-    // Prevent the default action (to avoid creating new lines in the input)
     event.preventDefault();
 
     if (!auth.currentUser) return alert("You must be logged in to chat!");
@@ -918,6 +938,13 @@ msgInput.addEventListener('keydown', async (event) => {
     }
     if (currentChannel === "baylor-logan" && !loganbayloruids.includes(auth.currentUser.uid)) {
       return alert("You are not authorized to send messages to the baylor logan channel.");
+    }
+
+    // Check if user is on cooldown
+    const userId = auth.currentUser.uid;
+    const now = Date.now();
+    if (userCooldowns[userId] && now - userCooldowns[userId] < cooldownTime) {
+      return alert("Please wait before sending another message.");
     }
 
     let text = msgInput.value.trim();
@@ -934,11 +961,13 @@ msgInput.addEventListener('keydown', async (event) => {
     try {
       await push(ref(db, "messages"), messageObj);
       msgInput.value = ""; // Clear the input field after sending
+      userCooldowns[userId] = now; // Set the last sent time to current time
     } catch (err) {
       alert("Failed to send: " + err.message);
     }
   }
 });
+
 
     // --- Admin Buttons Logic ---
     createBtn.onclick = async () => {
