@@ -137,6 +137,33 @@
     .linebreak {
   margin-bottom: 20px; /* Adds 20 pixels of space below the div */
 }
+ .popup {
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  border: 3px solid #599e67;
+  z-index: 1;
+}
+
+.close {
+  color: #f10000;
+  font-size: 70px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.close:hover {
+  color: #FF0000;
+  text-decoration: none;
+}
     /* Auth panel */
     #auth {
       width: 420px;
