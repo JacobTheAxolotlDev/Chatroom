@@ -45,6 +45,12 @@
   border-width: 2px;
   border-style: solid;
 }
+.emoji-img {
+  width: 20px; /* adjust size */
+  height: 20px;
+  vertical-align: middle; /* to align with text */
+  margin: 0 5px; /* space between image and text */
+}
 
 /* Style the image (you can set the size) */
 #loading-image {
