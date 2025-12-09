@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 20px;
+    }
+    #messages {
+      border: 1px solid #ccc;
+      background: white;
+      padding: 10px;
+      height: 300px;
+      overflow-y: scroll;
+      margin-bottom: 10px;
+    }
+    input, button {
+      padding: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Firebase Chat</h1>
+  <div id="messages"></div>
+  <input type="text" id="nameInput" placeholder="Your name">
+  <input type="text" id="messageInput" placeholder="Your message">
+  <button id="sendBtn">Send</button>
+
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYJW83DPFsEBNM1wV_3SJ0sT8aerGPx7A",
+      authDomain: "chatroomfunyay.firebaseapp.com",
+      databaseURL: "https://chatroomfunyay-default-rtdb.firebaseio.com",
+      projectId: "chatroomfunyay",
+      storageBucket: "chatroomfunyay.firebasestorage.app",
+      messagingSenderId: "741967066444",
+      appId: "1:741967066444:web:b6e386b842d3c29febcbe9",
+      measurementId: "G-4CXD16WBVL",
+    };
+
+    // Init Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const messagesDiv = document.getElementById("messages");
+    const nameInput = document.getElementById("nameInput");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    // Send message
+    sendBtn.onclick = () => {
+      const name = nameInput.value.trim();
+      const text = messageInput.value.trim();
+      if (name && text) {
+        push(ref(db, "messages"), {
+          name: name,
+          text: text
+        });
+        messageInput.value = "";
+      }
+    };
+
+    // Listen for new messages
+    onChildAdded(ref(db, "messages"), (snapshot) => {
+      const data = snapshot.val();
+      const name = data.name || "Anonymous";
+      let text = data.text || "(no message)";
+
+      let color = null;
+      // Detect color prefix like "red: message"
+      const colorMatch = text.match(/^(red|blue|green|orange|purple|yellow|pink):\s*(.*)/i);
+      if (colorMatch) {
+        color = colorMatch[1].toLowerCase();
+        text = colorMatch[2];
+      }
+
+      const msgEl = document.createElement("div");
+      msgEl.textContent = `${name}: ${text}`;
+
+      if (color) {
+        msgEl.style.color = color;
+      }
+
+      messagesDiv.appendChild(msgEl);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+  </script>
+</body>
+</html>

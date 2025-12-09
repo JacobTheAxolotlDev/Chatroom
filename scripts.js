@@ -8,6 +8,9 @@ function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
 };
+function closeadminpanel() {
+  document.getElementById("admin-panel").style.display = "none";
+};
 // Load swears.json file
 let swears = [];
 fetch('./swears.json')
@@ -110,6 +113,7 @@ window.onload = function() {
     const createBtn = document.getElementById("create-channel");
     const reloadBtn = document.getElementById("reload-all");
     const wipeBtn = document.getElementById("wipe-all");
+    const closeBtn = document.getElementById("close-panel");
     // ---------- Falling images controlled via Firebase setting (applies to everyone) ----------
 
 // ---------------------- Shared falling-image control (milliseconds) ----------------------
@@ -1045,6 +1049,10 @@ msgInput.addEventListener('keydown', async (event) => {
       } catch (e) {
         alert('Failed to wipe: ' + e.message);
       }
+    };
+    closeBtn.onclick = async () => {
+      document.getElementById("admin-panel").style.display = "none";
+      document.body.classList.remove('admin-open');
     };
       
     // initial load

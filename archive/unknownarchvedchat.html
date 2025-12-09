@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Friends Chatroom</title>
+  <style>
+    /* Background and font */
+    body {
+      margin: 0;
+      background-color: #b7e4c7;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Top header bar */
+    #header {
+      width: 100%;
+      background-color: #5a9e67;
+      color: white;
+      padding: 15px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      user-select: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    /* Chat container */
+    #chat {
+      width: 420px;
+      margin: 30px 0;
+      padding: 15px 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Messages box */
+    #messages {
+      width: 100%;
+      height: 320px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 8px;
+      margin-bottom: 15px;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      background: #fefefe;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    /* Input fields and button */
+    input, button {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #5a9e67;
+      border-radius: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline-offset: 2px;
+      outline-color: #5a9e67;
+      transition: outline-color 0.3s ease;
+    }
+
+    input:focus, button:focus {
+      outline-color: #3c6e40;
+    }
+
+    #name {
+      width: 28%;
+      margin-right: 2%;
+    }
+
+    #msg {
+      width: 60%;
+      margin-right: 2%;
+    }
+
+    #send {
+      width: 10%;
+      background-color: #5a9e67;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    #send:hover {
+      background-color: #3c6e40;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div>Chat room</div>
+    <div>Music (wip)</div>
+  </div>
+
+  <div id="chat">
+    <h2>🔥 Friends Chatroom 🔥</h2>
+    <div id="messages"></div>
+    <input id="name" placeholder="Name" autocomplete="off" />
+    <input id="msg" placeholder="Message" autocomplete="off" />
+    <button id="send">Send</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded, query, orderByChild, get, remove } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+    import { bannedWords } from "./bannedWords.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYJW83DPFsEBNM1wV_3SJ0sT8aerGPx7A",
+      authDomain: "chatroomfunyay.firebaseapp.com",
+      databaseURL: "https://chatroomfunyay-default-rtdb.firebaseio.com",
+      projectId: "chatroomfunyay",
+      storageBucket: "chatroomfunyay.firebasestorage.app",
+      messagingSenderId: "741967066444",
+      appId: "1:741967066444:web:b6e386b842d3c29febcbe9",
+      measurementId: "G-4CXD16WBVL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const messagesDiv = document.getElementById("messages");
+    const nameInput = document.getElementById("name");
+    const msgInput = document.getElementById("msg");
+    const sendBtn = document.getElementById("send");
+
+    function cleanMessage(text) {
+      let cleanText = text;
+      bannedWords.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        cleanText = cleanText.replace(regex, "****");
+      });
+      return cleanText;
+    }
+
+    async function cleanupOldMessages() {
+      const messagesRef = ref(db, "messages");
+      const snapshot = await get(query(messagesRef, orderByChild("timestamp")));
+      const now = Date.now();
+      snapshot.forEach(childSnapshot => {
+        const data = childSnapshot.val();
+        if (data.timestamp && (now - data.timestamp) > 24 * 60 * 60 * 1000) {
+          remove(childSnapshot.ref);
+        }
+      });
+    }
+
+    cleanupOldMessages();
+
+    onChildAdded(ref(db, "messages"), (snapshot) => {
+      const data = snapshot.val();
+      const name = data.name || "Anonymous";
+      const text = data.text || "(no message)";
+      const msgEl = document.createElement("div");
+      msgEl.textContent = `${name}: ${text}`;
+      messagesDiv.appendChild(msgEl);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
+    sendBtn.onclick = () => {
+      const name = nameInput.value.trim() || "Anonymous";
+      let text = msgInput.value.trim();
+      if (text) {
+        text = cleanMessage(text);
+        push(ref(db, "messages"), { name, text, timestamp: Date.now() });
+        msgInput.value = "";
+      }
+    };
+  </script>
+</body>
+</html>

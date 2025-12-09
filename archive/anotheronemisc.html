@@ -1,0 +1,97 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room Fun Yay</title>
+</head>
+<body>
+    <h1>Welcome to the Chat Room!</h1>
+
+    <!-- Input to enter the user's name -->
+    <input type="text" id="username" placeholder="Enter your name" />
+
+    <!-- Input to enter a message -->
+    <input type="text" id="message" placeholder="Enter your message" />
+
+    <!-- Button to send a message -->
+    <button id="sendMessage">Send</button>
+
+    <!-- Display chat messages -->
+    <div id="chat">
+        <h2>Chat Messages</h2>
+        <ul id="messages"></ul>
+    </div>
+
+    <!-- Firebase and app logic -->
+    <script type="module">
+        // Import the Firebase functions you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBBluhMcTE-W9wvJNfRq2DQx6Rk9g-uiMQ",
+            authDomain: "chatroomfunyay.firebaseapp.com",
+            databaseURL: "https://chatroomfunyay-default-rtdb.firebaseio.com",
+            projectId: "chatroomfunyay",
+            storageBucket: "chatroomfunyay.appspot.com",
+            messagingSenderId: "741967066444",
+            appId: "1:741967066444:web:d9ec0e61af0cdf3debcbe9",
+            measurementId: "G-8S1BVVR97C"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
+        // Function to send a message
+        const sendMessage = () => {
+            const username = document.getElementById('username').value;
+            const message = document.getElementById('message').value;
+
+            if (username && message) {
+                // Reference the messages in the Realtime Database
+                const messagesRef = ref(database, 'messages');
+
+                // Push the message to the database
+                push(messagesRef, {
+                    username: username,
+                    message: message,
+                    timestamp: Date.now()
+                });
+
+                // Clear the message input field
+                document.getElementById('message').value = '';
+            }
+        };
+
+        // Event listener for the "Send" button
+        document.getElementById('sendMessage').addEventListener('click', sendMessage);
+
+        // Function to listen for new messages
+        const listenForMessages = () => {
+            const messagesRef = ref(database, 'messages');
+            const messagesList = document.getElementById('messages');
+
+            // Listen for new messages added to the database
+            onValue(messagesRef, (snapshot) => {
+                messagesList.innerHTML = '';  // Clear the list
+
+                // Loop through the messages and display them
+                snapshot.forEach((childSnapshot) => {
+                    const data = childSnapshot.val();
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${data.username}: ${data.message}`;
+                    messagesList.appendChild(listItem);
+                });
+            });
+        };
+
+        // Call the function to start listening for new messages
+        listenForMessages();
+    </script>
+</body>
+</html>

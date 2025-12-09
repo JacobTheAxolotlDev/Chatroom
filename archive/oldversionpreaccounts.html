@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Friends Chatroom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #b7e4c7;
+      font-family: 'Comic Neue', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    #header {
+      width: 100%;
+      background-color: #5a9e67;
+      color: white;
+      padding: 15px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      user-select: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    #chat {
+      width: 420px;
+      margin: 30px 0;
+      padding: 15px 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #messages {
+      width: 100%;
+      height: 320px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 8px;
+      margin-bottom: 15px;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      background: #fefefe;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    input, button {
+      font-family: 'Comic Neue', cursive, sans-serif;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #5a9e67;
+      border-radius: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    #name { width: 28%; margin-right: 2%; }
+    #msg { width: 60%; margin-right: 2%; }
+    #send {
+      width: 10%;
+      background-color: #5a9e67;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    #send:hover { background-color: #3c6e40; }
+
+    /* Rainbow animated text */
+    .rainbow-text {
+      background-image: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red);
+      background-size: 400% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShift 6s linear infinite;
+    }
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* Gold shimmering text */
+    .gold-text {
+      background-image: linear-gradient(90deg, #b8860b, #ffd700, #fffacd, #ffd700, #b8860b);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: goldShift 4s ease-in-out infinite;
+    }
+    @keyframes goldShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Uranium glowing green */
+    .uranium-text {
+      color: #00ff00;
+      animation: uraniumGlow 1s ease-in-out infinite;
+      text-shadow:
+        0 0 5px #00ff00,
+        0 0 10px #00ff00,
+        0 0 20px #00ff00,
+        0 0 40px #00cc00;
+    }
+    @keyframes uraniumGlow {
+      0%, 100% {
+        color: #00ff00;
+        text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #00cc00;
+      }
+      50% {
+        color: #66ff66;
+        text-shadow: 0 0 10px #66ff66, 0 0 20px #66ff66, 0 0 30px #33ff33, 0 0 50px #00cc00;
+      }
+    }
+
+    /* Slime gradient text */
+    .slime-text {
+      background-image: linear-gradient(90deg, #004d00, #00ff66);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Axey effect */
+    .axey-container {
+      position: relative;
+      display: inline-block;
+      padding: 20px;
+      color: purple;
+      font-weight: bold;
+    }
+    .axey-img {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      animation: axeyOrbit 3s linear infinite;
+    }
+    .axey-img.second {
+      animation-delay: 1.5s;
+    }
+    @keyframes axeyOrbit {
+      0%   { transform: rotate(0deg) translateX(50px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+    }
+
+    /* Fweh style */
+    .fweh-text {
+      font-size: 2em;
+      font-weight: bold;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div id="header">
+    <div><a href="" style="color: inherit; text-decoration: none;">Chat Room</a></div>
+    <div><a href="music.html" style="color: inherit; text-decoration: none;">Music (wip)</a></div>
+    <div><a href="other.html" style="color: inherit; text-decoration: none;">Axey Game</a></div>
+    <div><a href="desmos.html" style="color: inherit; text-decoration: none;">calculator</a></div>
+  </div>
+
+  <div id="chat">
+    <h2>Friends Chatroom</h2>
+    <div id="messages"></div>
+    <input id="name" placeholder="Name" autocomplete="off" />
+    <input id="msg" placeholder="Message" autocomplete="off" />
+    <button id="send">Send</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded, query, orderByChild, get, remove } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBYJW83DPFsEBNM1wV_3SJ0sT8aerGPx7A",
+      authDomain: "chatroomfunyay.firebaseapp.com",
+      databaseURL: "https://chatroomfunyay-default-rtdb.firebaseio.com",
+      projectId: "chatroomfunyay",
+      storageBucket: "chatroomfunyay.firebasestorage.app",
+      messagingSenderId: "741967066444",
+      appId: "1:741967066444:web:b6e386b842d3c29febcbe9",
+      measurementId: "G-4CXD16WBVL"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const messagesDiv = document.getElementById("messages");
+    const nameInput = document.getElementById("name");
+    const msgInput = document.getElementById("msg");
+    const sendBtn = document.getElementById("send");
+
+    const bannedWords = [];
+
+    function cleanMessage(text) {
+      let cleanText = text;
+      bannedWords.forEach(word => {
+        const regex = new RegExp(`\\b${word}\\b`, 'gi');
+        cleanText = cleanText.replace(regex, "****");
+      });
+      return cleanText;
+    }
+
+    async function cleanupOldMessages() {
+      const messagesRef = ref(db, "messages");
+      const snapshot = await get(query(messagesRef, orderByChild("timestamp")));
+      const now = Date.now();
+      snapshot.forEach(childSnapshot => {
+        const data = childSnapshot.val();
+        if (data.timestamp && (now - data.timestamp) > 24 * 60 * 60 * 1000) {
+          remove(childSnapshot.ref);
+        }
+      });
+    }
+
+    cleanupOldMessages();
+
+    onChildAdded(ref(db, "messages"), (snapshot) => {
+      const data = snapshot.val();
+      let name = data.name || "Anonymous";
+
+      // If the sender is "Logan", add a crown
+      if (name.trim().toLowerCase() === "logan") {
+        name += " 👑";
+      }
+      if (name.trim().toLowerCase() === "jahmal") {
+        name += " 🦐";
+      }
+
+      let text = data.text || "(no message)";
+      const timestamp = new Date(data.timestamp).toLocaleTimeString();
+
+      let color = null;
+      let rainbow = false;
+      let gold = false;
+      let uranium = false;
+      let slime = false;
+      let axey = false;
+      let fweh = false;
+
+      const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
+      const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
+      const goldMatch = text.match(/^gold:\s*(.*)/i);
+      const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
+      const slimeMatch = text.match(/^slime:\s*(.*)/i);
+      const axeyMatch = text.match(/^axey:\s*(.*)/i);
+      const fwehMatch = text.match(/^fweh:\s*(.*)/i);
+      const hexMatch = text.match(/^\(?#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})\)?:\s*(.*)/);
+
+      if (namedColorMatch) {
+        color = namedColorMatch[1].toLowerCase();
+        text = namedColorMatch[2];
+      } else if (rainbowMatch) {
+        rainbow = true;
+        text = rainbowMatch[1];
+      } else if (goldMatch) {
+        gold = true;
+        text = goldMatch[1];
+      } else if (uraniumMatch) {
+        uranium = true;
+        text = uraniumMatch[1];
+      } else if (slimeMatch) {
+        slime = true;
+        text = slimeMatch[1];
+      } else if (axeyMatch) {
+        axey = true;
+        text = axeyMatch[1];
+      } else if (fwehMatch) {
+        fweh = true;
+        text = fwehMatch[1];
+      } else if (hexMatch) {
+        color = `#${hexMatch[1]}`;
+        text = hexMatch[2];
+      }
+
+      const msgEl = document.createElement("div");
+
+      if (rainbow || gold || uranium || slime || axey || fweh || color) {
+        if (rainbow) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("rainbow-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (gold) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("gold-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (uranium) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("uranium-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (slime) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("slime-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (axey) {
+          const axeyContainer = document.createElement("div");
+          axeyContainer.classList.add("axey-container");
+          axeyContainer.textContent = `${timestamp} - ${name}: ${text}`;
+          const axey1 = document.createElement("img");
+          axey1.src = "./axey.png";
+          axey1.classList.add("axey-img");
+          const axey2 = document.createElement("img");
+          axey2.src = "./axey.png";
+          axey2.classList.add("axey-img", "second");
+          axeyContainer.appendChild(axey1);
+          axeyContainer.appendChild(axey2);
+          msgEl.appendChild(axeyContainer);
+        } else if (fweh) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("fweh-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (color) {
+          const msgContent = document.createElement("span");
+          msgContent.style.color = color;
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        }
+      } else {
+        const msgContent = document.createElement("span");
+        msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+        msgEl.appendChild(msgContent);
+      }
+
+      messagesDiv.appendChild(msgEl);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
+    sendBtn.onclick = () => {
+      const name = nameInput.value.trim() || "Anonymous";
+      let text = msgInput.value.trim();
+      if (text) {
+        text = cleanMessage(text);
+        push(ref(db, "messages"), { name, text, timestamp: Date.now() });
+        msgInput.value = "";
+      }
+    };
+  </script>
+</body>
+</html>
