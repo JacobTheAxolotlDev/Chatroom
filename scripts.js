@@ -210,7 +210,9 @@ if (stopJamasBtn) {
       "XC7vgJaODMdG2DHZV8qBp7avJEh2", //cindy
       "BEtgUMBZhBbtiV9mI2TRzB7LT5y2", //hunter
       "a2t4fEnYYeS3eegaK9JVT4KRbwz1", //ethan
-      "mWmWZx15e8TMaUQUPfnXanYrYYa2" //rudy
+      "mWmWZx15e8TMaUQUPfnXanYrYYa2", //rudy
+      "Q90bYhbZiBMS87Ety4AKZw3SKFy1", //brianna
+      "vX6DiS617vV61K9qCfo1liKGpWo2" //valentino
     ];
     const loganbayloruids = [
       "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
@@ -327,6 +329,7 @@ if (stopJamasBtn) {
       if (uname === "jahmal") name += " {🦐 Co-Owner🦐}";
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
       if (uname === "giooo") name += " [❓IDK❓]"
+      if (uname === "neemo") name += " (Nissi)"
       if (uname === "joy") name += " [🧀cheese🧀]"
       if (uname === "gurt") name += " [🥛yogurt🥛]"
 

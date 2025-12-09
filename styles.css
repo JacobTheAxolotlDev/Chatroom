@@ -632,7 +632,35 @@
             font-size: 16px;
             margin-bottom: 10px;
         }
+.dude-one {
+    position: absolute;
+    right: 850px; /* Space from the left edge */
+    top: 650px;
+    transform: translateY(-50%);
+    width: 250px; /* Set the width of the box */
+    height: 250px; /* Set the height of the box */
+    background-image: url('./images/Untitled_drawing_57_.png'); /* Set the background image */
+    background-size: cover; /* Ensures the image covers the whole box */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    color: rgb(0, 0, 0); /* Text color */
+    border-radius: 10px; /* Rounded corners */
+    border: 0px solid black; /* Border with width, style, and color */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    z-index: -1999999;
+}
 
+
+        /* Styling for the label (top part) */
+        .dude1 {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
 .pumpkin {
     position: absolute;
     left: 170px; /* Space from the left edge */
