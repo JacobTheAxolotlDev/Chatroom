@@ -11,6 +11,7 @@
   align-items: center;
   z-index: 9999;
 }
+
 .gd-emoji {
   width: 32px;
   height: 32px;
@@ -20,6 +21,27 @@
   color: white;
   background-color: green;
   border-color: darkgreen;
+  border-width: 2px;
+  border-style: solid;
+}
+#testbutton:hover {
+  color: white;
+  background-color: rgb(1, 95, 1);
+  border-color: rgb(0, 40, 0);
+  border-width: 2px;
+  border-style: solid;
+}
+#miscbutton {
+  color: white;
+  background-color: green;
+  border-color: darkgreen;
+  border-width: 2px;
+  border-style: solid;
+}
+#miscbutton:hover {
+  color: white;
+  background-color: rgb(1, 95, 1);
+  border-color: rgb(0, 40, 0);
   border-width: 2px;
   border-style: solid;
 }
@@ -82,10 +104,17 @@
       --panel:#ffa724;
       --panel-2:#e68200;
     } */
-    :root{
+    /*:root{
       --green-1:#b7e4c7;
       --green-2:#5a9e67;
       --green-3:#3c6e40;
+      --panel:#ffffff;
+      --panel-2:#e3f3e8;
+    }*/
+    :root{
+      --green-1:#b7e4d8; 
+      --green-2:#90D5FF;
+      --green-3:#0468a5;
       --panel:#ffffff;
       --panel-2:#e3f3e8;
     }
@@ -146,7 +175,7 @@
   padding: 10px;
   background-color: #FFFFFF;
   border-radius: 10px;
-  border: 3px solid #599e67;
+  border: 3px solid var(--green-2);
   z-index: 1;
 }
 
@@ -276,7 +305,7 @@
       border-left: 3px solid var(--green-2);
       box-shadow: -2px 0 8px rgba(0,0,0,0.2);
       display: none; /* hidden by default */
-      z-index: 9;
+      z-index: 99;
     }
     #logan-panel iframe {
       width: 100%;
@@ -295,7 +324,7 @@
       border-left: 3px solid var(--green-2);
       box-shadow: -2px 0 8px rgba(0,0,0,0.2);
       display: none; /* hidden by default */
-      z-index: 9;
+      z-index: 99;
     }
     #baylor-panel iframe {
       width: 100%;
@@ -541,14 +570,15 @@
     transform: translateY(-50%);
     width: 250px; /* Set the width of the box */
     height: 250px; /* Set the height of the box */
-    background-image: url('images/calender.png'); /* Set the background image */
     background-size: cover; /* Ensures the image covers the whole box */
     background-position: center; /* Centers the image */
     background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-color: var(--green-3);
     color: rgb(0, 0, 0); /* Text color */
     border-radius: 10px; /* Rounded corners */
     border: 0px solid black; /* Border with width, style, and color */
     display: flex;
+    color: white;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -732,7 +762,7 @@
       border-right: 3px solid var(--panel-2);
       box-shadow: 2px 0 8px rgba(0,0,0,0.2);
       display: none; /* hidden by default */
-      z-index: 25;
+      z-index: 1002;
       padding: 14px;
       font-family: "Comic Neue", cursive;
     }

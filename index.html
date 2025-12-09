@@ -44,7 +44,8 @@
 <div id="popup" class="popup">
   <span class="close" onclick="closePopup()">&times;</span>
   <h1> UPDATE: </h1><br>
-  <p> 12/8: Anti Spam, 1 second cooldown between messeges</p> <br>
+  <p> 12/9: Bug Fixes! <img src="https://images.emojiterra.com/twitter/v14.0/512px/1fab2.png" width="20px"><img src="https://images.emojiterra.com/google/android-12l/512px/1f527.png" width="20px"> </p> <br>
+  <p> 12/8: Anti Spam, 1 second cooldown between messeges, Swear Filter, Snow, bug fixes!</p> <br>
   <p> 12/5: You can send with enter! yey </p>
 </div>
 <script>
@@ -66,13 +67,94 @@ function closePopup() {
   <div id="loading-screen">
     <img src="./images/Untitled_drLTFSawing.png" alt="Loading..." id="loading-image" width="500" height="500">
   </div>
+  
+
 <body>
+  <!-- Let it Snow! Provided by the WPress Doctor-->
+<div id="snow"></div>
+<style>
+	#snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+</style>
+<script>
+	document.addEventListener('DOMContentLoaded', function(){
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
+    script.onload = function(){
+        particlesJS("snow", {
+            "particles": {
+                "number": {
+                    "value": 200,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "opacity": {
+                    "value": 0.7,
+                    "random": false,
+                    "anim": {
+                        "enable": false
+                    }
+                },
+                "size": {
+                    "value": 5,
+                    "random": true,
+                    "anim": {
+                        "enable": false
+                    }
+                },
+                "line_linked": {
+                    "enable": false
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 5,
+                    "direction": "bottom",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 300,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "events": {
+                    "onhover": {
+                        "enable": false
+                    },
+                    "onclick": {
+                        "enable": false
+                    },
+                    "resize": false
+                }
+            },
+            "retina_detect": true
+        });
+    }
+    document.head.append(script);
+});
+</script>
  <!-- <div id="main-content"> -->
   <div id="header">
     <div><a href="index.html">Chat Room</a></div>
     <div><a href="./g/music.html">Music (wip)</a></div>
     <div><a href="SchoolResources.html">School stuff</a></div>
-    <div><a href="Game.html">all games and stuff</a></div>
+    <div><a href="/g/">all games and stuff</a></div>
     <div><a href="radioactivelemonade.html">Radioactive Lemonade - A Webcomic by baylor and valentino</a></div>
     <div id="header-right">
       <span id="whoami-mini"></span>
@@ -122,7 +204,7 @@ if (bannedUIDs.includes(user.uid)) {
   </script>
     <div id="tips">
       <strong>Rules:</strong><br/>
-      No Discrimination of any time, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation
+      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation
      </div>
   </div>
   <div id="tips">
@@ -162,7 +244,7 @@ if (bannedUIDs.includes(user.uid)) {
     To Do: <br>
     <s> add enter to send </s> <br>
     <s> add anti spam </s> <br>
-    add spam filter <br>
+    <s>add swear filter</s> <br>
     more effects <br>
     suggest more in the suggest form </p>
 <!--
@@ -313,10 +395,10 @@ onValue(bannedRef, (snapshot) => {
   </a>
 <h3><a href="https://desmos.com/scientific">desmos </a><br>
 <h3><a href="./gamesandotherstuff/busandcarriders.html">Busses and Car Riders </a><br>
-    <button id="openBtn">Open in about:blank</button> <br>
+    <button id="miscbutton">Open in about:blank</button> <br>
 
 <script>
-  document.getElementById('openBtn').addEventListener('click', () => {
+  document.getElementById('miscbutton').addEventListener('click', () => {
     const newTab = window.open('about:blank', '_blank');
     if (newTab) {
       newTab.document.write(`
@@ -337,8 +419,14 @@ onValue(bannedRef, (snapshot) => {
     }
   });
 </script>
-<button id="testbutton" href="games.html"> Games </button>
+<button id="testbutton">Games</button>
+
+<script>
+  document.getElementById("testbutton").addEventListener("click", function() {
+    window.location.href = "/g/";
+  });
+</script>
 </footer>
-<iframe src="https://forms.gle/rh9GdSe5Ca9Ne3xQ9" width="1363px" height="767" frameborder="0" ></iframe>
 
-
+<img src="./images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">
+<img src="./images/easteregg-ezgif.com-gif-maker.gif" width="100px">
