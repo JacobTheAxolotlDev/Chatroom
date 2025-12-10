@@ -114,7 +114,50 @@ window.onload = function() {
     const reloadBtn = document.getElementById("reload-all");
     const wipeBtn = document.getElementById("wipe-all");
     const closeBtn = document.getElementById("close-panel");
-    // ---------- Falling images controlled via Firebase setting (applies to everyone) ----------
+    //misc DOM
+    const closeBaylor = document.getElementById("close-baylor");
+    const closeLogan = document.getElementById("close-logan");
+
+        // ---------- Falling images controlled via Firebase setting (applies to everyone) ----------
+// Function to check if the user is banned
+const checkIfUserIsBanned = (uid) => {
+  const bannedRef = ref(db, "banned"); // Path to the "banned" list in your database
+  get(bannedRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      const bannedUsers = snapshot.val(); // This will return an object like { "userUID1": true, "userUID2": true }
+      
+      if (bannedUsers && bannedUsers[uid] === true) {
+        // User is banned, log them out immediately
+        console.log("User is banned, logging out...");
+        signOut(auth).then(() => {
+          console.log("User logged out successfully due to ban");
+          // Optionally, redirect the user to a different page after logging out
+          window.location.href = "/a.html";  // Modify this as needed
+        }).catch((error) => {
+          console.error("Error logging out: ", error);
+        });
+      }
+    }
+  }).catch((error) => {
+    console.error("Error fetching banned users: ", error);
+  });
+};
+
+// Listen for authentication state changes
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    const uid = user.uid; // Get the user's UID
+    // Set up an interval to check the user's banned status every second
+    const intervalId = setInterval(() => {
+      checkIfUserIsBanned(uid); // Check if the user is banned every second
+    }, 1000); // Check every 1000ms (1 second)
+
+    // Optionally, clear the interval when the user logs out
+    user.onAuthStateChanged(() => {
+      clearInterval(intervalId);
+    });
+  }
+});
 
 // ---------------------- Shared falling-image control (milliseconds) ----------------------
 
@@ -1053,6 +1096,12 @@ msgInput.addEventListener('keydown', async (event) => {
     closeBtn.onclick = async () => {
       document.getElementById("admin-panel").style.display = "none";
       document.body.classList.remove('admin-open');
+    };
+    closeBaylor.onclick = async () => {
+      document.getElementById("baylor-panel").style.display = "none";
+    };
+    closeLogan.onclick = async () => {
+      document.getElementById("logan-panel").style.display = "none";
     };
       
     // initial load

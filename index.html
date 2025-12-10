@@ -196,6 +196,14 @@ function closePopup() {
       <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
       <button id="send">Send</button>
     </div>
+    <script>
+      
+document.addEventListener('keydown', function(event) {
+  if (event.key === '/') {
+    document.getElementById('msg').focus();
+  }
+});
+</script>
 <script>
 if (bannedUIDs.includes(user.uid)) {
   alert("You are banned.");
@@ -325,10 +333,12 @@ if (bannedUIDs.includes(user.uid)) {
 <!--<script type="module" src="./dm_system.js"> </script> -->
   <!-- Logan's Tools Panel -->
   <div id="logan-panel">
+    <button id="close-logan"> close </button>
     <iframe src="./images/yes.html" 
             width="100%" height="100%" frameborder="0"></iframe>
   </div>
   <div id="baylor-panel">
+    <button id="close-baylor"> close </button>
     <iframe src="./images/yes.html" 
             width="100%" height="100%" frameborder="0"></iframe>
   </div>
