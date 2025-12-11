@@ -3,20 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Logans Tools For School</title>
-<script type="text/javascript">
-  // Function to check the screen width
-  function checkScreenWidth() {
-    if (window.innerWidth < 900) {
-      window.location.href = "https://loganstoolsforschool.w3spaces.com/mobile.html"; // Change this to your mobile-specific URL
-    }
-  }
 
-  // Call the function when the page loads
-  window.onload = checkScreenWidth;
-
-  // Optional: Also check if the user resizes the window (in case they change device orientation or resize the browser)
-  window.onresize = checkScreenWidth;
-</script>
   <!-- Set the status bar to match your theme color -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -43,6 +30,12 @@
 
 <div id="popup" class="popup">
   <span class="close" onclick="closePopup()">&times;</span>
+  <script>
+    function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+};
+</script>
   <img src="./images/logo_1_.png" width="200px">
   <h1> UPDATE: </h1><br>
   <p> 12/9: Archive! old versions of the chat room (old servers tho) only accessable through github repo </p> <br>
@@ -50,20 +43,7 @@
   <p> 12/8: Anti Spam, 1 second cooldown between messeges, Swear Filter, Snow, bug fixes!</p> <br>
   <p> 12/5: You can send with enter! yey </p>
 </div>
-<script>
-window.onload = function() {
-  openPopup();
-};
 
-function openPopup() {
-  document.getElementById("popup").style.display = "block";
-}
-
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
-
-</script>
 
   <!-- Loading screen -->
   <div id="loading-screen">
@@ -74,83 +54,8 @@ function closePopup() {
 <body>
   <!-- Let it Snow! Provided by the WPress Doctor-->
 <div id="snow"></div>
-<style>
-	#snow {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: 1000;
-}
-</style>
-<script>
-	document.addEventListener('DOMContentLoaded', function(){
-    var script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
-    script.onload = function(){
-        particlesJS("snow", {
-            "particles": {
-                "number": {
-                    "value": 200,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ffffff"
-                },
-                "opacity": {
-                    "value": 0.7,
-                    "random": false,
-                    "anim": {
-                        "enable": false
-                    }
-                },
-                "size": {
-                    "value": 5,
-                    "random": true,
-                    "anim": {
-                        "enable": false
-                    }
-                },
-                "line_linked": {
-                    "enable": false
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 5,
-                    "direction": "bottom",
-                    "random": true,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": true,
-                        "rotateX": 300,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "events": {
-                    "onhover": {
-                        "enable": false
-                    },
-                    "onclick": {
-                        "enable": false
-                    },
-                    "resize": false
-                }
-            },
-            "retina_detect": true
-        });
-    }
-    document.head.append(script);
-});
-</script>
+
+
  <!-- <div id="main-content"> -->
   <div id="header">
     <div><a href="index.html">Chat Room</a></div>
