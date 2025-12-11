@@ -181,6 +181,8 @@ window.onload = function() {
     const whoamiMini = document.getElementById("whoami-mini");
     const banUserBtn = document.getElementById("ban-user");
     const unbanUserBtn = document.getElementById("unban-user");
+    const showsnow = document.getElementById("onsnow")
+    const hidesnow = document.getElementById("offsnow")
 
 
     // Admin DOM
@@ -1177,6 +1179,12 @@ msgInput.addEventListener('keydown', async (event) => {
     };
     closeLogan.onclick = async () => {
       document.getElementById("logan-panel").style.display = "none";
+    };
+    hidesnow.onclick = async () => {
+      document.getElementById("snow").style.display = "none";
+    };
+    showsnow.onclick = async () => {
+      document.getElementById("snow").style.display = "block";
     };
       
     // initial load
