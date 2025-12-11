@@ -122,7 +122,7 @@ window.onload = function() {
 });
 </script>
   <meta charset="utf-8" />
-  <title>Standalone Chat (Edit / Delete)</title>
+  <title>Admin Panel</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root {
@@ -165,7 +165,7 @@ window.onload = function() {
   <div class="app" role="main">
     <header>
       <div>
-        <h1>Standalone Chat — edit & delete</h1>
+        <h1>Admin Panel</h1>
         <div class="whoami" id="whoami">Not logged in</div>
       </div>
       <div class="small">Channel: <span id="whoami-mini"></span></div>
@@ -395,41 +395,108 @@ onValue(bannedRef, (snapshot) => {
         ctr.className = "controls";
 
         const editBtn = document.createElement("button");
-        editBtn.textContent = "Edit Text";
-        editBtn.onclick = async () => {
-          // Inline prompt to edit (simple). You may replace with inline input if desired.
-          let newText = prompt("Edit message:", data.text || "");
-          if (newText === null) return;
-          newText = newText.trim();
-          if (!newText) {
-            if (!confirm("Empty message — delete instead?")) return;
-            try { await remove(ref(db, "messages/" + data._id)); } catch (e){ alert("Delete failed: " + e.message); }
-            return;
-          }
-          try {
-            await update(ref(db, "messages/" + data._id), { text: newText, edited: true, editedAt: Date.now() });
-          } catch (e) {
-            alert("Edit failed: " + e.message);
-          }
-        };
+editBtn.textContent = "Edit Text";
+editBtn.onclick = async () => {
+  const oldText = data.text || ""; // store current text first
+  let newText = prompt("Edit message:", oldText);
+  if (newText === null) return;
+  newText = newText.trim();
+  if (!newText) {
+    if (!confirm("Empty message — delete instead?")) return;
+    try { 
+      await remove(ref(db, "messages/" + data._id)); 
+    } catch (e) { 
+      alert("Delete failed: " + e.message); 
+    }
+    return;
+  }
+  try {
+    await update(ref(db, "messages/" + data._id), { 
+      text: newText, 
+      edited: true, 
+      editedAt: Date.now(), 
+      oldText // save old text in database too
+    });
+  } catch (e) {
+    alert("Edit failed: " + e.message);
+  }
+};
+
         const editnameBtn = document.createElement("button");
-        editnameBtn.textContent = "Edit Name";
-        editnameBtn.onclick = async () => {
-          // Inline prompt to edit (simple). You may replace with inline input if desired.
-          let newText = prompt("Edit name:", data.name || "");
-          if (newText === null) return;
-          newText = newText.trim();
-          if (!newText) {
-            if (!confirm("Empty name — delete instead?")) return;
-            try { await remove(ref(db, "messages/" + data._id)); } catch (e){ alert("Delete failed: " + e.message); }
-            return;
-          }
-          try {
-            await update(ref(db, "messages/" + data._id), { name: newText, edited: true, editedAt: Date.now() });
-          } catch (e) {
-            alert("Edit failed: " + e.message);
-          }
-        };
+editnameBtn.textContent = "Edit Name";
+editnameBtn.onclick = async () => {
+  const oldName = data.name || ""; // store current name first
+  let newText = prompt("Edit name:", oldName);
+  if (newText === null) return;
+  newText = newText.trim();
+  if (!newText) {
+    if (!confirm("Empty name — delete instead?")) return;
+    try { 
+      await remove(ref(db, "messages/" + data._id)); 
+    } catch (e) { 
+      alert("Delete failed: " + e.message); 
+    }
+    return;
+  }
+  try {
+    await update(ref(db, "messages/" + data._id), { 
+      name: newText, 
+      edited: true, 
+      editedAt: Date.now(), 
+      oldName // save old name in database too
+    });
+  } catch (e) {
+    alert("Edit failed: " + e.message);
+  }
+};
+
+        // ban-by-name: robust lookup for usernames stored as usernames/<key>/uid
+const banByNameBtn = document.createElement("button");
+banByNameBtn.textContent = "Ban User";
+banByNameBtn.onclick = async () => {
+  if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert("admins only");
+
+  const rawName = (data.name || "").trim();
+  if (!rawName) return alert("this message has no username");
+
+  // try several possible keys: exact, lowercased, slugged (remove spaces)
+  const candidates = [
+    rawName,
+    rawName.toLowerCase(),
+    rawName.toLowerCase().replace(/\s+/g, ""),       // remove spaces
+    rawName.toLowerCase().replace(/[^a-z0-9_-]/g, "") // strip non-alnum
+  ].filter(Boolean);
+
+  let uidToBan = null;
+  try {
+    for (const key of candidates) {
+      // check common path usernames/<key>/uid
+      const snap = await get(ref(db, `usernames/${key}/uid`));
+      if (snap.exists()) { uidToBan = snap.val(); break; }
+
+      // fallback: maybe stored as object { uid: "..." } at usernames/<key>
+      const snap2 = await get(ref(db, `usernames/${key}`));
+      if (snap2.exists()) {
+        const val = snap2.val();
+        if (val && typeof val === "object" && (val.uid || val.UID)) {
+          uidToBan = val.uid || val.UID;
+          break;
+        }
+      }
+    }
+
+    if (!uidToBan) return alert(`no UID found for '${rawName}' (tried ${candidates.join(", ")})`);
+
+    if (!confirm(`ban '${rawName}' (uid: ${uidToBan})?`)) return;
+
+    await set(ref(db, `banned/${uidToBan}`), true);
+    alert(`${rawName} banned successfully.`);
+  } catch (e) {
+    alert("ban failed: " + e.message);
+  }
+};
+
+
 
         const delBtn = document.createElement("button");
         delBtn.textContent = "Delete";
@@ -453,7 +520,8 @@ onValue(bannedRef, (snapshot) => {
         };
 
         ctr.appendChild(editBtn);
-        ctr.appendChild(editnameBtn);
+        if (adminUIDs.includes(currentUser.uid))ctr.appendChild(editnameBtn);
+        if (adminUIDs.includes(currentUser.uid))ctr.appendChild(banByNameBtn);
         ctr.appendChild(delBtn);
         if (adminUIDs.includes(currentUser.uid)) ctr.appendChild(flagBtn);
 

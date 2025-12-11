@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Firebase Messages Viewer</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  .message { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+  .message img { max-width: 200px; display: block; margin-top: 5px; }
+  .timestamp { color: gray; font-size: 0.9em; }
+</style>
+</head>
+<body>
+
+<h1>Messages</h1>
+<div id="messages"></div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0ppSfYRPCje-BusGftdn1kCMHgs-Z_BU",
+    authDomain: "loganstoolsforschool.firebaseapp.com",
+    databaseURL: "https://loganstoolsforschool-default-rtdb.firebaseio.com",
+    projectId: "loganstoolsforschool",
+    storageBucket: "loganstoolsforschool.firebasestorage.app",
+    messagingSenderId: "883702419905",
+    appId: "1:883702419905:web:8e9888e6d6f305ec165f40",
+    measurementId: "G-P2HVQ9K0XD"
+  };
+
+  // init firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  const messagesDiv = document.getElementById('messages');
+
+  // fetch all messages
+  db.ref('messages').on('value', snapshot => {
+    messagesDiv.innerHTML = ''; // clear previous
+    const data = snapshot.val();
+    if (!data) {
+      messagesDiv.innerHTML = 'No messages found.';
+      return;
+    }
+
+    Object.entries(data).forEach(([id, msg]) => {
+      const div = document.createElement('div');
+      div.className = 'message';
+
+      div.innerHTML = `
+        <strong>ID:</strong> ${id}<br>
+        <strong>Channel:</strong> ${msg.channel || ''}<br>
+        <strong>Name:</strong> ${msg.name || ''}<br>
+        <strong>Text:</strong> ${msg.text || ''}<br>
+        ${msg.text && msg.text.startsWith('data:image') ? `<img src="${msg.text}" />` : ''}
+        <strong>Timestamp:</strong> <span class="timestamp">${new Date(msg.timestamp).toLocaleString()}</span><br>
+        <strong>UID:</strong> ${msg.uid || ''}<br>
+        ${msg.edited ? `<strong>Edited:</strong> ${msg.edited} <strong>EditedAt:</strong> ${new Date(msg.editedAt).toLocaleString()}` : ''}
+        ${msg.oldName ? `<br><strong>Old Name:</strong> ${msg.oldName}` : ''}
+        ${msg.oldText ? `<br><strong>Old Text:</strong> ${msg.oldText}` : ''}
+      `;
+
+      messagesDiv.appendChild(div);
+    });
+  });
+</script>
+
+</body>
+</html>

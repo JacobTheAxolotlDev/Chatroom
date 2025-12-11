@@ -1,3 +1,5 @@
+ const currentVersion = "1.7.3";  // This is your local version
+ 
  document.addEventListener('DOMContentLoaded', function(){
     var script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
@@ -282,42 +284,81 @@ if (stopJamasBtn) {
     const passwordInput = document.getElementById("password");
     const loginBtn = document.getElementById("login");
     const signupBtn = document.getElementById("signup");
-    const logoutBtn = document.getElementById("logout");
+    const logoutBtn = document.getElementById("logout");// --- Image upload -> COMPRESSED base64 -> send as a normal message ---
+const imageInput = document.getElementById("imageInput");
 
-    // --- Image upload -> base64 -> send as a normal message ---
-    const imageInput = document.getElementById("imageInput");
+imageInput.addEventListener("change", async () => {
+  const file = imageInput.files[0];
+  if (!file) return;
 
-    imageInput.addEventListener("change", async () => {
-      const file = imageInput.files[0];
-      if (!file) return;
-
+  // compression function (canvas magic)
+  function compressImage(file, maxWidth = 600, quality = 0.6) {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = async () => {
-        const base64Data = reader.result; // "data:image/...;base64,AAAA..."
 
-        if (!auth.currentUser) {
-          alert("You must be logged in to upload images!");
-          return;
-        }
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
 
-        const messageObj = {
-          name: currentUsername || "(user)",
-          uid: auth.currentUser.uid,
-          text: base64Data,          // <-- your addMessageElement() already renders this
-          timestamp: Date.now(),
-          channel: currentChannel,
+          // keep aspect ratio but shrink width
+          const scale = maxWidth / img.width;
+          const newWidth = img.width * scale;
+          const newHeight = img.height * scale;
+
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+
+          ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+          // compress into JPEG base64
+          const compressedBase64 = canvas.toDataURL("image/jpeg", quality);
+
+          resolve(compressedBase64);
         };
-
-        try {
-          await push(ref(db, "messages"), messageObj);
-        } catch (err) {
-          alert("Failed to upload image: " + err.message);
-        }
+        img.onerror = reject;
+        img.src = e.target.result;
       };
 
+      reader.onerror = reject;
       reader.readAsDataURL(file);
-      imageInput.value = ""; // allow re-selecting the same file
     });
+  }
+
+  let base64Data;
+
+  try {
+    // actually compress the image
+    base64Data = await compressImage(file);
+  } catch (err) {
+    alert("Failed to compress image.");
+    console.error(err);
+    return;
+  }
+
+  if (!auth.currentUser) {
+    alert("You must be logged in to upload images!");
+    return;
+  }
+
+  const messageObj = {
+    name: currentUsername || "(user)",
+    uid: auth.currentUser.uid,
+    text: base64Data,   // <-- compressed now
+    timestamp: Date.now(),
+    channel: currentChannel,
+  };
+
+  try {
+    await push(ref(db, "messages"), messageObj);
+  } catch (err) {
+    alert("Failed to upload image: " + err.message);
+  }
+
+  imageInput.value = ""; // allow re-selecting the same file
+});
+
 
 
     // --- State ---
@@ -422,6 +463,29 @@ if (stopJamasBtn) {
     channelsDiv.appendChild(tab);
   });
 }
+// Reference to the 'version' node in Firebase
+const versionRef = ref(db, 'version');
+
+// Fetch version from Firebase and compare it
+get(versionRef).then((snapshot) => {
+  if (snapshot.exists()) {
+    const firebaseVersion = snapshot.val();  // The version from Firebase
+
+    // Compare it with the local version
+    if (firebaseVersion !== currentVersion) {
+      console.log("Version mismatch, refreshing with cache clear...");
+      
+      // Force reload (Ctrl+Shift+R equivalent)
+      // Force a reload by appending a unique timestamp query string to the URL
+      window.location.href = window.location.href.split('?')[0] + '?cache=' + new Date().getTime();
+
+    }
+  } else {
+    console.log("No version data available.");
+  }
+}).catch((error) => {
+  console.error("Error fetching version from Firebase:", error);
+});
 
     function updateActiveTab() {
       const tabs = channelsDiv.querySelectorAll(".channel-tab");
