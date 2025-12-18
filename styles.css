@@ -493,6 +493,12 @@
     .axey-img.second{ animation-delay:1.5s; }
     @keyframes axeyOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
 
+    .shrimp-container{ position:relative; display:inline-block; padding:0px; color:rgb(239, 42, 28); font-weight:bold; }
+    .shrimp-img{ position:absolute; width:30px; height:30px; animation:shrimpOrbit 3s linear infinite; pointer-events:none; user-select:none;}
+    .shrimp-img.second{ animation-delay:1.5s; }
+    @keyframes shrimpOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
+
+
     .gio-container{ position:relative; display:inline-block; padding:0px; color:rgb(44, 238, 44); font-weight:normal; }
     .gio-img{ position:absolute; width:30px; height:30px; animation:gioOrbit 3s linear infinite; pointer-events:none; user-select:none;}
     .gio-img.second{ animation-delay:1.5s; }

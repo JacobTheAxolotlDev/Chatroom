@@ -371,7 +371,7 @@ imageInput.addEventListener("change", async () => {
     const adminUIDs = [
       "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
       "g4S1cjjtcdbVJSdLyMfJZbyFXdg1",  // Baylor
-      "1xniuFbfwIP44QBRWZbbpsvH60X2", //jahaml
+      "EZTxll1J35R8xWEFjtNwx44GSAz1", //jahaml
       "XC7vgJaODMdG2DHZV8qBp7avJEh2", //cindy
       "BEtgUMBZhBbtiV9mI2TRzB7LT5y2", //hunter
       "a2t4fEnYYeS3eegaK9JVT4KRbwz1", //ethan
@@ -514,7 +514,7 @@ get(versionRef).then((snapshot) => {
       if (uname === "logan") name += " {👑Owner👑}";
       if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
       if (uname === "asher") name += " {🧈butter🧈}";
-      if (uname === "jahmal") name += " {🦐 Co-Owner🦐}";
+      if (uname === "jahmal-is-epik") name += " {🦐 Co-Owner🦐}";
       if (uname === "baylor") name += " [🟦Co-Owner🟦]";
       if (uname === "giooo") name += " [❓IDK❓]"
       if (uname === "neemo") name += " (Nissi)"
@@ -553,7 +553,7 @@ get(versionRef).then((snapshot) => {
 
 
       let color = null;
-      let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, special = false, frozen = false, slimenew = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
+      let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, shrimp = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, special = false, frozen = false, slimenew = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
 
       const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
       const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
@@ -571,6 +571,7 @@ get(versionRef).then((snapshot) => {
       const glowinggoldMatch = text.match(/^glowinggold:\s*(.*)/i);
       const slimeMatch = text.match(/^slime:\s*(.*)/i);
       const axeyMatch = text.match(/^axey:\s*(.*)/i);
+      const shrimpMatch = text.match(/^shrimp:\s*(.*)/i);
       const gioMatch = text.match(/^gio:\s*(.*)/i);
       const gurtMatch = text.match(/^gurt:\s*(.*)/i);
       const espurrMatch = text.match(/^espurr:\s*(.*)/i);
@@ -605,6 +606,7 @@ get(versionRef).then((snapshot) => {
       else if (glowinggoldMatch) { glowinggold = true; text = glowinggoldMatch[1]; }
       else if (slimeMatch) { slime = true; text = slimeMatch[1]; }
       else if (axeyMatch) { axey = true; text = axeyMatch[1]; }
+      else if (shrimpMatch) { shrimp = true; text = shrimpMatch[1]; }
       else if (gioMatch) { gio = true; text = gioMatch[1]; }
       else if (gurtMatch) { gurt = true; text = gurtMatch[1]; }
       else if (espurrMatch) { espurr = true; text = espurrMatch[1]; }
@@ -699,6 +701,19 @@ get(versionRef).then((snapshot) => {
         const a2 = document.createElement("img");
         a2.src = "./images/axey.png";
         a2.classList.add("axey-img", "second");
+        c.appendChild(a1);
+        c.appendChild(a2);
+        msgEl.appendChild(c);
+      } else if (shrimp) {
+        const c = document.createElement("div");
+        c.classList.add("shrimp-container");
+        c.textContent = messageContent;
+        const a1 = document.createElement("img");
+        a1.src = "./images/Shrimp_Iphone_Emoji_JPG_grande.png";
+        a1.classList.add("shrimp-img");
+        const a2 = document.createElement("img");
+        a2.src = "./images/Shrimp_Iphone_Emoji_JPG_grande.png";
+        a2.classList.add("shrimp-img", "second");
         c.appendChild(a1);
         c.appendChild(a2);
         msgEl.appendChild(c);

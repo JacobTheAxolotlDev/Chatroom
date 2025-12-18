@@ -69,7 +69,7 @@
     <div><a href="index.html">Chat Room</a></div>
     <div><a href="./g/music.html">Music (wip)</a></div>
     <div><a href="SchoolResources.html">School stuff</a></div>
-    <div><a href="/g/">all games and stuff</a></div>
+    <div><a href="https://logames.w3spaces.com/?from=ltfs">all games and stuff</a></div>
     <div><a href="radioactivelemonade.html">Radioactive Lemonade - A Webcomic by baylor and valentino</a></div>
     <div id="header-right">
       <span id="whoami-mini"></span>
@@ -400,3 +400,51 @@ onValue(bannedRef, (snapshot) => {
 
 <img src="./images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">
 <img src="./images/easteregg-ezgif.com-gif-maker.gif" width="100px">
+  <label for="password">Enter Password:</label>
+    <input type="password" id="password" placeholder="Enter password">
+    <br><br>
+    <label for="colorCode" style="display: none;">Enter Color Code:</label>
+    <input type="text" id="colorCode" style="display: none;" placeholder="Enter color code">
+    <input type="color" id="colorPicker" style="display: none;">
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const colorCodeLabel = document.querySelector('label[for="colorCode"]');
+        const colorCodeInput = document.getElementById('colorCode');
+        const colorPickerInput = document.getElementById('colorPicker');
+        const correctPassword = 'yourpassword';
+
+        passwordInput.addEventListener('input', function() {
+            if (passwordInput.value === correctPassword) {
+                colorCodeLabel.style.display = "block";
+                colorCodeInput.style.display = "block";
+                colorPickerInput.style.display = "block";
+            } else {
+                colorCodeLabel.style.display = "none";
+                colorCodeInput.style.display = "none";
+                colorPickerInput.style.display = "none";
+            }
+        });
+
+        colorCodeInput.addEventListener('input', function() {
+            document.body.style.backgroundColor = colorCodeInput.value;
+        });
+
+        colorPickerInput.addEventListener('input', function() {
+            document.body.style.backgroundColor = colorPickerInput.value;
+        });
+    </script>
+
+    <script>
+      window.addEventListener('beforeunload', function (e) {
+    // Display a confirmation dialog when the user tries to leave
+    var message = "Are you sure you want to leave this page? Any unsaved changes will be lost.";
+    
+    // Standard for most browsers
+    e.returnValue = message;
+
+    // For some older browsers
+    return message;
+});
+
+</script>

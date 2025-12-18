@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encoder</title>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Word Encoder</h1>
+  <input type="text" id="userInput" placeholder="Enter a word">
+  <button onclick="encode()">Encode</button>
+  <p id="encodedOutput"></p>
+</div> <!-- btw hunter quern middle name is von -->
+<script>
+    const alphabet = {
+  a: 'all',
+  b: 'bottle',
+  c: 'carnivourous',
+  d: 'decimate',
+  e: 'elongated',
+  f: 'fall',
+  g: 'goal',
+  h: 'helping',
+  i: 'interesting',
+  j: 'joking',
+  k: 'know',
+  l: 'long',
+  m: 'michael',
+  n: 'not',
+  o: 'orange',
+  p: 'polish',
+  q: 'quern',
+  r: 'ralsei',
+  s: 'special',
+  t: 'turing',
+  u: 'ultra',
+  v: 'violin',
+  w: 'water',
+  x: 'xylophone',
+  y: 'yaw',
+  z: 'zoom',
+
+  // Add more letters and corresponding words here
+};
+
+function encode() {
+  const userInput = document.getElementById('userInput').value.toLowerCase();
+  let encodedString = '';
+  for (let i = 0; i < userInput.length; i++) {
+    if (userInput[i] === ' ') {
+      encodedString += '/// ';
+    } else if (userInput[i] === '?') {
+      encodedString += 'questioning ';
+    } else if (userInput[i] === "'") {
+      encodedString += "'";
+    } else if (userInput[i] === ".") {
+      encodedString += "end";
+    } else {
+      encodedString += alphabet[userInput[i]].charAt(0).toUpperCase() + alphabet[userInput[i]].slice(1) + ' ';
+    }
+  }
+  document.getElementById('encodedOutput').textContent = encodedString.trim();
+}
+</script>
+</body>
+</html>

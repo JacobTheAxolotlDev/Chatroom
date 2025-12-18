@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encoder</title>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Word Encoder</h1>
+  <input type="text" id="userInput" placeholder="Enter a word">
+  <button onclick="decode()">Decode</button>
+  <p id="encodedOutput"></p>
+</div>
+<script>
+    const alphabet = {
+  a: 'all',
+  b: 'bottle',
+  c: 'carnivourous',
+  d: 'decimate',
+  e: 'elongated',
+  f: 'fall',
+  g: 'goal',
+  h: 'helping',
+  i: 'interesting',
+  j: 'joking',
+  k: 'know',
+  l: 'long',
+  m: 'michael',
+  n: 'not',
+  o: 'orange',
+  p: 'polish',
+  q: 'quern',
+  r: 'ralsei',
+  s: 'special',
+  t: 'turing',
+  u: 'ultra',
+  v: 'violin',
+  w: 'water',
+  x: 'xylophone',
+  y: 'yaw',
+  z: 'zoom',
+
+  // Add more letters and corresponding words here
+};
+
+function decode() {
+  const encodedString = document.getElementById('encodedOutput').textContent.toLowerCase();
+  const words = encodedString.split(' ');
+  let decodedWord = '';
+  
+  words.forEach(word => {
+    if (word === '///') {
+      decodedWord += ' ';
+    } else {
+      for (const letter in alphabet) {
+        if (alphabet[letter] === word) {
+          decodedWord += letter;
+          break;
+        }
+      }
+    }
+  });
+  
+  document.getElementById('encodedOutput').value = decodedWord.trim();
+}
+</script>
+</body>
+</html>
