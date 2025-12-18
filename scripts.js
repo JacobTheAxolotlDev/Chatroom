@@ -536,6 +536,10 @@ get(versionRef).then((snapshot) => {
       // Check if the message contains an image URL (http(s) or data:image)
       const imageURLMatch = text.match(/(https?:\/\/.*\.(jpg|jpeg|png|gif|bmp|webp)|data:image\/(png|jpeg|jpg|gif|bmp|webp);base64,[A-Za-z0-9+/=]+)/i);
 
+
+// Check if the message contains a URL (http(s))
+const linkURLMatch = text.match(/https?:\/\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;%=]+/i);
+
       if (imageURLMatch) {
         const imgEl = document.createElement("img");
         imgEl.src = imageURLMatch[0];
@@ -550,7 +554,21 @@ get(versionRef).then((snapshot) => {
         messagesDiv.appendChild(msgEl);
         return; // Skip adding the rest of the message content
       }
+// If it's a link, create a clickable <a> tag
+if (linkURLMatch) {
+  const linkEl = document.createElement("a");
+  linkEl.href = linkURLMatch[0];
+  linkEl.target = "_blank"; // Open in a new tab
+  linkEl.textContent = linkURLMatch[0]; // Display the URL as the link text
+  linkEl.style.color = "#1e90ff"; // Optional: Customize the link color
+  linkEl.style.textDecoration = "underline"; // Optional: Add underline
 
+  const msgEl = document.createElement("div");
+  msgEl.id = "msg-" + data._id;
+  msgEl.appendChild(linkEl);
+  messagesDiv.appendChild(msgEl);
+  return; // Skip adding the rest of the message content
+}
 
       let color = null;
       let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, shrimp = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, special = false, frozen = false, slimenew = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
