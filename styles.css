@@ -118,20 +118,20 @@
       --panel:#ffa724;
       --panel-2:#e68200;
     } */
-    /*:root{
+    :root{
       --green-1:#b7e4c7;
       --green-2:#5a9e67;
       --green-3:#3c6e40;
       --panel:#ffffff;
       --panel-2:#e3f3e8;
-    }*/
-    :root{
+    }
+    /*:root{
       --green-1:#b7e4d8; 
       --green-2:#90D5FF;
       --green-3:#0468a5;
       --panel:#ffffff;
       --panel-2:#e3f3e8;
-    }
+    }*/
     
     /*:root{
       --green-1:#0f1724;
@@ -157,6 +157,7 @@
     /* When admin panel is visible, shift the content to the right */
     body.admin-open { padding-left: 260px; }
 
+   
     /* Header */
     #header {
       width: 100%;

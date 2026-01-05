@@ -539,6 +539,8 @@ get(versionRef).then((snapshot) => {
 
 // Check if the message contains a URL (http(s))
 const linkURLMatch = text.match(/https?:\/\/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;%=]+/i);
+// Check if the message contains <marquee> tags
+const marqueeMatch = text.match(/<marquee>(.*?)<\/marquee>/i);
 
       if (imageURLMatch) {
         const imgEl = document.createElement("img");
@@ -569,7 +571,20 @@ if (linkURLMatch) {
   messagesDiv.appendChild(msgEl);
   return; // Skip adding the rest of the message content
 }
-
+if (marqueeMatch) {
+  const marqueeText = marqueeMatch[1]; // Extract the text inside <marquee>
+  
+  const marqueeEl = document.createElement("marquee");
+  marqueeEl.textContent = marqueeText;
+  marqueeEl.style.fontSize = "16px"; // Optional: Customize font size
+  marqueeEl.style.color = "#000000"; // Optional: Customize font color
+  
+  const msgEl = document.createElement("div");
+  msgEl.id = "msg-" + data._id;
+  msgEl.appendChild(marqueeEl);
+  messagesDiv.appendChild(msgEl);
+  return; // Skip adding the rest of the message content
+}
       let color = null;
       let rainbow = false, baylor = false, glitch = false, diamond = false, gold = false, gren = false, electric = false, idk = false, laser = false, uranium = false, glowinggold = false, espurr = false, slime = false, gurt = false, axey = false, shrimp = false, gio = false, butter = false, jamas = false, bread = false, fweh = false, special = false, frozen = false, slimenew = false, pokemon = false, minecraft = false, silksong = false, maxwell = false, oiia = false, undertale = false, cooked = false;
 

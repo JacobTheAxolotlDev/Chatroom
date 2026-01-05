@@ -37,31 +37,29 @@
   </head>
 
 <div id="popup" class="popup">
-  <span class="close" onclick="closePopup()">&times;</span>
+  <span class="close" onclick=" 
+  document.getElementById("popup").style.display = "none";
+">&times;</span>
   <script>
     function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
-};
 </script>
   <img src="./images/logo_1_.png" width="200px">
   <h1> UPDATE: </h1><br>
-  <p> 12/9: Archive! old versions of the chat room (old servers tho) only accessable through github repo </p> <br>
-  <p> 12/9: Bug Fixes! <img src="https://images.emojiterra.com/twitter/v14.0/512px/1fab2.png" width="20px"><img src="https://images.emojiterra.com/google/android-12l/512px/1f527.png" width="20px"> </p> <br>
-  <p> 12/8: Anti Spam, 1 second cooldown between messeges, Swear Filter, Snow, bug fixes!</p> <br>
-  <p> 12/5: You can send with enter! yey </p>
+  <p> Games Website (better than 2games cuz you can ask for games) <a href="https://logames.w3spaces.com">here </a> </p>
 </div>
 
 
   <!-- Loading screen -->
   <div id="loading-screen">
-    <img src="./images/logo_1_.png" alt="Loading..." id="loading-image" width="500" height="500">
+    <img src="./images/logo_2_.png" alt="Loading..." id="loading-image" width="500" height="500">
   </div>
   
 
 <body>
   <!-- Let it Snow! Provided by the WPress Doctor-->
-<div id="snow"></div>
+<!-- <div id="snow"></div> -->
 
 
  <!-- <div id="main-content"> -->
@@ -279,18 +277,18 @@ if (bannedUIDs.includes(user.uid)) {
     <button id="stop-jamas-spam"> [deprecated]</button>
     <a href="https://loganstoolsforschool.w3spaces.com/testingthinga.html">advanced admin panel</a>
     <a href="https://loganstoolsforschool.w3spaces.com/uidfinder.html">find user's user id</a>
-    <img src="./images/thing.png" width="210px">
+    <img src="./images/thing_1_.png" width="210px">
   </div>
 <script type="module" src="scripts.js"> </script>
 <!--<script type="module" src="./dm_system.js"> </script> -->
   <!-- Logan's Tools Panel -->
   <div id="logan-panel">
-    <button id="close-logan"> close </button>
+    <button id="close-logan" style="padding:6px 8px; border-radius:8px; border:1px solid #273057; background:#0c1431; color:#e2e8f0; cursor:pointer"> close </button>
     <iframe src="./images/yes.html" 
             width="100%" height="100%" frameborder="0"></iframe>
   </div>
   <div id="baylor-panel">
-    <button id="close-baylor"> close </button>
+    <button id="close-baylor" style="padding:6px 8px; border-radius:8px; border:1px solid #273057; background:#0c1431; color:#e2e8f0; cursor:pointer"> close </button>
     <iframe src="./images/yes.html" 
             width="100%" height="100%" frameborder="0"></iframe>
   </div>
@@ -317,11 +315,10 @@ onValue(bannedRef, (snapshot) => {
 </html>
 <div class="suggestion-info" id="suggestionInfo">
         <div class="suggestion-label">Sugggestions</div>
-        <a href="https://forms.gle/Tsc24V4uc1AtbxAP6">https://forms.gle/Tsc24V4uc1AtbxAP6</a>
+        <a href="https://forms.gle/Tsc24V4uc1AtbxAP6">https://forms.gle/Tsc24V4uc1AtbxAP6</a><br>
+        <p> oh yeah i also forgot check out the games website <a href="https://logames.w3spaces.com">here</a></p>
     </div>
-    <div class="dude-one" id="dude1">
-        <div class="dude-one"><img src="./images/Untitled_drawing_57_.png" width="240px"></div>
-    </div>
+
 
 <div class="day-info" id="dayInfo">
         <div class="day-label">Today's day is</div>
@@ -398,42 +395,9 @@ onValue(bannedRef, (snapshot) => {
 <button id="offsnow"> Turn Off Snow </button>
 </footer>
 
-<img src="./images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">
-<img src="./images/easteregg-ezgif.com-gif-maker.gif" width="100px">
-  <label for="password">Enter Password:</label>
-    <input type="password" id="password" placeholder="Enter password">
-    <br><br>
-    <label for="colorCode" style="display: none;">Enter Color Code:</label>
-    <input type="text" id="colorCode" style="display: none;" placeholder="Enter color code">
-    <input type="color" id="colorPicker" style="display: none;">
+<!--<img src="./images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">-->
+<!--<img src="./images/easteregg-ezgif.com-gif-maker.gif" width="100px">-->
 
-    <script>
-        const passwordInput = document.getElementById('password');
-        const colorCodeLabel = document.querySelector('label[for="colorCode"]');
-        const colorCodeInput = document.getElementById('colorCode');
-        const colorPickerInput = document.getElementById('colorPicker');
-        const correctPassword = 'yourpassword';
-
-        passwordInput.addEventListener('input', function() {
-            if (passwordInput.value === correctPassword) {
-                colorCodeLabel.style.display = "block";
-                colorCodeInput.style.display = "block";
-                colorPickerInput.style.display = "block";
-            } else {
-                colorCodeLabel.style.display = "none";
-                colorCodeInput.style.display = "none";
-                colorPickerInput.style.display = "none";
-            }
-        });
-
-        colorCodeInput.addEventListener('input', function() {
-            document.body.style.backgroundColor = colorCodeInput.value;
-        });
-
-        colorPickerInput.addEventListener('input', function() {
-            document.body.style.backgroundColor = colorPickerInput.value;
-        });
-    </script>
 
     <script>
       window.addEventListener('beforeunload', function (e) {
