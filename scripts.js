@@ -185,6 +185,11 @@ window.onload = function() {
     const unbanUserBtn = document.getElementById("unban-user");
     const showsnow = document.getElementById("onsnow")
     const hidesnow = document.getElementById("offsnow")
+    // mod DOM
+    const changeColorButton = document.getElementById('change-color-btn');
+    const darkModeButton = document.getElementById('dark-theme-btn');
+
+
 
 
     // Admin DOM
@@ -196,6 +201,18 @@ window.onload = function() {
     //misc DOM
     const closeBaylor = document.getElementById("close-baylor");
     const closeLogan = document.getElementById("close-logan");
+    
+    // hunte theme 
+    changeColorButton.addEventListener('click', () => {
+  // Toggle between the light and dark themes
+  document.body.classList.toggle('hunte-theme');
+});
+    // dark theme 
+    darkModeButton.addEventListener('click', () => {
+  // Toggle between the light and dark themes
+  document.body.classList.toggle('dark-theme');
+});
+
 
         // ---------- Falling images controlled via Firebase setting (applies to everyone) ----------
 // Function to check if the user is banned

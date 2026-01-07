@@ -1,0 +1,761 @@
+  <meta charset="utf-8" />
+    <link rel="icon" type="image/x-icon" href="./images/favicon_2.png">
+  <script>
+    // Wait for the page to load
+window.onload = function() {
+  // Keep the loading screen visible for 3 seconds (3000 milliseconds)
+  setTimeout(function() {
+    // Hide the loading screen
+    document.getElementById('loading-screen').style.display = 'none';
+    
+    // Show the main content
+    document.getElementById('main-content').style.display = 'block';
+  }, 300);  // Change 3000 to your desired delay in milliseconds
+};
+</script>
+<style>
+  /* The loading screen covers the entire page */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(100, 100, 100, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Style the image (you can set the size) */
+#loading-image {
+  width: 850px; /* You can adjust the size of the image */
+  height: auto;
+}
+</style>
+  </head>
+  <!-- Loading screen -->
+  <div id="loading-screen">
+    <img src="./images/Untitled_drLTFSawing.png" alt="Loading..." id="loading-image" width="500" height="500">
+  </div>
+ <!doctype html>
+<html lang="en">
+<head>
+<!-- Let it Snow! Provided by the WPress Doctor-->
+<!-- <div id="snow"></div> -->
+<style>
+	#snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1000;
+}
+</style>
+<script>
+	document.addEventListener('DOMContentLoaded', function(){
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
+    script.onload = function(){
+        particlesJS("snow", {
+            "particles": {
+                "number": {
+                    "value": 200,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "opacity": {
+                    "value": 0.7,
+                    "random": false,
+                    "anim": {
+                        "enable": false
+                    }
+                },
+                "size": {
+                    "value": 5,
+                    "random": true,
+                    "anim": {
+                        "enable": false
+                    }
+                },
+                "line_linked": {
+                    "enable": false
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 5,
+                    "direction": "bottom",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 300,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "events": {
+                    "onhover": {
+                        "enable": false
+                    },
+                    "onclick": {
+                        "enable": false
+                    },
+                    "resize": false
+                }
+            },
+            "retina_detect": true
+        });
+    }
+    document.head.append(script);
+});
+</script>
+  <meta charset="utf-8" />
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --text: #e6eef8;
+      --muted: #94a3b8;
+      --accent: #60a5fa;
+    }
+    html,body { height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:linear-gradient(180deg,#071020, #06101a); color:var(--text); }
+    .app { max-width:1000px; margin:24px auto; padding:20px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:12px; box-shadow: 0 6px 30px rgba(2,6,23,0.6); }
+    header { display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    header h1 { margin:0; font-size:20px; letter-spacing:0.2px; }
+    .whoami { color:var(--muted); font-size:13px; }
+    #main { display:grid; grid-template-columns: 220px 1fr; gap:16px; }
+    #left { display:flex; flex-direction:column; gap:12px; }
+    #channels { background:rgba(255,255,255,0.02); padding:8px; border-radius:8px; min-height:160px; max-height:420px; overflow:auto;}
+    .channel-tab { padding:8px; border-radius:6px; cursor:pointer; color:var(--muted); margin-bottom:6px; }
+    .channel-tab.active { background:rgba(96,165,250,0.12); color:var(--accent); font-weight:600; }
+    #auth { display:flex; flex-direction:column; gap:6px; background:rgba(255,255,255,0.02); padding:8px; border-radius:8px; }
+    #auth input { padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:var(--text); }
+    #auth button { padding:8px; border-radius:6px; border:0; cursor:pointer; background:var(--accent); color:#001027; }
+    #messages { background:rgba(255,255,255,0.02); padding:12px; border-radius:8px; height:540px; overflow:auto; }
+    .message { padding:8px; border-radius:8px; margin-bottom:8px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); border:1px solid rgba(255,255,255,0.02); }
+    .meta { color:var(--muted); font-size:12px; margin-bottom:6px; }
+    .text { white-space:pre-wrap; word-break:break-word; color:var(--text); }
+    .controls { margin-top:8px; display:flex; gap:8px; }
+    .controls button { padding:6px 8px; border-radius:6px; border:0; cursor:pointer; background:rgba(255,255,255,0.03); color:var(--muted); }
+    .controls button.primary { background:var(--accent); color:#001027; }
+    #composer { display:flex; gap:8px; margin-top:12px; align-items:center; }
+    #composer input[type="text"] { flex:1; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); background:transparent; color:var(--text); }
+    #composer button { padding:10px 12px; border-radius:8px; border:0; background:var(--accent); color:#001027; cursor:pointer; }
+    .small { font-size:12px; color:var(--muted); }
+    img.msg-image { max-width:100%; border-radius:8px; margin-top:6px; display:block; }
+    .admin-panel { display:flex; gap:8px; margin-top:6px; }
+    .hidden { display:none !important; }
+  </style>
+</head>
+<body>
+  <div class="app" role="main">
+    <header>
+      <div>
+        <h1>Admin Panel</h1>
+        <div class="whoami" id="whoami">Not logged in</div>
+      </div>
+      <div class="small">Channel: <span id="whoami-mini"></span></div>
+    </header>
+
+    <div id="main">
+      <aside id="left">
+        <div id="auth">
+          <input id="username" placeholder="username (no @)" autocomplete="username">
+          <input id="password" type="password" placeholder="password" autocomplete="current-password">
+          <div style="display:flex; gap:8px;">
+            <button id="login">Login</button>
+            <button id="signup">Signup</button>
+            <button id="logout" class="hidden">Logout</button>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <strong>Channels</strong>
+            <button id="create-channel" class="hidden" title="Admins only" style="padding:4px 8px;border-radius:6px;">+Add</button>
+          </div>
+          <div id="channels"></div>
+        </div>
+
+        <div id="admin-panel" class="admin-panel hidden">
+          <button id="reload-all">Reload</button>
+          <button id="wipe-all">Wipe All</button>
+        </div>
+
+        <div class="small" style="margin-top:8px;">
+          <label>Upload image as message</label><br>
+          <input id="imageInput" type="file" accept="image/*">
+        </div>
+      </aside>
+
+      <section>
+        <div id="messages" aria-live="polite"></div>
+
+        <div id="composer">
+          <input id="msg" type="text" placeholder="Type a message..." />
+          <button id="send">Send</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs (only external dependencies, required) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import {
+      getDatabase, ref, push, onChildAdded, onChildChanged, onChildRemoved, get, set, query, orderByChild, remove, update
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+    import {
+      getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged,
+      signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+    // --- Your Firebase config (from your snippet) ---
+   const firebaseConfig = {
+  apiKey: "AIzaSyC0ppSfYRPCje-BusGftdn1kCMHgs-Z_BU",
+  authDomain: "loganstoolsforschool.firebaseapp.com",
+  databaseURL: "https://loganstoolsforschool-default-rtdb.firebaseio.com",
+  projectId: "loganstoolsforschool",
+  storageBucket: "loganstoolsforschool.firebasestorage.app",
+  messagingSenderId: "883702419905",
+  appId: "1:883702419905:web:8e9888e6d6f305ec165f40",
+  measurementId: "G-P2HVQ9K0XD"
+};
+
+    // --- Init ---
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+    await setPersistence(auth, browserLocalPersistence);
+
+    // --- DOM ---
+    const messagesDiv = document.getElementById("messages");
+    const msgInput = document.getElementById("msg");
+    const sendBtn = document.getElementById("send");
+    const channelsDiv = document.getElementById("channels");
+    const composer = document.getElementById("composer");
+    const whoami = document.getElementById("whoami");
+    const whoamiMini = document.getElementById("whoami-mini");
+
+    const adminPanel = document.getElementById("admin-panel");
+    const createBtn = document.getElementById("create-channel");
+    const reloadBtn = document.getElementById("reload-all");
+    const wipeBtn = document.getElementById("wipe-all");
+
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("login");
+    const signupBtn = document.getElementById("signup");
+    const logoutBtn = document.getElementById("logout");
+
+    const imageInput = document.getElementById("imageInput");
+
+    // --- State ---
+    let channels = new Set(["general"]);
+    let allMessages = [];
+    let currentChannel = "general";
+    let currentUser = null;
+    let currentUsername = null;
+
+    // Admin UIDs copied from your snippet
+    const adminUIDs = [
+      "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
+      "g4S1cjjtcdbVJSdLyMfJZbyFXdg1",  // Baylor
+      "EZTxll1J35R8xWEFjtNwx44GSAz1", //jahaml
+      "XC7vgJaODMdG2DHZV8qBp7avJEh2", //cindy
+      "BEtgUMBZhBbtiV9mI2TRzB7LT5y2", //hunter
+      "a2t4fEnYYeS3eegaK9JVT4KRbwz1", //ethan
+      "mWmWZx15e8TMaUQUPfnXanYrYYa2", //rudy
+      "Q90bYhbZiBMS87Ety4AKZw3SKFy1", //brianna
+      "vX6DiS617vV61K9qCfo1liKGpWo2" //valentino
+    ];
+    const loganbayloruids = [
+      "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
+      "g4S1cjjtcdbVJSdLyMfJZbyFXdg1"  // Baylor
+    ];
+    // --- Banned users live listener ---
+import { onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+const bannedRef = ref(db, "banned");
+let bannedUIDs = new Set();
+
+// live sync banned list
+onValue(bannedRef, (snapshot) => {
+  bannedUIDs.clear();
+  if (snapshot.exists()) {
+    snapshot.forEach(child => bannedUIDs.add(child.key));
+  }
+  // instantly check if current user just got banned
+  if (currentUser && bannedUIDs.has(currentUser.uid)) {
+    alert("You have been banned.");
+    signOut(auth);
+  }
+});
+
+
+    // Utils
+    function usernameToEmail(u){ return `${u}@myapp.local`.toLowerCase(); }
+    function toSlug(s){ return (s||"").toLowerCase().trim().replace(/[^a-z0-9_-]+/g,'-').replace(/^-+|-+$/g,''); }
+
+    // --- Channels & Messages ---
+    async function loadChannels(){
+      const messagesRef = ref(db, "dmmessages");
+      const snap = await get(messagesRef);
+      channels.clear();
+      allMessages = [];
+      if (snap.exists()){
+        snap.forEach(child => {
+          const m = child.val();
+          m._id = child.key;
+          allMessages.push(m);
+          channels.add(m.channel || "general");
+        });
+      }
+      // explicit channels
+      const chRef = ref(db, "channels");
+      const chSnap = await get(chRef);
+      if (chSnap.exists()){
+        chSnap.forEach(c => channels.add(c.key));
+      }
+      if (adminUIDs.includes(auth.currentUser?.uid)) channels.add("admin-only");
+      if (!channels.size) channels = new Set(["general"]);
+      if (!channels.has(currentChannel)) currentChannel = [...channels][0];
+      renderChannels();
+      displayMessagesForChannel(currentChannel);
+    }
+
+    function renderChannels(){
+      channelsDiv.innerHTML = "";
+      [...channels].sort().forEach(ch => {
+        if (ch === "admin-only" && !adminUIDs.includes(auth.currentUser?.uid)) return;
+        if (ch === "baylor-logan" && !loganbayloruids.includes(auth.currentUser?.uid)) return;
+        const el = document.createElement("div");
+        el.textContent = ch;
+        el.className = "channel-tab";
+        if (ch === currentChannel) el.classList.add("active");
+        el.onclick = () => { if (currentChannel !== ch){ currentChannel = ch; updateActiveTab(); displayMessagesForChannel(currentChannel);} };
+        channelsDiv.appendChild(el);
+      });
+      whoamiMini.textContent = currentChannel;
+    }
+
+    function updateActiveTab(){
+      const tabs = channelsDiv.querySelectorAll(".channel-tab");
+      tabs.forEach(tab => tab.classList.toggle("active", tab.textContent === currentChannel));
+    }
+
+    // Add message element (renders message + name + controls)
+    function addMessageElement(data){
+      if ((data.channel || "general") !== currentChannel) return;
+      const container = document.createElement("div");
+      container.className = "message";
+      container.id = "msg-" + data._id;
+
+      const name = data.name || "Anonymous";
+      const time = new Date(data.timestamp).toLocaleString();
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.textContent = `${time} — ${name}`;
+      container.appendChild(meta);
+
+      // Detect image (data URL or image URL)
+      const imageURLMatch = (data.text || "").match(/^(data:image\/[A-Za-z]+;base64,)|^(https?:\/\/.*\.(jpg|jpeg|png|gif|webp|bmp))/i);
+      if (imageURLMatch && (data.text.startsWith("data:") || data.text.startsWith("http"))) {
+        const img = document.createElement("img");
+        img.className = "msg-image";
+        img.alt = "image message";
+        img.src = data.text;
+        container.appendChild(img);
+      } else {
+        const text = document.createElement("div");
+        text.className = "text";
+        text.textContent = data.text || "(no message)";
+        container.appendChild(text);
+      }
+
+      // Controls for owner or admin
+      const canManage = currentUser && (currentUser.uid === data.uid || adminUIDs.includes(currentUser.uid));
+      if (canManage){
+        const ctr = document.createElement("div");
+        ctr.className = "controls";
+
+        const editBtn = document.createElement("button");
+editBtn.textContent = "Edit Text";
+editBtn.onclick = async () => {
+  const oldText = data.text || ""; // store current text first
+  let newText = prompt("Edit message:", oldText);
+  if (newText === null) return;
+  newText = newText.trim();
+  if (!newText) {
+    if (!confirm("Empty message — delete instead?")) return;
+    try { 
+      await remove(ref(db, "dmmessages/" + data._id)); 
+    } catch (e) { 
+      alert("Delete failed: " + e.message); 
+    }
+    return;
+  }
+  try {
+    await update(ref(db, "dmmessages/" + data._id), { 
+      text: newText, 
+      edited: true, 
+      editedAt: Date.now(), 
+      oldText // save old text in database too
+    });
+  } catch (e) {
+    alert("Edit failed: " + e.message);
+  }
+};
+
+        const editnameBtn = document.createElement("button");
+editnameBtn.textContent = "Edit Name";
+editnameBtn.onclick = async () => {
+  const oldName = data.name || ""; // store current name first
+  let newText = prompt("Edit name:", oldName);
+  if (newText === null) return;
+  newText = newText.trim();
+  if (!newText) {
+    if (!confirm("Empty name — delete instead?")) return;
+    try { 
+      await remove(ref(db, "dmmessages/" + data._id)); 
+    } catch (e) { 
+      alert("Delete failed: " + e.message); 
+    }
+    return;
+  }
+  try {
+    await update(ref(db, "dmmessages/" + data._id), { 
+      name: newText, 
+      edited: true, 
+      editedAt: Date.now(), 
+      oldName // save old name in database too
+    });
+  } catch (e) {
+    alert("Edit failed: " + e.message);
+  }
+};
+
+        // ban-by-name: robust lookup for usernames stored as usernames/<key>/uid
+const banByNameBtn = document.createElement("button");
+banByNameBtn.textContent = "Ban User";
+banByNameBtn.onclick = async () => {
+  if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert("admins only");
+
+  const rawName = (data.name || "").trim();
+  if (!rawName) return alert("this message has no username");
+
+  // try several possible keys: exact, lowercased, slugged (remove spaces)
+  const candidates = [
+    rawName,
+    rawName.toLowerCase(),
+    rawName.toLowerCase().replace(/\s+/g, ""),       // remove spaces
+    rawName.toLowerCase().replace(/[^a-z0-9_-]/g, "") // strip non-alnum
+  ].filter(Boolean);
+
+  let uidToBan = null;
+  try {
+    for (const key of candidates) {
+      // check common path usernames/<key>/uid
+      const snap = await get(ref(db, `usernames/${key}/uid`));
+      if (snap.exists()) { uidToBan = snap.val(); break; }
+
+      // fallback: maybe stored as object { uid: "..." } at usernames/<key>
+      const snap2 = await get(ref(db, `usernames/${key}`));
+      if (snap2.exists()) {
+        const val = snap2.val();
+        if (val && typeof val === "object" && (val.uid || val.UID)) {
+          uidToBan = val.uid || val.UID;
+          break;
+        }
+      }
+    }
+
+    if (!uidToBan) return alert(`no UID found for '${rawName}' (tried ${candidates.join(", ")})`);
+
+    if (!confirm(`ban '${rawName}' (uid: ${uidToBan})?`)) return;
+
+    await set(ref(db, `banned/${uidToBan}`), true);
+    alert(`${rawName} banned successfully.`);
+  } catch (e) {
+    alert("ban failed: " + e.message);
+  }
+};
+
+
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.onclick = async () => {
+          if (!confirm("Permanently delete this message?")) return;
+          try {
+            await remove(ref(db, "dmmessages/" + data._id));
+          } catch (e){
+            alert("Delete failed: " + e.message);
+          }
+        };
+
+        // Admin-only "flag" button: replaces text with "[removed]" (keeps record)
+        const flagBtn = document.createElement("button");
+        flagBtn.textContent = "Redact";
+        flagBtn.onclick = async () => {
+          if (!confirm("Replace content with '[removed]'? (keeps message record)")) return;
+          try {
+            await update(ref(db, "dmmessages/" + data._id), { text: "[removed by admin]", name: "[removed by admin]", redacted: true, redactedAt: Date.now() });
+          } catch (e){ alert("Failed: " + e.message); }
+        };
+
+        ctr.appendChild(editBtn);
+        if (adminUIDs.includes(currentUser.uid))ctr.appendChild(editnameBtn);
+        if (adminUIDs.includes(currentUser.uid))ctr.appendChild(banByNameBtn);
+        ctr.appendChild(delBtn);
+        if (adminUIDs.includes(currentUser.uid)) ctr.appendChild(flagBtn);
+
+        container.appendChild(ctr);
+      }
+
+      messagesDiv.appendChild(container);
+    }
+
+    function displayMessagesForChannel(channel){
+      messagesDiv.innerHTML = "";
+      allMessages.forEach(m => { if ((m.channel||"general") === channel) addMessageElement(m); });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // --- Live listeners ---
+    const messagesRefLive = ref(db, "dmmessages");
+    const messagesQuery = query(messagesRefLive, orderByChild("timestamp"));
+
+    onChildAdded(messagesQuery, snapshot => {
+      const data = snapshot.val(); if (!data) return;
+      data._id = snapshot.key;
+      allMessages.push(data);
+      channels.add(data.channel || "general");
+      renderChannels();
+      if ((data.channel || "general") === currentChannel) {
+        addMessageElement(data);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    });
+
+    onChildChanged(messagesQuery, snapshot => {
+      const updated = snapshot.val(); if (!updated) return;
+      updated._id = snapshot.key;
+      const idx = allMessages.findIndex(m=>m._id === updated._id);
+      if (idx >= 0) allMessages[idx] = updated;
+      if ((updated.channel || "general") === currentChannel) displayMessagesForChannel(currentChannel);
+    });
+
+    onChildRemoved(messagesQuery, snapshot => {
+      const removedId = snapshot.key;
+      allMessages = allMessages.filter(m => m._id !== removedId);
+      displayMessagesForChannel(currentChannel);
+    });
+
+    // channels live
+    const channelsRefLive = ref(db, "channels");
+    onChildAdded(channelsRefLive, snap => { channels.add(snap.key); renderChannels(); });
+    onChildRemoved(channelsRefLive, snap => { channels.delete(snap.key); if (!channels.has(currentChannel)) currentChannel = [...channels][0]||'general'; renderChannels(); displayMessagesForChannel(currentChannel); });
+
+    // --- Auth: signup/login/logout ---
+    signupBtn.onclick = async () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      if (!username) return alert("Enter username");
+      if (password.length < 6) return alert("Password must be at least 6 chars");
+      const key = username.toLowerCase();
+      const unameRef = ref(db, "usernames/" + key);
+      const taken = await get(unameRef);
+      if (taken.exists()) return alert("Username taken");
+      const fakeEmail = usernameToEmail(username);
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, fakeEmail, password);
+        await set(ref(db, "users/" + cred.user.uid), { username });
+        await set(unameRef, { uid: cred.user.uid });
+        alert("Account created — logged in");
+        // reload to refresh UI state
+        location.reload();
+      } catch (e) { alert(e.message); }
+    };
+
+    loginBtn.onclick = async () => {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+      if (!username) return alert("Enter username");
+      const fakeEmail = usernameToEmail(username);
+      try { await signInWithEmailAndPassword(auth, fakeEmail, password); } catch (e) { alert(e.message); }
+    };
+
+    logoutBtn.onclick = async () => {
+      try { await signOut(auth); } catch (e) { alert(e.message); }
+    };
+
+    onAuthStateChanged(auth, async (user) => {
+      currentUser = user || null;
+      if (user) {
+  if (bannedUIDs.has(user.uid)) {
+    alert("You are banned.");
+    await signOut(auth);
+    return;
+  }
+  // continue with normal login UI updates
+
+
+        document.getElementById("auth").style.display = "none";
+        composer.classList.remove("hidden");
+        logoutBtn.classList.remove("hidden");
+        currentUsername = user.displayName || null;
+        if (!currentUsername){
+          const snap = await get(ref(db, "users/" + user.uid));
+          currentUsername = snap.exists() ? snap.val().username : "(user)";
+        }
+        whoami.textContent = `Logged in as ${currentUsername}`;
+        whoamiMini.textContent = currentChannel;
+
+        // show admin controls if admin
+        if (adminUIDs.includes(user.uid)) {
+          adminPanel.classList.remove("hidden");
+          createBtn.classList.remove("hidden");
+        } else {
+          adminPanel.classList.add("hidden");
+          createBtn.classList.add("hidden");
+        }
+      } else {
+        document.getElementById("auth").style.display = "flex";
+        composer.classList.remove("hidden"); // still show composer but disabled behavior will check auth
+        logoutBtn.classList.add("hidden");
+        whoami.textContent = "Not logged in";
+        whoamiMini.textContent = "";
+        currentUsername = null;
+        adminPanel.classList.add("hidden");
+        createBtn.classList.add("hidden");
+      }
+      // refresh channels view (admin-only channel visibility)
+      renderChannels();
+      await loadChannels();
+    });
+
+    // --- Send message ---
+    sendBtn.onclick = async () => {
+      if (!auth.currentUser) return alert("Login to send messages");
+      if (currentChannel === "admin-only" && !adminUIDs.includes(auth.currentUser.uid)) return alert("Not allowed to send in admin-only");
+      if (currentChannel === "baylor-logan" && !loganbayloruids.includes(auth.currentUser.uid)) return alert("Not allowed to send in baylor-logan");
+      let text = msgInput.value.trim();
+      if (!text) return;
+      const messageObj = {
+        name: currentUsername || "(user)",
+        uid: auth.currentUser.uid,
+        text: text,
+        timestamp: Date.now(),
+        channel: currentChannel
+      };
+      try {
+        await push(ref(db, "dmmessages"), messageObj);
+        msgInput.value = "";
+      } catch (e) { alert("Failed to send: " + e.message); }
+    };
+
+    // Image upload -> base64 message
+    imageInput.addEventListener("change", async () => {
+      const file = imageInput.files[0];
+      if (!file) return;
+      if (!auth.currentUser){ alert("Login to upload images"); imageInput.value = ""; return; }
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64 = reader.result;
+        const messageObj = {
+          name: currentUsername || "(user)",
+          uid: auth.currentUser.uid,
+          text: base64,
+          timestamp: Date.now(),
+          channel: currentChannel
+        };
+        try { await push(ref(db, "dmmessages"), messageObj); } catch (e){ alert("Upload failed: " + e.message); }
+      };
+      reader.readAsDataURL(file);
+      imageInput.value = "";
+    });
+
+    // Admin button handlers
+    createBtn.onclick = async () => {
+      if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert("Admins only");
+      const name = prompt("New channel name:");
+      if (!name) return;
+      const key = toSlug(name);
+      if (!key) return alert("Invalid name");
+      if (channels.has(key)) return alert("Channel exists");
+      try {
+        await set(ref(db, `channels/${key}`), { name, createdAt: Date.now(), createdBy: auth.currentUser.uid });
+        channels.add(key); currentChannel = key; renderChannels(); displayMessagesForChannel(currentChannel);
+      } catch (e){ alert("Failed to create: " + e.message); }
+    };
+
+    reloadBtn.onclick = async () => {
+      await loadChannels();
+      alert("Reloaded");
+    };
+
+    wipeBtn.onclick = async () => {
+      if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert("Admins only");
+      if (!confirm("This will permanently delete ALL messages. Continue?")) return;
+      try {
+        await set(ref(db, "dmmessages"), null);
+        allMessages = [];
+        displayMessagesForChannel(currentChannel);
+        alert("Wiped");
+      } catch (e){ alert("Failed: " + e.message); }
+    };
+
+    const banUserBtn = document.createElement("button");
+banUserBtn.textContent = "Ban User";
+banUserBtn.onclick = async () => {
+  if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid))
+    return alert("Admins only");
+  const uidToBan = prompt("Enter UID to ban:");
+  if (!uidToBan) return;
+  try {
+    await set(ref(db, "banned/" + uidToBan), true);
+    alert("User banned instantly.");
+  } catch (e) {
+    alert("Ban failed: " + e.message);
+  }
+};
+
+const unbanUserBtn = document.createElement("button");
+unbanUserBtn.textContent = "Unban User";
+unbanUserBtn.onclick = async () => {
+  if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid))
+    return alert("Admins only");
+  const uidToUnban = prompt("Enter UID to unban:");
+  if (!uidToUnban) return;
+  try {
+    await remove(ref(db, "banned/" + uidToUnban));
+    alert("User unbanned.");
+  } catch (e) {
+    alert("Unban failed: " + e.message);
+  }
+};
+
+adminPanel.appendChild(banUserBtn);
+adminPanel.appendChild(unbanUserBtn);
+
+    // Initial load
+    await loadChannels();
+  </script>
+</body>
+</html>

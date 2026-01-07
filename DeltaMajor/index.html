@@ -1,0 +1,596 @@
+ <!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>dm</title>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+        :root{
+      --green-1:#b7e4c7;
+      --green-2:#5a9e67;
+      --green-3:#3c6e40;
+      --panel:#ffffff;
+      --panel-2:#e3f3e8;
+    }
+
+  body{ margin:0; font-family:"Comic Neue",Arial, sans-serif; background:var(--green-1); height:100vh; display:flex; }
+  /* layout */
+  .app-container{ width:100%; display:flex; height:100vh; overflow:hidden; }
+  .left-col{ width:320px; background:var(--panel); border-right:4px solid var(--green-2); padding:12px; box-sizing:border-box; overflow:auto; }
+  .left-col h3{ margin:6px 0 10px; color:var(--green-2); }
+  .groups-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+  .group-item{ padding:10px 12px; border-radius:8px; cursor:pointer; background:#8fb79a; color:white; font-weight:700; user-select:none; }
+  .group-item.dm { background:#6f9fcd; } /* dm color */
+  .group-item.active{ box-shadow:inset 0 -3px rgba(0,0,0,0.12); transform:translateY(0); }
+  .create-dm-btn{ margin-top:12px; padding:10px;border-radius:8px;background:var(--green-2);color:white;border:none;cursor:pointer;font-weight:800; width:100% }
+  /* main area */\
+      #signup  {
+      padding: 10px 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--green-2);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+  .main{ flex:1; display:flex; flex-direction:column; padding:18px; box-sizing:border-box; overflow:hidden; }
+  .header-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+  .messages{ flex:1; background:#fff; border-radius:10px; padding:12px; overflow:auto; border:1px solid #ccc; }
+  .composer{ display:flex; gap:8px; margin-top:12px; }
+  .composer input[type="text"]{ flex:1; padding:12px; border-radius:10px; border:1px solid var(--green-2); font-size:15px; }
+  .composer button{ padding:12px 18px; border-radius:10px; border:none; background:var(--green-2); color:#fff; font-weight:800; cursor:pointer; }
+  /* modal */
+  .modal-backdrop{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.35); z-index:2000; }
+  .modal{ width:560px; max-width:95%; background:#fff; border-radius:12px; padding:16px; box-sizing:border-box; }
+  .modal h3{ margin:4px 0 12px; color:var(--green-2); }
+  .user-search{ width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:8px; }
+  .user-list { max-height:220px; overflow:auto; border:1px solid #eee; padding:6px; display:grid; gap:6px; grid-auto-rows:min-content; }
+  .user-row{ display:flex; justify-content:space-between; align-items:center; padding:8px; border-radius:8px; background:#f6f6f6; }
+  .selected-list{ display:flex; gap:8px; flex-wrap:wrap; padding:6px; }
+  .selected-pill{ background:var(--green-2); color:white; padding:6px 10px; border-radius:999px; font-weight:700; }
+  .modal-actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
+  .small-muted{ font-size:12px; color:#666; }
+      #logout { display:none; padding:8px 12px; border:none; border-radius:8px; background:#ffffff; color:#377c47; cursor:pointer; font-weight:700; }
+    #logout:hover{ filter:brightness(0.95); }
+  /* message bubble */
+  .msg{ margin-bottom:10px; font-size:14px; }
+  .msg-meta{ font-size:12px; color:#444; margin-bottom:4px; }
+</style>
+</head>
+<body>
+<div class="app-container">
+  <div class="left-col">
+    <h3>groups</h3>
+    <div id="groups" class="groups-list"></div>
+    <button id="createDM" class="create-dm-btn">Create DM</button>
+
+    <hr style="margin:14px 0;">
+
+    <div id="accountArea">
+      <div id="whoami">not logged in</div>
+      <div style="margin-top:8px;">
+        <input id="username" placeholder="username" style="flex: 1 1 180px;padding: 10px;border: 1px solid var(--green-2);border-radius: 8px;font-size: 14px; transition: opacity 0.5s ease;" />
+        <input id="password" placeholder="password" type="password" style="flex: 1 1 180px;padding: 10px;border: 1px solid var(--green-2);border-radius: 8px;font-size: 14px; transition: opacity 0.5s ease;"/>
+        <div style="margin-top:8px;">
+          <button id="signup" style=" padding: 10px 12px; border: none; border-radius: 8px; background: var(--green-2);color: #fff;cursor: pointer;font-weight: 700; transition: opacity 0.5s ease;">sign up</button>
+          <button id="login"style=" padding: 10px 12px; border: none; border-radius: 8px; background: var(--green-2);color: #fff;cursor: pointer;font-weight: 700; transition: opacity 0.5s ease;">login</button>
+          <button id="logout" style="display:none; padding: 10px 12px; border: none; border-radius: 8px; background: var(--green-2);color: #fff;cursor: pointer;font-weight: 700; transition: opacity 0.5s ease;">logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="header-row">
+      <div>
+        <strong id="currentChannelLabel">#general</strong>
+        <div class="small-muted" id="channelMembersInfo" style="display:inline-block;margin-left:12px"></div>
+      </div>
+      <div id="headerRight">this is in beta if ther are bugs lmk</div>
+    </div>
+
+    <div id="messages" class="messages"></div>
+
+    <div class="composer">
+      <input id="msg" type="text" placeholder="message..." />
+      <button id="send">send</button>
+    </div>
+  </div>
+</div>
+
+<!-- create dm modal -->
+<div id="dmModal" class="modal-backdrop">
+  <div class="modal">
+    <h3>create dm</h3>
+    <input id="userSearch" class="user-search" placeholder="search users by username..." />
+    <div class="user-list" id="userList"></div>
+
+    <div style="margin-top:10px">
+      <div class="small-muted">selected</div>
+      <div class="selected-list" id="selectedList"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button id="cancelDM">cancel</button>
+      <button id="confirmDM">create DM</button>
+    </div>
+  </div>
+</div>
+
+<!-- firebase + script -->
+<script type="module">
+  // === firebase imports ===
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getDatabase, ref, get, set, push, onChildAdded, onChildChanged, onChildRemoved, onValue, query, orderByChild } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+  import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+  // === firebase config (copied from your scripts.js reference) ===
+  const firebaseConfig = {
+    apiKey: "AIzaSyC0ppSfYRPCje-BusGftdn1kCMHgs-Z_BU",
+    authDomain: "loganstoolsforschool.firebaseapp.com",
+    databaseURL: "https://loganstoolsforschool-default-rtdb.firebaseio.com",
+    projectId: "loganstoolsforschool",
+    storageBucket: "loganstoolsforschool.firebasestorage.app",
+    messagingSenderId: "883702419905",
+    appId: "1:883702419905:web:8e9888e6d6f305ec165f40",
+    measurementId: "G-P2HVQ9K0XD"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
+
+  // --- dom refs ---
+  const groupsDiv = document.getElementById("groups");
+  const messagesDiv = document.getElementById("messages");
+  const msgInput = document.getElementById("msg");
+  const sendBtn = document.getElementById("send");
+  const currentLabel = document.getElementById("currentChannelLabel");
+  const membersInfo = document.getElementById("channelMembersInfo");
+
+  const createDMBtn = document.getElementById("createDM");
+  const dmModal = document.getElementById("dmModal");
+  const userSearch = document.getElementById("userSearch");
+  const userList = document.getElementById("userList");
+  const selectedList = document.getElementById("selectedList");
+  const cancelDM = document.getElementById("cancelDM");
+  const confirmDM = document.getElementById("confirmDM");
+
+  const usernameInput = document.getElementById("username");
+  const passwordInput = document.getElementById("password");
+  const loginBtn = document.getElementById("login");
+  const signupBtn = document.getElementById("signup");
+  const logoutBtn = document.getElementById("logout");
+  const whoami = document.getElementById("whoami");
+
+  // --- state ---
+  let currentUser = null;
+  let currentUsername = null;
+  let channels = new Map(); // map<channelKey, {type:'channel'|'dm', title, meta}>
+  let messages = []; // all messages
+  let currentChannelKey = "general"; // can be 'general' or 'dm:<dmId>' or 'channel:<name>'
+
+  // helper to make a dm key
+  function dmKey(id){ return `dm:${id}`; }
+
+  // --- load users (for search) ---
+  // load a list of users once (username -> uid)
+  let usersCache = []; // [{uid, username}]
+  async function loadAllUsers(){
+    const snap = await get(ref(db, "users"));
+    usersCache = [];
+    if (snap.exists()){
+      const val = snap.val();
+      for(const [uid, obj] of Object.entries(val)){
+        usersCache.push({ uid, username: obj.username || "(user)" });
+      }
+    }
+  }
+
+  // --- channels & dms loader ---
+  async function loadChannelsAndMessages(){
+    channels.clear();
+    // 1) load explicit channels node (if you use it)
+    const channelsSnap = await get(ref(db, "channelsaaaaaaaa"));
+    if (channelsSnap.exists()){
+      channelsSnap.forEach(child => {
+        channels.set("channel:"+child.key, { type:"channel", title: child.key });
+      });
+    }
+
+    // 2) load DM definitions where currentUser is a member
+    const dmsSnap = await get(ref(db, "dms"));
+    if (dmsSnap.exists()){
+      dmsSnap.forEach(child => {
+        const id = child.key;
+        const data = child.val();
+        const members = data.members || {};
+        // only add to channels if currentUser is member
+        if (currentUser && members[currentUser.uid]) {
+          const title = data.title || buildDMTitleFromMembers(members);
+          channels.set(dmKey(id), { type:"dm", title, meta:{ id, members } });
+        }
+      });
+    }
+
+    renderChannelList();
+    await loadMessages();
+  }
+
+  // build human title from member object (if no title provided)
+  function buildDMTitleFromMembers(membersObj){
+    const names = [];
+    for(const uid of Object.keys(membersObj)){
+      const u = usersCache.find(x=>x.uid===uid);
+      names.push(u ? u.username : uid.slice(0,5));
+    }
+    return names.join(", ");
+  }
+
+  // --- messages ---
+  async function loadMessages(){
+    messages = [];
+    const msgSnap = await get(ref(db, "dmmessages"));
+    if (msgSnap.exists()){
+      msgSnap.forEach(child => {
+        const m = child.val(); m._id = child.key;
+        messages.push(m);
+      });
+    }
+    renderMessagesForCurrentChannel();
+  }
+
+  // live listeners so new messages show up instantly
+  const messagesQuery = query(ref(db,"dmmessages"), orderByChild("timestamp"));
+  onChildAdded(messagesQuery, snapshot => {
+    const m = snapshot.val(); m._id = snapshot.key;
+    messages.push(m);
+    // if it belongs to current channel, append
+    const ch = channelKeyFromMessage(m);
+    if (ch === currentChannelKey) appendMessageToDOM(m);
+  });
+  onChildChanged(messagesQuery, snapshot => {
+    const updated = snapshot.val(); updated._id = snapshot.key;
+    const idx = messages.findIndex(x=>x._id===updated._id);
+    if (idx>=0) messages[idx] = updated;
+    renderMessagesForCurrentChannel();
+  });
+  onChildRemoved(messagesQuery, snapshot => {
+    const id = snapshot.key;
+    messages = messages.filter(m => m._id !== id);
+    renderMessagesForCurrentChannel();
+  });
+
+  // message -> channel key
+  function channelKeyFromMessage(m){
+    // if message.channel is a dm id, we'll treat it as dm:<id>
+    if (!m.channel) return "general";
+    if (m.channel.startsWith("dm:")) return m.channel;
+    // older messages may have channel as plain 'general' or a custom channel
+    if (m.channel === "general") return "channel:general";
+    if (m.channel.startsWith("channel:")) return m.channel;
+    // by default treat plain string as channel:...
+    return "channel:"+m.channel;
+  }
+
+  // --- rendering ---
+  function renderChannelList(){
+    groupsDiv.innerHTML = "";
+    // show channels in sorted order: system (channels) first, then dms
+    const arr = Array.from(channels.entries());
+    arr.sort((a,b)=>{
+      if (a[1].type === b[1].type) return a[1].title.localeCompare(b[1].title);
+      return a[1].type === "channel" ? -1 : 1;
+    });
+    for(const [key, info] of arr){
+      const el = document.createElement("div");
+      el.textContent = (info.type==="dm" ? "DM: " : "#") + info.title;
+      el.className = "group-item " + (info.type==="dm" ? "dm":"");
+      if (key === currentChannelKey) el.classList.add("active");
+      el.onclick = () => {
+        currentChannelKey = key;
+        updateChannelSelectionUI();
+        renderMessagesForCurrentChannel();
+      };
+      groupsDiv.appendChild(el);
+    }
+  }
+
+  function updateChannelSelectionUI(){
+    currentLabel.textContent = (channels.get(currentChannelKey)?.type==="dm") ? "dm: " + channels.get(currentChannelKey).title : "#"+(channels.get(currentChannelKey)?.title || currentChannelKey);
+    // show member list for DM
+    if (channels.get(currentChannelKey)?.type === "dm"){
+      const meta = channels.get(currentChannelKey).meta || {};
+      const members = meta.members || {};
+      const names = Object.keys(members).map(uid => {
+        const u = usersCache.find(x=>x.uid===uid);
+        return u ? u.username : uid.slice(0,5);
+      });
+      membersInfo.style.display = "inline-block";
+      membersInfo.textContent = "members: " + names.join(", ");
+    } else {
+      membersInfo.style.display = "none";
+      membersInfo.textContent = "";
+    }
+    // update active class
+    document.querySelectorAll(".group-item").forEach(el => el.classList.remove("active"));
+    // find the group element that matches current label text roughly and set active
+    document.querySelectorAll(".group-item").forEach(el=>{
+      if (el.textContent.toLowerCase().includes((channels.get(currentChannelKey)?.title||'').toLowerCase())) el.classList.add("active");
+    });
+  }
+
+  function renderMessagesForCurrentChannel() {
+    messagesDiv.innerHTML = "";
+    const chKey = currentChannelKey;
+    const filtered = messages.filter(m => channelKeyFromMessage(m) === chKey);
+    filtered.sort((a,b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+    // Append each message using the modified appendMessageToDOM function
+    for (const m of filtered) appendMessageToDOM(m);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    updateChannelSelectionUI();
+}
+
+
+  function appendMessageToDOM(m) {
+    const wrap = document.createElement("div");
+    wrap.className = "msg";
+    const time = new Date(m.timestamp || Date.now()).toLocaleString();
+    
+    // Modify the user's name based on the condition logic
+    let name = m.name || "(user)";
+    const uname = (name || "").trim().toLowerCase();
+    if (uname === "logan") name += " {👑Owner👑}";
+    if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
+    if (uname === "asher") name += " {🧈butter🧈}";
+    if (uname === "jahmal-is-epik") name += " {🦐 Co-Owner🦐}";
+    if (uname === "baylor") name += " [🟦Co-Owner🟦]";
+    if (uname === "giooo") name += " [❓IDK❓]";
+    if (uname === "neemo") name += " (Nissi)";
+    if (uname === "joy") name += " [🧀cheese🧀]";
+    if (uname === "gurt") name += " [🥛yogurt🥛]";
+
+    const imageURLMatch = m.text.match(/(https?:\/\/.*\.(jpg|jpeg|png|gif|bmp|webp)|data:image\/(png|jpeg|jpg|gif|bmp|webp);base64,[A-Za-z0-9+/=]+)/i);
+
+          if (imageURLMatch) {
+        const imgEl = document.createElement("img");
+        imgEl.src = imageURLMatch[0];
+        imgEl.alt = "Image message";
+        imgEl.style.maxWidth = "100%";
+        imgEl.style.borderRadius = "8px";
+        imgEl.style.marginTop = "8px";
+
+        const wrap = document.createElement("div");
+        wrap.id = "msg-" + data._id;
+        wrap.appendChild(imgEl);
+        messagesDiv.appendChild(wrap);
+        return; // Skip adding the rest of the message content
+      }
+    // Create message metadata
+    const meta = document.createElement("div");
+    meta.className = "msg-meta";
+    meta.textContent = `${time} — ${name}`;
+
+    // Create message body
+    const body = document.createElement("div");
+    body.textContent = m.text || "(image/attachment)";
+    
+    wrap.appendChild(meta);
+    wrap.appendChild(body);
+    messagesDiv.appendChild(wrap);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+
+  // --- send message ---
+  sendBtn.onclick = async () => {
+    if (!currentUser) return alert("log in to send messages");
+    let text = msgInput.value.trim();
+    if (!text) return;
+    // determine channel value stored in message.channel
+    // for DM keys we store message.channel = "dm:<id>"
+    let channelValue = null;
+    if (currentChannelKey.startsWith("dm:")){
+      channelValue = currentChannelKey; // e.g. "dm:Abc123"
+    } else if (currentChannelKey.startsWith("channel:")){
+      channelValue = currentChannelKey.replace(/^channel:/,'');
+    } else {
+      channelValue = currentChannelKey;
+    }
+    const msgObj = { name: currentUsername || "(user)", uid: currentUser.uid, text, timestamp: Date.now(), channel: channelValue };
+    await push(ref(db, "dmmessages"), msgObj);
+    msgInput.value = "";
+  };
+msgInput.addEventListener('keydown', async (event) => {
+  if (event.key === 'Enter' && !event.shiftKey) { 
+    event.preventDefault();
+    if (!currentUser) return alert("log in to send messages");
+    let text = msgInput.value.trim();
+    if (!text) return;
+    // determine channel value stored in message.channel
+    // for DM keys we store message.channel = "dm:<id>"
+    let channelValue = null;
+    if (currentChannelKey.startsWith("dm:")){
+      channelValue = currentChannelKey; // e.g. "dm:Abc123"
+    } else if (currentChannelKey.startsWith("channel:")){
+      channelValue = currentChannelKey.replace(/^channel:/,'');
+    } else {
+      channelValue = currentChannelKey;
+    }
+    const msgObj = { name: currentUsername || "(user)", uid: currentUser.uid, text, timestamp: Date.now(), channel: channelValue };
+    await push(ref(db, "dmmessages"), msgObj);
+    msgInput.value = "";
+  };
+});
+  // --- dm modal handling ---
+  let selectedUsers = new Map(); // uid -> username
+
+  function openDMModal(){
+    selectedUsers.clear();
+    selectedList.innerHTML = "";
+    userSearch.value = "";
+    userList.innerHTML = "";
+    dmModal.style.display = "flex";
+    // list all users initially
+    renderUserSearchResults(usersCache);
+  }
+  function closeDMModal(){ dmModal.style.display = "none"; }
+
+  function renderUserSearchResults(list){
+    userList.innerHTML = "";
+    for(const u of list){
+      const row = document.createElement("div");
+      row.className = "user-row";
+      row.innerHTML = `<div>${u.username}</div><div><button data-uid="${u.uid}">add</button></div>`;
+      const btn = row.querySelector("button");
+      btn.onclick = () => {
+        if (!selectedUsers.has(u.uid)){
+          selectedUsers.set(u.uid, u.username);
+          refreshSelectedList();
+        }
+      };
+      userList.appendChild(row);
+    }
+  }
+
+  function refreshSelectedList(){
+    selectedList.innerHTML = "";
+    for(const [uid, name] of selectedUsers){
+      const pill = document.createElement("div");
+      pill.className = "selected-pill";
+      pill.textContent = name;
+      // allow removal on click
+      pill.onclick = () => { selectedUsers.delete(uid); refreshSelectedList(); };
+      selectedList.appendChild(pill);
+    }
+  }
+
+  userSearch.addEventListener("input", (e)=>{
+    const q = e.target.value.trim().toLowerCase();
+    if (!q) return renderUserSearchResults(usersCache);
+    const res = usersCache.filter(u => u.username.toLowerCase().includes(q));
+    renderUserSearchResults(res);
+  });
+
+  createDMBtn.addEventListener("click", openDMModal);
+  cancelDM.addEventListener("click", closeDMModal);
+
+  confirmDM.addEventListener("click", async () => {
+    if (!currentUser) return alert("log in to create a dm");
+    // ensure at least one other user is selected
+    if (selectedUsers.size === 0) return alert("add at least one user");
+    // build member object: include current user as well
+    const members = {};
+    selectedUsers.forEach((name, uid) => members[uid] = true);
+    members[currentUser.uid] = true;
+    // create dm record in db
+    const newDmRef = push(ref(db, "dms"));
+    const dmId = newDmRef.key;
+    const title = Array.from(selectedUsers.values()).concat([currentUsername || "you"]).join(", ");
+    await set(ref(db, `dms/${dmId}`), { title, members, createdAt: Date.now(), createdBy: currentUser.uid });
+    // ensure the DM channel is shown immediately
+    channels.set(dmKey(dmId), { type:"dm", title, meta:{ id: dmId, members } });
+    currentChannelKey = dmKey(dmId);
+    renderChannelList();
+    renderMessagesForCurrentChannel();
+    closeDMModal();
+  });
+
+  // --- auth flows (simple username -> fake email mapping, matches your scripts.js) ---
+  function usernameToEmail(u){ return `${u}@myapp.local`.toLowerCase(); }
+
+  signupBtn.onclick = async () => {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
+    if (!username) return alert("enter a username");
+    if (password.length < 6) return alert("password must be 6+ chars");
+    // check username uniqueness
+    const taken = await get(ref(db, "usernames/" + username.toLowerCase()));
+    if (taken.exists()) return alert("username taken");
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, usernameToEmail(username), password);
+      // save profile username
+      await set(ref(db, `users/${cred.user.uid}`), { username });
+      await set(ref(db, `usernames/${username.toLowerCase()}`), { uid: cred.user.uid });
+      // attempt to set displayName
+      try { await updateProfile(cred.user, { displayName: username }); } catch(e){}
+      alert("account created and logged in");
+    } catch (e){
+      alert(e.message);
+    }
+  };
+
+  loginBtn.onclick = async () => {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value;
+    if (!username) return alert("enter username");
+    try {
+      await signInWithEmailAndPassword(auth, usernameToEmail(username), password);
+    } catch (e){
+      alert(e.message);
+    }
+  };
+
+  logoutBtn.onclick = async () => {
+    await signOut(auth);
+  };
+
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user || null;
+    if (user){
+      // fetch username
+      let snap = await get(ref(db, `users/${user.uid}`));
+      currentUsername = snap.exists() ? snap.val().username : (user.displayName || "(user)");
+      whoami.textContent = `logged in: ${currentUsername}`;
+      logoutBtn.style.display = "inline-block";
+      usernameInput.style.opacity = "0";
+            setTimeout(() => {
+  usernameInput.style.display = "none";
+}, 500); // 500 milliseconds = 0.5 seconds
+      passwordInput.style.opacity = "0";
+            setTimeout(() => {
+  passwordInput.style.display = "none";
+}, 500); // 500 milliseconds = 0.5 seconds
+      loginBtn.style.opacity = "0";
+            setTimeout(() => {
+  loginBtn.style.display = "none";
+}, 500); // 500 milliseconds = 0.5 seconds
+
+      signupBtn.style.opacity = "0";
+            setTimeout(() => {
+  signupBtn.style.display = "none";
+}, 500); // 500 milliseconds = 0.5 seconds
+      // load users & channels/messages for this user
+      await loadAllUsers();
+      await loadChannelsAndMessages();
+    } else {
+      currentUsername = null;
+      whoami.textContent = "not logged in";
+      logoutBtn.style.display = "none";
+        usernameInput.style.display = "block";
+      usernameInput.style.opacity = "1";
+        passwordInput.style.display = "block";
+        passwordInput.style.opacity = "1";
+    
+      loginBtn.style.display = "inline-block";
+      loginBtn.style.opacity = "1";
+      signupBtn.style.display = "inline-block";
+      signupBtn.style.opacity = "1";
+      // load public channels/messages (still need users list)
+      await loadAllUsers();
+      await loadChannelsAndMessages();
+    }
+  });
+
+  // initial load for guests too
+  (async ()=> {
+    await loadAllUsers();
+    await loadChannelsAndMessages();
+  })();
+
+</script>
+</body>
+</html>

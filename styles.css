@@ -122,8 +122,25 @@
       --green-1:#b7e4c7;
       --green-2:#5a9e67;
       --green-3:#3c6e40;
+      --green-4:#8fb79a;
       --panel:#ffffff;
       --panel-2:#e3f3e8;
+    }
+    .hunte-theme {
+      --green-1:#710b71;
+      --green-2:#be10be;
+      --green-3:#d6b7e4;
+      --green-4: #b981d3;
+      --panel:#e6bb76;
+      --panel-2:#e2e25a;
+    }
+    .dark-theme {
+      --green-1:#282828;
+      --green-2:#ababab;
+      --green-3:#787878;
+      --green-4:#4b4b4b;
+      --panel:#1d1d1d;
+      --panel-2:#2e2e2e;
     }
     /*:root{
       --green-1:#b7e4d8; 
@@ -156,7 +173,16 @@
     }
     /* When admin panel is visible, shift the content to the right */
     body.admin-open { padding-left: 260px; }
+.leftsidebar {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.leftsidebar > * {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 30ch;
+}
    
     /* Header */
     #header {
@@ -304,7 +330,7 @@
       display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; width:100%;
     }
     .channel-tab {
-      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: #8fb79a; color: white; font-weight: bold; user-select:none;
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: var(--green-4); color: white; font-weight: bold; user-select:none;
       transition: background-color .25s ease; text-transform: capitalize; flex-shrink:0;
     }
     .channel-tab.active, .channel-tab:hover { background-color: var(--green-2); }
@@ -404,7 +430,7 @@
     /* Tips */
     #tips {
       margin-top: 10px; font-size: 14px; color: #333;
-      background: var(--panel-2); border: 1px solid #8bc791;
+      background: var(--panel-2); border: 1px solid var(--green-4);
       border-radius: 8px; padding: 10px; width: 420px; user-select: none; text-align: left;
     }
 
@@ -807,7 +833,7 @@
       left: 0;
       width: 260px;
       height: 100%;
-      background: white;
+      background: var(--panel);
       border-right: 3px solid var(--panel-2);
       box-shadow: 2px 0 8px rgba(0,0,0,0.2);
       display: none; /* hidden by default */
