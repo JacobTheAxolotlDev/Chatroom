@@ -1,0 +1,55 @@
+   <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
+  <style>
+        #panelthing {
+      width: 550px;
+      margin: 12px 0 30px;
+      padding: 15px 20px;
+      background: var(--panel);
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: flex; flex-direction: column; align-items: center;
+      transition: background-color 1.5s;
+    }
+    </style>
+    <div id="panelthing">
+        <p> You have been banned </p>
+        </div>
+          <script>
+    // Wait for the page to load
+window.onload = function() {
+  // Keep the loading screen visible for 3 seconds (3000 milliseconds)
+  setTimeout(function() {
+    // Hide the loading screen
+    document.getElementById('loading-screen').style.display = 'none';
+    
+    // Show the main content
+    document.getElementById('main-content').style.display = 'block';
+  }, 300);  // Change 3000 to your desired delay in milliseconds
+};
+</script>
+<style>
+  /* The loading screen covers the entire page */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(100, 100, 100, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Style the image (you can set the size) */
+#loading-image {
+  width: 850px; /* You can adjust the size of the image */
+  height: auto;
+}
+</style>
+  </head>
+  <!-- Loading screen -->
+  <div id="loading-screen">
+    <img src="../../images/Untitled_drLTFSawing.png" alt="Loading..." id="loading-image" width="500" height="500">
+  </div>

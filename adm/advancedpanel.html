@@ -1,4 +1,4 @@
-  <meta charset="utf-8" />
+ <meta charset="utf-8" />
     <link rel="icon" type="image/x-icon" href="./images/favicon_2.png">
   <script>
     // Wait for the page to load
@@ -313,7 +313,7 @@ onValue(bannedRef, (snapshot) => {
 
     // --- Channels & Messages ---
     async function loadChannels(){
-      const messagesRef = ref(db, "dmmessages");
+      const messagesRef = ref(db, "messages");
       const snap = await get(messagesRef);
       channels.clear();
       allMessages = [];
@@ -404,14 +404,14 @@ editBtn.onclick = async () => {
   if (!newText) {
     if (!confirm("Empty message — delete instead?")) return;
     try { 
-      await remove(ref(db, "dmmessages/" + data._id)); 
+      await remove(ref(db, "messages/" + data._id)); 
     } catch (e) { 
       alert("Delete failed: " + e.message); 
     }
     return;
   }
   try {
-    await update(ref(db, "dmmessages/" + data._id), { 
+    await update(ref(db, "messages/" + data._id), { 
       text: newText, 
       edited: true, 
       editedAt: Date.now(), 
@@ -432,14 +432,14 @@ editnameBtn.onclick = async () => {
   if (!newText) {
     if (!confirm("Empty name — delete instead?")) return;
     try { 
-      await remove(ref(db, "dmmessages/" + data._id)); 
+      await remove(ref(db, "messages/" + data._id)); 
     } catch (e) { 
       alert("Delete failed: " + e.message); 
     }
     return;
   }
   try {
-    await update(ref(db, "dmmessages/" + data._id), { 
+    await update(ref(db, "messages/" + data._id), { 
       name: newText, 
       edited: true, 
       editedAt: Date.now(), 
@@ -495,7 +495,52 @@ banByNameBtn.onclick = async () => {
     alert("ban failed: " + e.message);
   }
 };
+// admin but 
+        
+const adminRankBtn = document.createElement("button");
+adminRankBtn.textContent = "Admin User";
+adminRankBtn.onclick = async () => {
+  if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert("admins only");
 
+  const rawName = (data.name || "").trim();
+  if (!rawName) return alert("this message has no username");
+
+  // try several possible keys: exact, lowercased, slugged (remove spaces)
+  const candidates = [
+    rawName,
+    rawName.toLowerCase(),
+    rawName.toLowerCase().replace(/\s+/g, ""),       // remove spaces
+    rawName.toLowerCase().replace(/[^a-z0-9_-]/g, "") // strip non-alnum
+  ].filter(Boolean);
+
+  let uidToAdmin = null;
+  try {
+    for (const key of candidates) {
+      // check common path usernames/<key>/uid
+      const snap = await get(ref(db, `usernames/${key}/uid`));
+      if (snap.exists()) { uidToAdmin = snap.val(); break; }
+
+      // fallback: maybe stored as object { uid: "..." } at usernames/<key>
+      const snap2 = await get(ref(db, `usernames/${key}`));
+      if (snap2.exists()) {
+        const val = snap2.val();
+        if (val && typeof val === "object" && (val.uid || val.UID)) {
+          uidToAdmin = val.uid || val.UID;
+          break;
+        }
+      }
+    }
+
+    if (!uidToAdmin) return alert(`no UID found for '${rawName}' (tried ${candidates.join(", ")})`);
+
+    if (!confirm(`admin '${rawName}' (uid: ${uidToAdmin})?`)) return;
+
+    await set(ref(db, `adminUIDs/${uidToAdmin}`), null);
+    alert(`${rawName} ranked successfully.`);
+  } catch (e) {
+    alert("rank failed: " + e.message);
+  }
+};
 
 
         const delBtn = document.createElement("button");
@@ -503,7 +548,7 @@ banByNameBtn.onclick = async () => {
         delBtn.onclick = async () => {
           if (!confirm("Permanently delete this message?")) return;
           try {
-            await remove(ref(db, "dmmessages/" + data._id));
+            await remove(ref(db, "messages/" + data._id));
           } catch (e){
             alert("Delete failed: " + e.message);
           }
@@ -515,13 +560,14 @@ banByNameBtn.onclick = async () => {
         flagBtn.onclick = async () => {
           if (!confirm("Replace content with '[removed]'? (keeps message record)")) return;
           try {
-            await update(ref(db, "dmmessages/" + data._id), { text: "[removed by admin]", name: "[removed by admin]", redacted: true, redactedAt: Date.now() });
+            await update(ref(db, "messages/" + data._id), { text: "[removed by admin]", name: "[removed by admin]", redacted: true, redactedAt: Date.now() });
           } catch (e){ alert("Failed: " + e.message); }
         };
 
         ctr.appendChild(editBtn);
         if (adminUIDs.includes(currentUser.uid))ctr.appendChild(editnameBtn);
         if (adminUIDs.includes(currentUser.uid))ctr.appendChild(banByNameBtn);
+        if (adminUIDs.includes(currentUser.uid))ctr.appendChild(adminRankBtn);
         ctr.appendChild(delBtn);
         if (adminUIDs.includes(currentUser.uid)) ctr.appendChild(flagBtn);
 
@@ -538,7 +584,7 @@ banByNameBtn.onclick = async () => {
     }
 
     // --- Live listeners ---
-    const messagesRefLive = ref(db, "dmmessages");
+    const messagesRefLive = ref(db, "messages");
     const messagesQuery = query(messagesRefLive, orderByChild("timestamp"));
 
     onChildAdded(messagesQuery, snapshot => {
@@ -665,7 +711,7 @@ banByNameBtn.onclick = async () => {
         channel: currentChannel
       };
       try {
-        await push(ref(db, "dmmessages"), messageObj);
+        await push(ref(db, "messages"), messageObj);
         msgInput.value = "";
       } catch (e) { alert("Failed to send: " + e.message); }
     };
@@ -685,7 +731,7 @@ banByNameBtn.onclick = async () => {
           timestamp: Date.now(),
           channel: currentChannel
         };
-        try { await push(ref(db, "dmmessages"), messageObj); } catch (e){ alert("Upload failed: " + e.message); }
+        try { await push(ref(db, "messages"), messageObj); } catch (e){ alert("Upload failed: " + e.message); }
       };
       reader.readAsDataURL(file);
       imageInput.value = "";
@@ -714,7 +760,7 @@ banByNameBtn.onclick = async () => {
       if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert("Admins only");
       if (!confirm("This will permanently delete ALL messages. Continue?")) return;
       try {
-        await set(ref(db, "dmmessages"), null);
+        await set(ref(db, "messages"), null);
         allMessages = [];
         displayMessagesForChannel(currentChannel);
         alert("Wiped");

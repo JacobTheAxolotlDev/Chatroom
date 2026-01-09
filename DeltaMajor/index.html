@@ -4,6 +4,45 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>dm</title>
+  <script>
+    // Wait for the page to load
+window.onload = function() {
+  // Keep the loading screen visible for 3 seconds (3000 milliseconds)
+  setTimeout(function() {
+    // Hide the loading screen
+    document.getElementById('loading-screen').style.display = 'none';
+    
+    // Show the main content
+    document.getElementById('main-content').style.display = 'block';
+  }, 300);  // Change 3000 to your desired delay in milliseconds
+};
+</script>
+<style>
+  /* The loading screen covers the entire page */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(100, 100, 100, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Style the image (you can set the size) */
+#loading-image {
+  width: 850px; /* You can adjust the size of the image */
+  height: auto;
+}
+</style>
+  </head>
+  <!-- Loading screen -->
+  <div id="loading-screen">
+    <img src="https://loganstoolsforschool.w3spaces.com/images/Untitled_drLTFSawing.png" alt="Loading..." id="loading-image" width="500" height="500">
+  </div>
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@500;700&display=swap" rel="stylesheet"/>
 <style>
         :root{
@@ -353,22 +392,6 @@
     if (uname === "joy") name += " [🧀cheese🧀]";
     if (uname === "gurt") name += " [🥛yogurt🥛]";
 
-    const imageURLMatch = m.text.match(/(https?:\/\/.*\.(jpg|jpeg|png|gif|bmp|webp)|data:image\/(png|jpeg|jpg|gif|bmp|webp);base64,[A-Za-z0-9+/=]+)/i);
-
-          if (imageURLMatch) {
-        const imgEl = document.createElement("img");
-        imgEl.src = imageURLMatch[0];
-        imgEl.alt = "Image message";
-        imgEl.style.maxWidth = "100%";
-        imgEl.style.borderRadius = "8px";
-        imgEl.style.marginTop = "8px";
-
-        const wrap = document.createElement("div");
-        wrap.id = "msg-" + data._id;
-        wrap.appendChild(imgEl);
-        messagesDiv.appendChild(wrap);
-        return; // Skip adding the rest of the message content
-      }
     // Create message metadata
     const meta = document.createElement("div");
     meta.className = "msg-meta";
