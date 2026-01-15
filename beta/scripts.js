@@ -1,4 +1,4 @@
-const currentVersion = "1.7.3"; // This is your local version
+ const currentVersion = "1.7.3"; // This is your local version
 
 document.addEventListener('DOMContentLoaded', function () {
    var script = document.createElement('script');
