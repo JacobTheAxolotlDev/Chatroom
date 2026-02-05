@@ -1,13 +1,10 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8" />
   <title>Logans Tools For School</title>
 
-<script>
-
-
-</script>
+<script type="module" src="scripts.js"> </script>
     <link rel="canonical" href="https://loganstoolsforschool.w3spaces.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +38,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
+  <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/beta/styles.css">
   </head>
 
 <div id="popup" class="popup">
@@ -53,15 +50,19 @@
   document.getElementById("popup").style.display = "none";
 }
 </script>
-  <img src="./images/logo_1_.png" width="200px">
+  <img src="../images/logo_1_.png" width="200px">
   <h1> UPDATE: </h1><br>
   <p> Games Website (better than 2games cuz you can ask for games) <a href="https://logames.w3spaces.com">here </a> </p>
 </div>
 
 
+
   <!-- Loading screen -->
   <div id="loading-screen">
-    <img src="./images/Untitled91-ezgif.com-gif-maker.gif" alt="Loading..." id="loading-image" width="500" height="500">
+    <img src="../images/Untitled91-ezgif.com-gif-maker.gif" alt="Loading..." id="loading-image" width="500" height="500"> <br>
+    <br>
+    <div id="loading-screen-text">
+    </div>
   </div>
   
 
@@ -107,7 +108,7 @@
 
   <!-- CHAT -->
   <div id="chat">
-    <img src="./images/Logo_Full.png" width="400px">
+    <img src="../images/Logo_Full.png" width="400px">
     <div id="channels"></div>
     <div id="messages"></div>
 
@@ -116,6 +117,24 @@
       <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
       <button id="send">Send</button>
     </div>
+    <button id="keyboardButton">Emoji Keyboard</button>
+<div id="keyboard">
+  
+  <button>😊</button>
+  <button>❤️</button>
+  <button>😭</button>
+  <button>😡</button>
+  <button>🗣️</button>
+  <button>🔥</button>
+  <button>(ʘᴗʘ✿)</button>
+  <button>🤑</button>
+  <button>. ‸ .</button>
+  <button>🥹✌</button>
+  <button>¯\(◉‿◉)/¯</button>
+  <button>💀</button>
+  <!-- Add more buttons for other characters -->
+</div>
+
     <script>
       
 document.addEventListener('keydown', function(event) {
@@ -133,8 +152,8 @@ if (bannedUIDs.includes(user.uid)) {
 
   </script>
     <div id="tips">
-      <strong>Rules:</strong><br/>
-      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation
+      <strong>Rules:</strong><br>
+      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation, <strong> use your real name </strong>
      </div>
   </div>
   <div id="tips">
@@ -286,9 +305,9 @@ if (bannedUIDs.includes(user.uid)) {
     <button id="stop-jamas-spam"> [deprecated]</button>
     <a href="./adm/advancedpanel.html">advanced admin panel</a>
     <a href="./adm/uidfinder.html">find user's user id</a>
-    <img src="./images/assafdsdfthing_1_.png" width="210px">
+    <img src="../images/assafdsdfthing_1_.png" width="210px">
   </div>
-<script type="module" src="scripts.js"> </script>
+
 <!--<script type="module" src="./dm_system.js"> </script> -->
   <!-- Logan's Tools Panel -->
   <div id="logan-panel">
@@ -322,50 +341,23 @@ onValue(bannedRef, (snapshot) => {
 </script>
 
 </html>
-<div class="suggestion-info" id="suggestionInfo">
-        <div class="suggestion-label">Sugggestions</div>
-        <a href="https://forms.gle/Tsc24V4uc1AtbxAP6">https://forms.gle/Tsc24V4uc1AtbxAP6</a><br>
-        <p> oh yeah i also forgot check out the games website <a href="https://logames.w3spaces.com">here</a></p>
+
+  
     </div>
 
 
-<div class="day-info" id="dayInfo">
-        <div class="day-label">Today's day is</div>
-        <div class="day-type"></div>
-    </div>
 
-    <script>
-        function getDayType() {
-            const today = new Date();
-            const day = today.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
-            
-            // Determine the weekday for A/B days
-            const fridayCycle = Math.floor(today.getDate() / 7) % 2 === 0 ? 'A' : 'B';
-            
-            // Logic for weekdays
-            if (day === 1 || day === 3) { // Monday or Wednesday
-                return 'A';
-            } else if (day === 2 || day === 4) { // Tuesday or Thursday
-                return 'B';
-            } else if (day === 5) { // Friday
-                return fridayCycle;
-            } else { // Weekend (Saturday or Sunday)
-                return 'No class today';
-            }
-        }
 
-        const dayType = getDayType();
-        document.querySelector('.day-type').textContent = dayType;
-    </script>
+
 </body> 
 </div>
 <footer>
 <h1> keep going for some stuff </h1> <br>
  <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
-    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="./images/GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
+    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="../images/GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
   </a>
   <a href="https://github.com/JacobTheAxolotlDev" target="_blank" class="github-button">
-    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="./images/cropped_circle_image.png"> View my other Repositories
+    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="../images/cropped_circle_image.png"> View my other Repositories
   </a>
 <h3><a href="https://desmos.com/scientific">desmos </a><br>
 <h3><a href="./gamesandotherstuff/busandcarriders.html">Busses and Car Riders </a><br>
@@ -404,25 +396,20 @@ onValue(bannedRef, (snapshot) => {
 <button id="offsnow"> Turn Off Snow </button>
 </footer>
 
-<!--<img src="./images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">-->
-<!--<img src="./images/easteregg-ezgif.com-gif-maker.gif" width="100px">-->
+<!--<img src="../images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">-->
+<!--<img src="../images/easteregg-ezgif.com-gif-maker.gif" width="100px">-->
 
-
-    <script>
-      window.addEventListener('beforeunload', function (e) {
-    // Display a confirmation dialog when the user tries to leave
-    var message = "Are you sure you want to leave this page? Any unsaved changes will be lost.";
-    
-    // Standard for most browsers
-    e.returnValue = message;
-
-    // For some older browsers
-    return message;
-});
-
-</script>
 <h1> Mods </h1>
 <div style="display: flex; gap: 20px;">
-<!-- hunte theme --><button style="width: 400px; height: 200px; border-radius: 10px; background-color: #710b71; color: white; border-width: 2px; border-color: #d6b7e4;" id="change-color-btn"><h3>hunte Theme</h3> <img width="100px" src="./images/byzantine.png"></button>
+<!-- hunte theme --><button style="width: 400px; height: 200px; border-radius: 10px; background-color: #710b71; color: white; border-width: 2px; border-color: #d6b7e4;" id="change-color-btn"><h3>hunte Theme</h3> <img width="100px" src="../images/byzantine.png"></button>
 <!-- dark theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: black; color: white; border-width: 2px; border-color: gray;" id="dark-theme-btn"><h3>Dark Theme</h3> </button>
 <!-- hollow theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: #4888b8; color: white; border-width: 2px; border-color: gray;" id="hollow"><h3>Hollow Knight Theme</h3> </button>
+<h1> Font Test </h1> <br>
+<p> ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()-=_+,.<>/?[]{}||</p>
+<button style="display: none;" id="keyboardButtonHide">Emoji Keyboard</button>
+<noscript>
+        <div style="color: red; padding: 20px; border: 1px solid red;">
+            <h2>JavaScript is Disabled</h2>
+            <p>Please enable JavaScript in your browser settings to use this website's features.</p>
+        </div>
+    </noscript>

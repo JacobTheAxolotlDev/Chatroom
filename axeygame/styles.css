@@ -1,0 +1,186 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --button-color: #e74c3c;
+    --button-text-color: #fff;
+    --text-color: #333;
+    --background-color: #b7e4c7;
+    --shop-background: #8fb79a;
+    --hover-color: #95a5a6;
+    --outline-color: #7f8c8d;
+    --green-1: #b7e4c7;
+	--green-2: #5a9e67;
+	--green-3: #3c6e40;
+	--green-4: #8fb79a;
+	--panel: #ffffff;
+	--panel-2: #e3f3e8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 900px;
+    max-height: 700px;
+    background-color: white;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px solid var(--outline-color);
+}
+.left-col{ width:320px; background:var(--panel); border-right:4px solid var(--green-2); padding:12px; box-sizing:border-box; overflow:auto; }
+  .left-col h3{ margin:6px 0 10px; color:var(--green-2); }
+.points-container {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+}
+
+#clickable {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    width: 474px;
+    height: 474px;
+}
+
+#clickableImage {
+    max-width: 4704px;
+    max-height: 4704px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+#clickableImage:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.shop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 320px;
+    border-left-color: var(--secondary-color);
+    border-left-width: 2px;
+    border-left-style: solid;
+    background-color: var(--shop-background);
+}
+
+.shop h3 {
+    padding-top: 5px;
+    text-align: center;
+}
+
+.upgrade {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.upgrade button {
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: var(--button-text-color);
+    border: none;
+    width: 230px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.upgrade button:hover {
+    background-color: var(--hover-color);
+}
+
+.settings-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: var(--button-text-color);
+    border-radius: 5px;
+    border: 2px solid var(--outline-color);
+}
+
+.rebirth-button {
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    font-size: 24px;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    color: var(--button-text-color);
+    border-radius: 5px;
+    border: 2px solid var(--outline-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.rebirth-button:hover {
+    background-color: var(--hover-color);
+}
+
+.settings-modal {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 20px;
+    border: 2px solid var(--outline-color);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.settings-modal button {
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.settings-modal button:hover {
+    background-color: var(--hover-color);
+}
+
+.hidden {
+    display: none;
+}
+
+#rebirthCounter {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    color: var(--secondary-color);
+    font-size: 18px;
+    font-weight: bold;
+}

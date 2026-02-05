@@ -1,4 +1,10 @@
- const currentVersion = "1.7.3"; // This is your local version
+
+window.onload = function() {
+    // Your code to change the object's display goes here
+    document.getElementById('errormessege').style.display = 'block';
+};
+
+const currentVersion = "1.7.3"; // This is your local version
 
 document.addEventListener('DOMContentLoaded', function () {
    var script = document.createElement('script');
@@ -85,7 +91,34 @@ window.onload = function () {
       document.getElementById("popup").style.display = "none";
    }
 };
+const keyboardButton = document.getElementById('keyboardButton');
+const keyboardButtonHide = document.getElementById('keyboardButtonHide');
+const keyboard = document.getElementById('keyboard');
+const textbox = document.getElementById('msg');
 
+let isKeyboardVisible = false;
+
+keyboardButton.addEventListener('click', function() {
+  if (!isKeyboardVisible) {
+    keyboard.style.display = 'block';
+    isKeyboardVisible = true;
+  } else {
+    keyboard.style.display = 'none';
+    isKeyboardVisible = false;
+  }
+});
+
+keyboardButtonHide.addEventListener('click', function() {
+  keyboard.style.display = 'none';
+  isKeyboardVisible = false;
+});
+
+keyboard.addEventListener('click', function(e) {
+  if (e.target.tagName === 'BUTTON') {
+    const character = e.target.textContent;
+    textbox.value += character;
+  }
+});
 function closeadminpanel() {
    document.getElementById("admin-panel").style.display = "none";
 };
@@ -121,18 +154,19 @@ function filterboy(text) {
    });
    return text;
 }
-
-// Wait for the page to load
+  // Wait for the page to load
 window.onload = function () {
    // Keep the loading screen visible for 3 seconds (3000 milliseconds)
    setTimeout(function () {
       // Hide the loading screen
       document.getElementById('loading-screen').style.display = 'none';
+      document.getElementById('errormessege').style.display = 'none';
 
       // Show the main content
       document.getElementById('main-content').style.display = 'block';
-   }, 300); // Change 3000 to your desired delay in milliseconds
+   }, 3000); // Change 3000 to your desired delay in milliseconds
 };
+
 
 
 import {
@@ -212,6 +246,7 @@ const closeBtn = document.getElementById("close-panel");
 //misc DOM
 const closeBaylor = document.getElementById("close-baylor");
 const closeLogan = document.getElementById("close-logan");
+ const voteButton = document.getElementById('voteButton');
 
 // hunte theme 
 changeColorButton.addEventListener('click', () => {
@@ -482,7 +517,7 @@ function renderChannels() {
       }
 
       const tab = document.createElement("div");
-      tab.textContent = channel;
+      tab.innerHTML = channel;
       tab.className = "channel-tab";
       if (channel === currentChannel) tab.classList.add("active");
       tab.onclick = () => {
@@ -522,7 +557,7 @@ get(versionRef).then((snapshot) => {
 function updateActiveTab() {
    const tabs = channelsDiv.querySelectorAll(".channel-tab");
    tabs.forEach((tab) => {
-      tab.classList.toggle("active", tab.textContent === currentChannel);
+      tab.classList.toggle("active", tab.innerHTML === currentChannel);
    });
 }
 
@@ -569,6 +604,8 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
 
    // Check if the message contains an image URL (http(s) or data:image)
    const imageURLMatch = text.match(/(https?:\/\/.*\.(jpg|jpeg|png|gif|bmp|webp)|data:image\/(png|jpeg|jpg|gif|bmp|webp);base64,[A-Za-z0-9+/=]+)/i);
+      const skipMessageMatch = text.match(/^empty:.+/);
+
 
 
    // Check if the message contains a URL (http(s))
@@ -590,12 +627,23 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       messagesDiv.appendChild(msgEl);
       return; // Skip adding the rest of the message content
    }
+      if (skipMessageMatch) {
+      const pEl = document.createElement("p");
+      pEl.innerHTML = a;
+      pEl.style.margin = "0px";
+
+      const msgEl = document.createElement("div");
+      msgEl.id = "msg-" + data._id;
+      msgEl.appendChild(imgEl);
+      messagesDiv.appendChild(msgEl);
+      return; // Skip adding the rest of the message content
+   }
    // If it's a link, create a clickable <a> tag
    if (linkURLMatch) {
       const linkEl = document.createElement("a");
       linkEl.href = linkURLMatch[0];
       linkEl.target = "_blank"; // Open in a new tab
-      linkEl.textContent = linkURLMatch[0]; // Display the URL as the link text
+      linkEl.innerHTML = linkURLMatch[0]; // Display the URL as the link text
       linkEl.style.color = "#1e90ff"; // Optional: Customize the link color
       linkEl.style.textDecoration = "underline"; // Optional: Add underline
 
@@ -609,7 +657,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       const marqueeText = marqueeMatch[1]; // Extract the text inside <marquee>
 
       const marqueeEl = document.createElement("marquee");
-      marqueeEl.textContent = marqueeText;
+      marqueeEl.innerHTML = marqueeText;
       marqueeEl.style.fontSize = "16px"; // Optional: Customize font size
       marqueeEl.style.color = "#000000"; // Optional: Customize font color
 
@@ -790,72 +838,73 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    const msgEl = document.createElement("div");
 
    // Apply styles to the remaining text
-   let messageContent = `${timestamp} - ${name}: ${text}`;
+   let messageContent = `${timestamp} - <b>${name}</b>: ${text}`;
    msgEl.id = "msg-" + data._id;
+   msgEl.style.position = "relative"; // Position relative for the menu button to be positioned inside
    if (cooked) {
       const s = document.createElement("span");
       s.classList.add("cooked-text"); // Apply the cooked-text class to use Blaze_of_Glory font
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (rainbow) {
       const s = document.createElement("span");
       s.classList.add("rainbow-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (gold) {
       const s = document.createElement("span");
       s.classList.add("gold-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (gren) {
       const s = document.createElement("span");
       s.classList.add("gren-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (diamond) {
       const s = document.createElement("span");
       s.classList.add("diamond-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (electric) {
       const s = document.createElement("span");
       s.classList.add("electric-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (baylor) {
       const s = document.createElement("span");
       s.classList.add("baylor-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (uranium) {
       const s = document.createElement("span");
       s.classList.add("uranium-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (laser) {
       const s = document.createElement("span");
       s.classList.add("laser-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (idk) {
       const s = document.createElement("span");
       s.classList.add("idk-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (glowinggold) {
       const s = document.createElement("span");
       s.classList.add("glowinggold-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (slime) {
       const s = document.createElement("span");
       s.classList.add("slime-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (axey) {
       const c = document.createElement("div");
       c.classList.add("axey-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/axey.png";
       a1.classList.add("axey-img");
@@ -868,7 +917,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (shrimp) {
       const c = document.createElement("div");
       c.classList.add("shrimp-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/Shrimp_Iphone_Emoji_JPG_grande.png";
       a1.classList.add("shrimp-img");
@@ -881,7 +930,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (gio) {
       const c = document.createElement("div");
       c.classList.add("gio-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/image-removebg-preview_-_2025-10-15T095130.742.png";
       a1.classList.add("gio-img");
@@ -894,7 +943,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (gurt) {
       const c = document.createElement("div");
       c.classList.add("gurt-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCzIjtq_tH-8oaT1bsvChvXoRHS0YEbRPrmQ&s";
       a1.classList.add("gurt-img");
@@ -907,7 +956,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (espurr) {
       const c = document.createElement("div");
       c.classList.add("espurr-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/espurr-removebg-preview.png";
       a1.classList.add("espurr-img");
@@ -920,7 +969,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (butter) {
       const c = document.createElement("div");
       c.classList.add("butter-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/butter.png";
       a1.classList.add("butter-img");
@@ -933,7 +982,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (jamas) {
       const c = document.createElement("div");
       c.classList.add("jamas-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
 
       // wrapper #1
       const w1 = document.createElement("div");
@@ -959,7 +1008,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (bread) {
       const c = document.createElement("div");
       c.classList.add("bread-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/images-removebg-preview_15_.png";
       a1.classList.add("bread-img");
@@ -972,7 +1021,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (pokemon) {
       const c = document.createElement("div");
       c.classList.add("pokemon-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const p1 = document.createElement("img");
       p1.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
       p1.classList.add("pokemon-img");
@@ -1001,7 +1050,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (minecraft) {
       const c = document.createElement("div");
       c.classList.add("minecraft-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/image-removebg-preview_-_2025-08-14T085703.894.png";
       m1.classList.add("minecraft-img");
@@ -1014,22 +1063,22 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (glitch) {
       const c = document.createElement("div");
       c.classList.add("glitch-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       msgEl.appendChild(c);
    } else if (frozen) {
       const c = document.createElement("div");
       c.classList.add("frozen-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       msgEl.appendChild(c);
    } else if (slimenew) {
       const c = document.createElement("div");
       c.classList.add("slimenew-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       msgEl.appendChild(c);
    } else if (silksong) {
       const c = document.createElement("div");
       c.classList.add("silksong-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/description-image.png";
       m1.classList.add("silksong-img");
@@ -1042,7 +1091,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (oiia) {
       const c = document.createElement("div");
       c.classList.add("oiia-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/OIIA-Website-loop.gif";
       m1.classList.add("oiia-img");
@@ -1055,7 +1104,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (maxwell) {
       const c = document.createElement("div");
       c.classList.add("maxwell-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/maxwellspin-ezgif.com-crop.gif";
       m1.classList.add("maxwell-img");
@@ -1068,7 +1117,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (undertale) {
       const c = document.createElement("div");
       c.classList.add("undertale-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/image-removebg-preview_-_2025-09-04T143902.404.png";
       m1.classList.add("undertale-img");
@@ -1081,27 +1130,235 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (fweh) {
       const s = document.createElement("span");
       s.classList.add("fweh-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (special) {
       const s = document.createElement("span");
       s.classList.add("special-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (color) {
       const s = document.createElement("span");
       s.style.color = color;
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else {
       const s = document.createElement("span");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
+      
       msgEl.appendChild(s);
    }
 
+    // Handle reactions display
+    const reactionsDiv = document.createElement("div");
+   reactionsDiv.classList.add("reactions-container");
+
+   // Fetch and display reactions
+   if (data.reactions) {
+      Object.keys(data.reactions).forEach(reaction => {
+         const reactionDiv = document.createElement("span");
+         reactionDiv.classList.add("reaction");
+         reactionDiv.textContent = `${reaction}: ${data.reactions[reaction].length}`; // Display emoji and count
+
+         // Add an event listener to toggle the reaction
+         reactionDiv.addEventListener("click", () => handleReactionClick(data._id, reaction));
+
+         reactionsDiv.appendChild(reactionDiv);
+      });
+   }
+
+   msgEl.appendChild(reactionsDiv);
+
+
+  // Create the three dots button for the menu
+   const menuButton = document.createElement("button");
+   menuButton.classList.add("menu-button");
+   menuButton.innerHTML = "&#x2022;&#x2022;&#x2022;"; // Unicode for "..." (three dots)
+
+   // Position it to the right of the message
+   menuButton.style.position = "absolute";
+   menuButton.style.right = "10px"; // Adjust the right padding
+   menuButton.style.top = "50%";
+   menuButton.style.transform = "translateY(-50%)"; // Center vertically
+
+   // Add event listener to the menu button (optional, for menu functionality)
+   menuButton.addEventListener("click", () => {
+      openModal(data._id); // Pass message ID to modal
+   });
+
+   // Append the menu button to the message element
+   msgEl.appendChild(menuButton);
+
+
    messagesDiv.appendChild(msgEl);
 }
+function handleReactionClick(messageId, reaction) {
+   const messageRef = ref(db, `messages/${messageId}`);
 
+   // Get current user's UID
+   const currentUserUid = auth.currentUser.uid;
+
+   // Fetch current message data
+   get(messageRef).then((snapshot) => {
+      if (snapshot.exists()) {
+         const messageData = snapshot.val();
+         let reactions = messageData.reactions || {}; // Fetch existing reactions or initialize empty object
+
+         // If this reaction doesn't exist, initialize it as an array
+         if (!reactions[reaction]) {
+            reactions[reaction] = [];
+         }
+
+         const userReactionIndex = reactions[reaction].indexOf(currentUserUid);
+
+         // Toggle the reaction (add or remove)
+         if (userReactionIndex === -1) {
+            // Add the user to the reaction list
+            reactions[reaction].push(currentUserUid);
+         } else {
+            // Remove the user from the reaction list
+            reactions[reaction].splice(userReactionIndex, 1);
+         }
+
+         // Update the message's reactions in Firebase
+         update(messageRef, { reactions });
+      }
+   });
+}
+
+
+
+function openModal(messageId) {
+   // Create modal structure dynamically
+   const modal = document.createElement("div");
+   modal.classList.add("modal");
+   modal.style.display = "flex"; // Ensure the modal is visible
+
+   const modalContent = document.createElement("div");
+   modalContent.classList.add("modal-content");
+
+   const closeButton = document.createElement("button");
+   closeButton.classList.add("close-button");
+   closeButton.innerHTML = "&#x2715;"; // Unicode for "X" (close button)
+
+   // Add a message header (optional)
+   const modalHeader = document.createElement("div");
+   modalHeader.classList.add("modal-header");
+   modalHeader.innerHTML = `<h3>Message Options for ${messageId}</h3>`;
+   modalContent.appendChild(modalHeader);
+
+   // Add Add Reaction option
+   const modalBody = document.createElement("div");
+   modalBody.classList.add("modal-body");
+
+   // Reaction input and add button
+   const reactionInput = document.createElement("input");
+   reactionInput.placeholder = "Enter reaction (e.g., 😀)";
+   reactionInput.type = "text";
+   reactionInput.classList.add("reaction-input");
+
+   const addButton = document.createElement("button");
+   addButton.classList.add("add-reaction-button");
+   addButton.innerHTML = "Add Reaction";
+
+   // Add event listener for adding the reaction
+   addButton.addEventListener("click", () => {
+      const reaction = reactionInput.value.trim();
+      if (reaction) {
+         addReaction(messageId, reaction);
+         closeModal(modal);
+      }
+   });
+
+   modalBody.appendChild(reactionInput);
+   modalBody.appendChild(addButton);
+
+   modalContent.appendChild(modalBody);
+   modalContent.appendChild(closeButton);
+
+   // Append modal content to modal container
+   modal.appendChild(modalContent);
+
+   // Append modal to the body
+   document.body.appendChild(modal);
+
+   // Close button functionality
+   closeButton.addEventListener("click", () => {
+      closeModal(modal);
+   });
+
+   // Optionally, close the modal by clicking outside of it
+   window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+         closeModal(modal);
+      }
+   });
+}
+
+function closeModal(modal) {
+   modal.style.display = "none"; // Hide the modal
+   document.body.removeChild(modal); // Remove the modal from the DOM
+}
+function addReaction(messageId, reaction) {
+   const messageRef = ref(db, `messages/${messageId}`);
+
+   // Get the current user's UID
+   const currentUserUid = auth.currentUser.uid;
+
+   // Update the reactions field in Firebase
+   get(messageRef).then((snapshot) => {
+      if (snapshot.exists()) {
+         const messageData = snapshot.val();
+         let reactions = messageData.reactions || {};
+
+         // If this reaction doesn't exist, initialize it as an array
+         if (!reactions[reaction]) {
+            reactions[reaction] = [];
+         }
+
+         // If the user has already reacted with this emoji, we don't want to add it again
+         if (!reactions[reaction].includes(currentUserUid)) {
+            reactions[reaction].push(currentUserUid);
+         }
+
+         // Update Firebase with the new reactions
+         update(messageRef, { reactions });
+
+         // Add or update the reaction in the DOM (local display)
+         displayReaction(messageId, reaction);
+      }
+   });
+}
+function displayReaction(messageId, reaction) {
+   // Find the message element by its ID
+   const messageElement = document.getElementById("msg-" + messageId);
+
+   if (!messageElement) return;
+
+   // Check if the message already has reactions
+   let reactionsContainer = messageElement.querySelector(".reactions-container");
+
+   if (!reactionsContainer) {
+      // If no reactions container exists, create one
+      reactionsContainer = document.createElement("div");
+      reactionsContainer.classList.add("reactions-container");
+      messageElement.appendChild(reactionsContainer);
+   }
+
+   // Create a new reaction element
+   const reactionElement = document.createElement("span");
+   reactionElement.classList.add("reaction");
+   reactionElement.innerHTML = reaction;
+   reactionElement.setAttribute("data-reaction", reaction);
+
+   // Append the reaction to the container
+   reactionsContainer.appendChild(reactionElement);
+
+   // Add click event to handle clicking a reaction
+   reactionElement.addEventListener("click", () => {
+      addReaction(messageId, reaction);
+   });
+}
 
 function displayMessagesForChannel(channel) {
    messagesDiv.innerHTML = "";
@@ -1130,6 +1387,7 @@ onChildAdded(messagesQuery, (snapshot) => {
       // Increment new messages count and update title
       newMessagesCount++;
       document.title = `(${newMessagesCount}) Logan Tools For School`;
+      document.getElementById("loading-screen-text").textContent = `Loading ${newMessagesCount} Messages`;
    }
 });
 
@@ -1239,8 +1497,8 @@ onAuthStateChanged(auth, async (user) => {
          document.getElementById("auth").style.display = "none";
          composer.classList.add("disabled");
          logoutBtn.style.display = "inline-block";
-         whoami.textContent = "🚫 You are banned from chatting.";
-         whoamiMini.textContent = "BANNED";
+         whoami.innerHTML = "🚫 You are banned from chatting.";
+         whoamiMini.innerHTML = "BANNED";
 
          // Hide admin controls just in case
          adminPanel.style.display = 'none';
@@ -1260,8 +1518,8 @@ onAuthStateChanged(auth, async (user) => {
          const snap = await get(ref(db, "users/" + user.uid));
          currentUsername = snap.exists() ? snap.val().username : "(user)";
       }
-      whoami.textContent = `Logged in as: ${currentUsername}`;
-      whoamiMini.textContent = currentUsername;
+      whoami.innerHTML = `Logged in as: ${currentUsername}`;
+      whoamiMini.innerHTML = currentUsername;
 
       // Logan + Baylor special panels
       if (user.uid === "DawxSQun3uTvB8QIHidkqtlB42K3") {
@@ -1287,8 +1545,8 @@ onAuthStateChanged(auth, async (user) => {
       document.getElementById("auth").style.display = "flex";
       composer.classList.add("disabled");
       logoutBtn.style.display = "none";
-      whoami.textContent = "Not logged in";
-      whoamiMini.textContent = "";
+      whoami.innerHTML = "Not logged in";
+      whoamiMini.innerHTML = "";
       currentUsername = null;
 
       // Hide admin on sign-out
@@ -1322,9 +1580,8 @@ sendBtn.onclick = async () => {
    let text = msgInput.value.trim();
    if (!text) return;
 
-   // Filter swears
+   // Filter swears and other words
    text = filterSwears(text);
-
    text = filterboy(text);
 
    const messageObj = {
@@ -1333,6 +1590,7 @@ sendBtn.onclick = async () => {
       text: text,
       timestamp: Date.now(),
       channel: currentChannel,
+      reactions: {}, // Initialize an empty reactions object for this message
    };
 
    try {
@@ -1342,6 +1600,7 @@ sendBtn.onclick = async () => {
       alert("Failed to send: " + err.message);
    }
 };
+
 
 msgInput.addEventListener('keydown', async (event) => {
    if (event.key === 'Enter' && !event.shiftKey) {

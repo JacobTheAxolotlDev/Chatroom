@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+        <!-- Settings Button -->
+        <div class="settings-button" id="settingsButton">⚙️</div>
+
+        <!-- Rebirth Button -->
+        <div class="rebirth-button" id="rebirthButton">🔄</div><br>
+<br>
+        <!-- Points Display -->
+        <div class="points-container">
+            <h1>Points: <span id="points">0</span></h1>
+            <p>Points per second: <span id="pps">0</span></p>
+            <div id="rebirthCounter" class="hidden">
+                <p>Rebirths: <span id="rebirthCount">0</span></p>
+            </div>
+        </div>
+
+        <!-- Clickable Image -->
+        <div class="clickable" id="clickable">
+            <img src="./Axey-removebg-preview_1_.png" alt="Click Me!" id="clickableImage">
+        </div>
+
+        <!-- Shop Panel -->
+        <div class="shop" id="shop">
+            <h3>Shop</h3>
+            <div class="upgrade" id="upgradePerClick">
+                <button>+2 per click</button><br>
+                <span id="upgradePerClickCost">Cost: 50 points</span>
+            </div>
+            <div class="upgrade" id="axeyHelper">
+                <button>Axey Helper</button><br>
+                <span id="axeyHelperCost">Cost: 100 points</span>
+            </div>
+        </div>
+        
+        <!-- Settings Modal -->
+        <div class="settings-modal" id="settingsModal">
+            <h3>Settings</h3>
+            <button id="saveGame">Save Game</button>
+            <button id="loadGame">Load Game</button>
+            <button id="wipeGame">Wipe Game</button>
+            <button id="closeSettings">Close</button>
+        </div>
+    <input id="gameStateTextbox">
+    </input>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

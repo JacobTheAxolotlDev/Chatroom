@@ -1,4 +1,4 @@
-body {
+ body {
 	margin: 0;
 	background-color: var(--green-1);
 	font-family: "Comic Fixed", sans-serif;
@@ -61,7 +61,7 @@ b {
 }
 @font-face {
     font-family: 'Comic Fixed'; /* Choose a name for your font */
-    src: url('../ComicFixed-Regular.otf') format('opentype'); /* Specify the path and format */
+    src: url('./ComicFixed-Regular.otf') format('opentype'); /* Specify the path and format */
     font-weight: normal; /* Define weight and style if needed */
     font-style: normal;
 }
@@ -1606,70 +1606,4 @@ animation:baylorShift 4s ease-in-out infinite;
 	font-size: 2em;
 	font-weight: normal;
 	font-style: normal;
-}
-.menu-button {
-    background-color: rgba(0,0,0,0,);
-    border: none;
-    color: #555;
-    font-size: 20px; /* Adjust size */
-    cursor: pointer;
-    outline: none;
-}
-
-.menu-button:hover {
-    color: #333;
-}
-/* Modal Container */
-.modal {
-   display: none;
-   position: fixed;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-   z-index: 999999999; /* Make sure it appears on top */
-   justify-content: center;
-   align-items: center;
-   transition: all 0.3s ease;
-}
-
-/* Modal Content */
-.modal-content {
-   position: relative;
-   background-color: white;
-   padding: 20px;
-   border-radius: 8px;
-   width: 400px;
-   max-width: 80%;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* Close Button */
-.close-button {
-   position: absolute;
-   top: 10px;
-   right: 10px;
-   background: none;
-   border: none;
-   color: #333;
-   font-size: 20px;
-   cursor: pointer;
-}
-
-.close-button:hover {
-   color: red;
-}
-
-/* Modal Header */
-.modal-header {
-   font-size: 18px;
-   font-weight: bold;
-   margin-bottom: 10px;
-}
-
-/* Modal Body */
-.modal-body {
-   font-size: 16px;
-   color: #333;
 }

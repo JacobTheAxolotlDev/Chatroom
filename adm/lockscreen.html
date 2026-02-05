@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Test Program</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+        }
+        #passwordInput {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+            font-size: 18px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            color: white;
+            outline: none;
+        }
+        #passwordLabel {
+            display: none;
+            font-size: 18px;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="passwordLabel">Please Enter Password:</div>
+    <input type="password" id="passwordInput" placeholder="Enter password..." />
+
+    <script>
+        const correctPassword = "1234";  // Set your password here
+        let fullscreenLoopActive = false;  // Initially, the loop is inactive
+
+        // Function to attempt going fullscreen
+        function enterFullscreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+
+        // Function to exit fullscreen mode
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.mozCancelFullScreen) { // Firefox
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { // IE/Edge
+                document.msExitFullscreen();
+            }
+        }
+
+        // Listen for the password submission
+        document.getElementById('passwordInput').addEventListener('input', function() {
+            const password = this.value;
+
+            if (password === correctPassword) {
+                document.getElementById('passwordLabel').style.display = "none";
+                document.getElementById('passwordInput').style.display = "none";
+                fullscreenLoopActive = false;  // Stop the fullscreen loop
+                exitFullscreen();  // Exit fullscreen once the password is correct
+            }
+        });
+
+        // Continuous fullscreen function
+        function loopFullscreen() {
+            if (fullscreenLoopActive) {
+                enterFullscreen();
+            }
+            setTimeout(loopFullscreen, 30);  // Run every 30 milliseconds
+        }
+
+        // Start the fullscreen loop on user interaction
+        document.body.addEventListener('click', function() {
+            if (!fullscreenLoopActive) {
+                fullscreenLoopActive = true;  // Start the fullscreen loop
+                enterFullscreen();  // Enter fullscreen for the first time
+                loopFullscreen();  // Start the loop
+                document.getElementById('passwordLabel').style.display = "block";
+                document.getElementById('passwordInput').style.display = "block";
+            }
+        });
+
+        // Prevent exiting fullscreen by other means (optional)
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                if (!document.fullscreenElement) {
+                    enterFullscreen();
+                }
+            }
+        });
+
+        // Re-enter fullscreen on page focus (to make sure fullscreen stays)
+        window.onfocus = function() {
+            if (!document.fullscreenElement) {
+                enterFullscreen();
+            }
+        };
+
+    </script>
+</body>
+</html>

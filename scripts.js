@@ -1,3 +1,9 @@
+
+window.onload = function() {
+    // Your code to change the object's display goes here
+    document.getElementById('errormessege').style.display = 'block';
+};
+
 const currentVersion = "1.7.3"; // This is your local version
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -85,7 +91,34 @@ window.onload = function () {
       document.getElementById("popup").style.display = "none";
    }
 };
+const keyboardButton = document.getElementById('keyboardButton');
+const keyboardButtonHide = document.getElementById('keyboardButtonHide');
+const keyboard = document.getElementById('keyboard');
+const textbox = document.getElementById('msg');
 
+let isKeyboardVisible = false;
+
+keyboardButton.addEventListener('click', function() {
+  if (!isKeyboardVisible) {
+    keyboard.style.display = 'block';
+    isKeyboardVisible = true;
+  } else {
+    keyboard.style.display = 'none';
+    isKeyboardVisible = false;
+  }
+});
+
+keyboardButtonHide.addEventListener('click', function() {
+  keyboard.style.display = 'none';
+  isKeyboardVisible = false;
+});
+
+keyboard.addEventListener('click', function(e) {
+  if (e.target.tagName === 'BUTTON') {
+    const character = e.target.textContent;
+    textbox.value += character;
+  }
+});
 function closeadminpanel() {
    document.getElementById("admin-panel").style.display = "none";
 };
@@ -121,18 +154,19 @@ function filterboy(text) {
    });
    return text;
 }
-
-// Wait for the page to load
+  // Wait for the page to load
 window.onload = function () {
    // Keep the loading screen visible for 3 seconds (3000 milliseconds)
    setTimeout(function () {
       // Hide the loading screen
       document.getElementById('loading-screen').style.display = 'none';
+      document.getElementById('errormessege').style.display = 'none';
 
       // Show the main content
       document.getElementById('main-content').style.display = 'block';
-   }, 300); // Change 3000 to your desired delay in milliseconds
+   }, 3000); // Change 3000 to your desired delay in milliseconds
 };
+
 
 
 import {
@@ -212,6 +246,7 @@ const closeBtn = document.getElementById("close-panel");
 //misc DOM
 const closeBaylor = document.getElementById("close-baylor");
 const closeLogan = document.getElementById("close-logan");
+ const voteButton = document.getElementById('voteButton');
 
 // hunte theme 
 changeColorButton.addEventListener('click', () => {
@@ -405,7 +440,8 @@ const adminUIDs = [
    "a2t4fEnYYeS3eegaK9JVT4KRbwz1", //ethan
    "mWmWZx15e8TMaUQUPfnXanYrYYa2", //rudy
    "Q90bYhbZiBMS87Ety4AKZw3SKFy1", //brianna
-   "vX6DiS617vV61K9qCfo1liKGpWo2" //valentino
+   "tSVLRmzyWCNXjFIcmpgcNgiuj482", //valentino
+   "ix19W2y34UOFQ24EP6wnmCopdTc2" //caleb
 ];
 const loganbayloruids = [
    "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
@@ -482,7 +518,7 @@ function renderChannels() {
       }
 
       const tab = document.createElement("div");
-      tab.textContent = channel;
+      tab.innerHTML = channel;
       tab.className = "channel-tab";
       if (channel === currentChannel) tab.classList.add("active");
       tab.onclick = () => {
@@ -522,7 +558,7 @@ get(versionRef).then((snapshot) => {
 function updateActiveTab() {
    const tabs = channelsDiv.querySelectorAll(".channel-tab");
    tabs.forEach((tab) => {
-      tab.classList.toggle("active", tab.textContent === currentChannel);
+      tab.classList.toggle("active", tab.innerHTML === currentChannel);
    });
 }
 
@@ -541,8 +577,8 @@ const bannedUIDs = [
 function addMessageElement(data) {
    let name = data.name || "Anonymous";
    const uname = (name || "").trim().toLowerCase();
-   if (uname === "logan") name += " {👑Owner👑}";
-   if (uname === "cindysussy") name += " {🟥Pokemon Addict🟥}";
+   if (uname === "logan") name += "<span style='padding: 0px; background-image: linear-gradient(90deg, #0bb80b, #00ff11, #cdffd4, #09ff00, #1fb80b);background-size: 300% 100%;-webkit-background-clip: text;-webkit-text-fill-color: transparent; animation: grenShift 4s ease-in-out infinite;'> {</span>👑<span style='padding: 0px; background-image: linear-gradient(90deg, #0bb80b, #00ff11, #cdffd4, #09ff00, #1fb80b);background-size: 300% 100%;-webkit-background-clip: text;-webkit-text-fill-color: transparent; animation: grenShift 4s ease-in-out infinite;'>Owner</span>👑<span style='padding: 0px; background-image: linear-gradient(90deg, #0bb80b, #00ff11, #cdffd4, #09ff00, #1fb80b);background-size: 300% 100%;-webkit-background-clip: text;-webkit-text-fill-color: transparent; animation: grenShift 4s ease-in-out infinite;'>}</span>";
+   if (uname === "cindysussy") name += "<span style='color: #ff0000;animation: laserGlow 1s ease-in-out infinite;text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #cc0000;'> {🟥Pokemon Addict🟥} </span>";
    if (uname === "asher") name += " {🧈butter🧈}";
    if (uname === "jahmal-is-epik") name += " {🦐 Co-Owner🦐}";
    if (uname === "baylor") name += " [🟦Co-Owner🟦]";
@@ -550,6 +586,8 @@ function addMessageElement(data) {
    if (uname === "neemo") name += " (Nissi)"
    if (uname === "joy") name += " [🧀cheese🧀]"
    if (uname === "gurt") name += " [🥛yogurt🥛]"
+   if (uname === "ltfsaibot") name += " [🟦JEWISH🟦]"
+   if (uname === "drmcgee") name += " [🪖Sergeant🪖]"
    // name replaceing 
 if (uname === "ⅉ⋓₷₸ⅈᴎ") {
     name = name.replace("ⅉ⋓₷₸ⅈᴎ", "[Papi] justin");
@@ -569,6 +607,8 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
 
    // Check if the message contains an image URL (http(s) or data:image)
    const imageURLMatch = text.match(/(https?:\/\/.*\.(jpg|jpeg|png|gif|bmp|webp)|data:image\/(png|jpeg|jpg|gif|bmp|webp);base64,[A-Za-z0-9+/=]+)/i);
+      const skipMessageMatch = text.match(/^empty:.+/);
+
 
 
    // Check if the message contains a URL (http(s))
@@ -590,12 +630,23 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       messagesDiv.appendChild(msgEl);
       return; // Skip adding the rest of the message content
    }
+      if (skipMessageMatch) {
+      const pEl = document.createElement("p");
+      pEl.innerHTML = a;
+      pEl.style.margin = "0px";
+
+      const msgEl = document.createElement("div");
+      msgEl.id = "msg-" + data._id;
+      msgEl.appendChild(imgEl);
+      messagesDiv.appendChild(msgEl);
+      return; // Skip adding the rest of the message content
+   }
    // If it's a link, create a clickable <a> tag
    if (linkURLMatch) {
       const linkEl = document.createElement("a");
       linkEl.href = linkURLMatch[0];
       linkEl.target = "_blank"; // Open in a new tab
-      linkEl.textContent = linkURLMatch[0]; // Display the URL as the link text
+      linkEl.innerHTML = linkURLMatch[0]; // Display the URL as the link text
       linkEl.style.color = "#1e90ff"; // Optional: Customize the link color
       linkEl.style.textDecoration = "underline"; // Optional: Add underline
 
@@ -609,7 +660,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       const marqueeText = marqueeMatch[1]; // Extract the text inside <marquee>
 
       const marqueeEl = document.createElement("marquee");
-      marqueeEl.textContent = marqueeText;
+      marqueeEl.innerHTML = marqueeText;
       marqueeEl.style.fontSize = "16px"; // Optional: Customize font size
       marqueeEl.style.color = "#000000"; // Optional: Customize font color
 
@@ -790,72 +841,72 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    const msgEl = document.createElement("div");
 
    // Apply styles to the remaining text
-   let messageContent = `${timestamp} - ${name}: ${text}`;
+   let messageContent = `${timestamp} - <b>${name}</b>: ${text}`;
    msgEl.id = "msg-" + data._id;
    if (cooked) {
       const s = document.createElement("span");
       s.classList.add("cooked-text"); // Apply the cooked-text class to use Blaze_of_Glory font
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (rainbow) {
       const s = document.createElement("span");
       s.classList.add("rainbow-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (gold) {
       const s = document.createElement("span");
       s.classList.add("gold-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (gren) {
       const s = document.createElement("span");
       s.classList.add("gren-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (diamond) {
       const s = document.createElement("span");
       s.classList.add("diamond-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (electric) {
       const s = document.createElement("span");
       s.classList.add("electric-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (baylor) {
       const s = document.createElement("span");
       s.classList.add("baylor-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (uranium) {
       const s = document.createElement("span");
       s.classList.add("uranium-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (laser) {
       const s = document.createElement("span");
       s.classList.add("laser-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (idk) {
       const s = document.createElement("span");
       s.classList.add("idk-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (glowinggold) {
       const s = document.createElement("span");
       s.classList.add("glowinggold-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (slime) {
       const s = document.createElement("span");
       s.classList.add("slime-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (axey) {
       const c = document.createElement("div");
       c.classList.add("axey-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/axey.png";
       a1.classList.add("axey-img");
@@ -868,7 +919,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (shrimp) {
       const c = document.createElement("div");
       c.classList.add("shrimp-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/Shrimp_Iphone_Emoji_JPG_grande.png";
       a1.classList.add("shrimp-img");
@@ -881,7 +932,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (gio) {
       const c = document.createElement("div");
       c.classList.add("gio-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/image-removebg-preview_-_2025-10-15T095130.742.png";
       a1.classList.add("gio-img");
@@ -894,7 +945,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (gurt) {
       const c = document.createElement("div");
       c.classList.add("gurt-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCzIjtq_tH-8oaT1bsvChvXoRHS0YEbRPrmQ&s";
       a1.classList.add("gurt-img");
@@ -907,7 +958,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (espurr) {
       const c = document.createElement("div");
       c.classList.add("espurr-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/espurr-removebg-preview.png";
       a1.classList.add("espurr-img");
@@ -920,7 +971,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (butter) {
       const c = document.createElement("div");
       c.classList.add("butter-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/butter.png";
       a1.classList.add("butter-img");
@@ -933,7 +984,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (jamas) {
       const c = document.createElement("div");
       c.classList.add("jamas-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
 
       // wrapper #1
       const w1 = document.createElement("div");
@@ -959,7 +1010,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (bread) {
       const c = document.createElement("div");
       c.classList.add("bread-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const a1 = document.createElement("img");
       a1.src = "./images/images-removebg-preview_15_.png";
       a1.classList.add("bread-img");
@@ -972,7 +1023,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (pokemon) {
       const c = document.createElement("div");
       c.classList.add("pokemon-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const p1 = document.createElement("img");
       p1.src = "./images/image-removebg-preview_-_2025-08-12T192644.788.png";
       p1.classList.add("pokemon-img");
@@ -1001,7 +1052,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (minecraft) {
       const c = document.createElement("div");
       c.classList.add("minecraft-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/image-removebg-preview_-_2025-08-14T085703.894.png";
       m1.classList.add("minecraft-img");
@@ -1014,22 +1065,22 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (glitch) {
       const c = document.createElement("div");
       c.classList.add("glitch-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       msgEl.appendChild(c);
    } else if (frozen) {
       const c = document.createElement("div");
       c.classList.add("frozen-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       msgEl.appendChild(c);
    } else if (slimenew) {
       const c = document.createElement("div");
       c.classList.add("slimenew-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       msgEl.appendChild(c);
    } else if (silksong) {
       const c = document.createElement("div");
       c.classList.add("silksong-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/description-image.png";
       m1.classList.add("silksong-img");
@@ -1042,7 +1093,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (oiia) {
       const c = document.createElement("div");
       c.classList.add("oiia-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/OIIA-Website-loop.gif";
       m1.classList.add("oiia-img");
@@ -1055,7 +1106,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (maxwell) {
       const c = document.createElement("div");
       c.classList.add("maxwell-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/maxwellspin-ezgif.com-crop.gif";
       m1.classList.add("maxwell-img");
@@ -1068,7 +1119,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (undertale) {
       const c = document.createElement("div");
       c.classList.add("undertale-container");
-      c.textContent = messageContent;
+      c.innerHTML = messageContent;
       const m1 = document.createElement("img");
       m1.src = "./images/image-removebg-preview_-_2025-09-04T143902.404.png";
       m1.classList.add("undertale-img");
@@ -1081,21 +1132,22 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    } else if (fweh) {
       const s = document.createElement("span");
       s.classList.add("fweh-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (special) {
       const s = document.createElement("span");
       s.classList.add("special-text");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else if (color) {
       const s = document.createElement("span");
       s.style.color = color;
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
       msgEl.appendChild(s);
    } else {
       const s = document.createElement("span");
-      s.textContent = messageContent;
+      s.innerHTML = messageContent;
+      
       msgEl.appendChild(s);
    }
 
@@ -1107,10 +1159,11 @@ function displayMessagesForChannel(channel) {
    messagesDiv.innerHTML = "";
    allMessages.forEach((msg) => {
       if ((msg.channel || "general") === channel) addMessageElement(msg);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
    });
-   messagesDiv.scrollTop = messagesDiv.scrollHeight;
+ 
 }
-
+let autoScroll = true;
 let newMessagesCount = 0;
 
 // Live listener (messages)
@@ -1125,11 +1178,15 @@ onChildAdded(messagesQuery, (snapshot) => {
    renderChannels();
    if ((data.channel || "general") === currentChannel) {
       addMessageElement(data);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      if (autoScroll) {
+         messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+     
 
       // Increment new messages count and update title
       newMessagesCount++;
       document.title = `(${newMessagesCount}) Logan Tools For School`;
+      document.getElementById("loading-screen-text").textContent = `Loading ${newMessagesCount} Messages`;
    }
 });
 
@@ -1239,8 +1296,8 @@ onAuthStateChanged(auth, async (user) => {
          document.getElementById("auth").style.display = "none";
          composer.classList.add("disabled");
          logoutBtn.style.display = "inline-block";
-         whoami.textContent = "🚫 You are banned from chatting.";
-         whoamiMini.textContent = "BANNED";
+         whoami.innerHTML = "🚫 You are banned from chatting.";
+         whoamiMini.innerHTML = "BANNED";
 
          // Hide admin controls just in case
          adminPanel.style.display = 'none';
@@ -1260,8 +1317,8 @@ onAuthStateChanged(auth, async (user) => {
          const snap = await get(ref(db, "users/" + user.uid));
          currentUsername = snap.exists() ? snap.val().username : "(user)";
       }
-      whoami.textContent = `Logged in as: ${currentUsername}`;
-      whoamiMini.textContent = currentUsername;
+      whoami.innerHTML = `Logged in as: ${currentUsername}`;
+      whoamiMini.innerHTML = currentUsername;
 
       // Logan + Baylor special panels
       if (user.uid === "DawxSQun3uTvB8QIHidkqtlB42K3") {
@@ -1287,8 +1344,8 @@ onAuthStateChanged(auth, async (user) => {
       document.getElementById("auth").style.display = "flex";
       composer.classList.add("disabled");
       logoutBtn.style.display = "none";
-      whoami.textContent = "Not logged in";
-      whoamiMini.textContent = "";
+      whoami.innerHTML = "Not logged in";
+      whoamiMini.innerHTML = "";
       currentUsername = null;
 
       // Hide admin on sign-out

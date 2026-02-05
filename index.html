@@ -3,11 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <title>Logans Tools For School</title>
-
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P2HVQ9K0XD"></script>
 <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-
+  gtag('config', 'G-P2HVQ9K0XD');
 </script>
+<script type="module" src="scripts.js"> </script>
     <link rel="canonical" href="https://loganstoolsforschool.w3spaces.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,9 +64,13 @@
 </div>
 
 
+
   <!-- Loading screen -->
   <div id="loading-screen">
-    <img src="./images/Untitled91-ezgif.com-gif-maker.gif" alt="Loading..." id="loading-image" width="500" height="500">
+    <img src="./images/Untitled91-ezgif.com-gif-maker.gif" alt="Loading..." id="loading-image" width="500" height="500"> <br>
+    <br>
+    <div id="loading-screen-text">
+    </div>
   </div>
   
 
@@ -98,7 +107,7 @@
 
   <!-- AUTH -->
   <div id="auth">
-    <input id="username" placeholder="Username" autocomplete="username" />
+    <input id="username" maxlength="30" placeholder="Use your real name" autocomplete="username" />
     <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
     <button id="login">Login</button>
     <button id="signup" class="secondary">Sign Up</button>
@@ -116,6 +125,24 @@
       <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
       <button id="send">Send</button>
     </div>
+    <button id="keyboardButton">Emoji Keyboard</button>
+<div id="keyboard">
+  
+  <button>😊</button>
+  <button>❤️</button>
+  <button>😭</button>
+  <button>😡</button>
+  <button>🗣️</button>
+  <button>🔥</button>
+  <button>(ʘᴗʘ✿)</button>
+  <button>🤑</button>
+  <button>. ‸ .</button>
+  <button>🥹✌</button>
+  <button>¯\(◉‿◉)/¯</button>
+  <button>💀</button>
+  <!-- Add more buttons for other characters -->
+</div>
+
     <script>
       
 document.addEventListener('keydown', function(event) {
@@ -133,8 +160,8 @@ if (bannedUIDs.includes(user.uid)) {
 
   </script>
     <div id="tips">
-      <strong>Rules:</strong><br/>
-      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation
+      <strong>Rules:</strong><br>
+      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation, , you do not have to use your real name, but if you are asked what your name is, tell them if they are a moderator. we have had problems with people making accounts after being banned. also dont spam 
      </div>
   </div>
   <div id="tips">
@@ -288,7 +315,7 @@ if (bannedUIDs.includes(user.uid)) {
     <a href="./adm/uidfinder.html">find user's user id</a>
     <img src="./images/assafdsdfthing_1_.png" width="210px">
   </div>
-<script type="module" src="scripts.js"> </script>
+
 <!--<script type="module" src="./dm_system.js"> </script> -->
   <!-- Logan's Tools Panel -->
   <div id="logan-panel">
@@ -323,9 +350,8 @@ onValue(bannedRef, (snapshot) => {
 
 </html>
 <div class="suggestion-info" id="suggestionInfo">
-        <div class="suggestion-label">Sugggestions</div>
-        <a href="https://forms.gle/Tsc24V4uc1AtbxAP6">https://forms.gle/Tsc24V4uc1AtbxAP6</a><br>
-        <p> oh yeah i also forgot check out the games website <a href="https://logames.w3spaces.com">here</a></p>
+  <a href="https://forms.gle/YPJga8nkMEgChX1s6"> take this survey </a>
+  
     </div>
 
 
@@ -407,22 +433,17 @@ onValue(bannedRef, (snapshot) => {
 <!--<img src="./images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">-->
 <!--<img src="./images/easteregg-ezgif.com-gif-maker.gif" width="100px">-->
 
-
-    <script>
-      window.addEventListener('beforeunload', function (e) {
-    // Display a confirmation dialog when the user tries to leave
-    var message = "Are you sure you want to leave this page? Any unsaved changes will be lost.";
-    
-    // Standard for most browsers
-    e.returnValue = message;
-
-    // For some older browsers
-    return message;
-});
-
-</script>
 <h1> Mods </h1>
 <div style="display: flex; gap: 20px;">
 <!-- hunte theme --><button style="width: 400px; height: 200px; border-radius: 10px; background-color: #710b71; color: white; border-width: 2px; border-color: #d6b7e4;" id="change-color-btn"><h3>hunte Theme</h3> <img width="100px" src="./images/byzantine.png"></button>
 <!-- dark theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: black; color: white; border-width: 2px; border-color: gray;" id="dark-theme-btn"><h3>Dark Theme</h3> </button>
 <!-- hollow theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: #4888b8; color: white; border-width: 2px; border-color: gray;" id="hollow"><h3>Hollow Knight Theme</h3> </button>
+<h1> Font Test </h1> <br>
+<p> ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()-=_+,.<>/?[]{}||</p>
+<button style="display: none;" id="keyboardButtonHide">Emoji Keyboard</button>
+<noscript>
+        <div style="color: red; padding: 20px; border: 1px solid red;">
+            <h2>JavaScript is Disabled</h2>
+            <p>Please enable JavaScript in your browser settings to use this website's features.</p>
+        </div>
+    </noscript>
