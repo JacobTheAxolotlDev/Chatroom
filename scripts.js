@@ -442,6 +442,8 @@ const adminUIDs = [
    "Q90bYhbZiBMS87Ety4AKZw3SKFy1", //brianna
    "tSVLRmzyWCNXjFIcmpgcNgiuj482", //valentino
    "ix19W2y34UOFQ24EP6wnmCopdTc2" //caleb
+    "dsVLac0y9AShEbGmx2tu1H6U4lB2" //caleb2
+    "TqcL7dWJYJhihqebZffJohCJ36c2" //valentino2
 ];
 const loganbayloruids = [
    "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
@@ -581,13 +583,14 @@ function addMessageElement(data) {
    if (uname === "cindysussy") name += "<span style='color: #ff0000;animation: laserGlow 1s ease-in-out infinite;text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #cc0000;'> {🟥Pokemon Addict🟥} </span>";
    if (uname === "asher") name += " {🧈butter🧈}";
    if (uname === "jahmal-is-epik") name += " {🦐 Co-Owner🦐}";
-   if (uname === "baylor") name += " [🟦Co-Owner🟦]";
+   if (uname === "baylor") name += " [HollowKnight]";
    if (uname === "giooo") name += " [❓IDK❓]"
    if (uname === "neemo") name += " (Nissi)"
    if (uname === "joy") name += " [🧀cheese🧀]"
    if (uname === "gurt") name += " [🥛yogurt🥛]"
    if (uname === "ltfsaibot") name += " [🟦JEWISH🟦]"
    if (uname === "drmcgee") name += " [🪖Sergeant🪖]"
+   if (uname === "doubletwix12") name == "[Best Euphonium Player]"
    // name replaceing 
 if (uname === "ⅉ⋓₷₸ⅈᴎ") {
     name = name.replace("ⅉ⋓₷₸ⅈᴎ", "[Papi] justin");
@@ -1505,4 +1508,5 @@ showsnow.onclick = async () => {
 };
 
 // initial load
+
 await loadChannels();
