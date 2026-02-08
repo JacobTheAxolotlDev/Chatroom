@@ -4,7 +4,7 @@
 
 a simple website for school
 made for me and my friends <br>
-thank you baylor for making me work on this project
+thank you baylor for making me work on this project :)
 ### made with
 <div alight="left">
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
