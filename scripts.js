@@ -588,6 +588,7 @@ function addMessageElement(data) {
    if (uname === "gurt") name += " [🥛yogurt🥛]"
    if (uname === "ltfsaibot") name += " [🟦JEWISH🟦]"
    if (uname === "drmcgee") name += " [🪖Sergeant🪖]"
+   if (uname === "doubletwix12") name += " [Best Euphonium Player]"
    // name replaceing 
 if (uname === "ⅉ⋓₷₸ⅈᴎ") {
     name = name.replace("ⅉ⋓₷₸ⅈᴎ", "[Papi] justin");
@@ -1505,4 +1506,5 @@ showsnow.onclick = async () => {
 };
 
 // initial load
+
 await loadChannels();
