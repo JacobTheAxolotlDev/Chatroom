@@ -176,6 +176,7 @@ import {
    getDatabase,
    ref,
    push,
+   update,
    onChildAdded,
    onChildChanged,
    onChildRemoved,
@@ -573,6 +574,35 @@ const bannedUIDs = [
 ];
 
 
+
+function renderReactionsForMessage(msgEl, data) {
+   const reactionsDiv = document.createElement("div");
+   reactionsDiv.classList.add("reactions-container");
+
+   if (data.reactions) {
+      Object.keys(data.reactions).forEach(reaction => {
+         const reactionCount = Array.isArray(data.reactions[reaction]) ? data.reactions[reaction].length : 0;
+         if (!reactionCount) return;
+
+         const reactionDiv = document.createElement("span");
+         reactionDiv.classList.add("reaction");
+         reactionDiv.textContent = `${reaction} ${reactionCount}`;
+         reactionDiv.addEventListener("click", () => handleReactionClick(data._id, reaction));
+         reactionsDiv.appendChild(reactionDiv);
+      });
+   }
+
+   msgEl.appendChild(reactionsDiv);
+}
+
+function applyMessageActions(msgEl, data) {
+   msgEl.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+      openModal(data._id);
+   });
+   renderReactionsForMessage(msgEl, data);
+}
+
 function addMessageElement(data) {
    let name = data.name || "Anonymous";
    const uname = (name || "").trim().toLowerCase();
@@ -624,6 +654,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       const msgEl = document.createElement("div");
       msgEl.id = "msg-" + data._id;
       msgEl.appendChild(imgEl);
+      applyMessageActions(msgEl, data);
       messagesDiv.appendChild(msgEl);
       return; // Skip adding the rest of the message content
    }
@@ -635,6 +666,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       const msgEl = document.createElement("div");
       msgEl.id = "msg-" + data._id;
       msgEl.appendChild(imgEl);
+      applyMessageActions(msgEl, data);
       messagesDiv.appendChild(msgEl);
       return; // Skip adding the rest of the message content
    }
@@ -650,6 +682,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       const msgEl = document.createElement("div");
       msgEl.id = "msg-" + data._id;
       msgEl.appendChild(linkEl);
+      applyMessageActions(msgEl, data);
       messagesDiv.appendChild(msgEl);
       return; // Skip adding the rest of the message content
    }
@@ -664,6 +697,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       const msgEl = document.createElement("div");
       msgEl.id = "msg-" + data._id;
       msgEl.appendChild(marqueeEl);
+      applyMessageActions(msgEl, data);
       messagesDiv.appendChild(msgEl);
       return; // Skip adding the rest of the message content
    }
@@ -1149,47 +1183,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       msgEl.appendChild(s);
    }
 
-    // Handle reactions display
-    const reactionsDiv = document.createElement("div");
-   reactionsDiv.classList.add("reactions-container");
-
-   // Fetch and display reactions
-   if (data.reactions) {
-      Object.keys(data.reactions).forEach(reaction => {
-         const reactionDiv = document.createElement("span");
-         reactionDiv.classList.add("reaction");
-         reactionDiv.textContent = `${reaction}: ${data.reactions[reaction].length}`; // Display emoji and count
-
-         // Add an event listener to toggle the reaction
-         reactionDiv.addEventListener("click", () => handleReactionClick(data._id, reaction));
-
-         reactionsDiv.appendChild(reactionDiv);
-      });
-   }
-
-   msgEl.appendChild(reactionsDiv);
-
-
-  // Create the three dots button for the menu
-   const menuButton = document.createElement("button");
-   menuButton.classList.add("menu-button");
-   menuButton.innerHTML = "&#x2022;&#x2022;&#x2022;"; // Unicode for "..." (three dots)
-
-   // Position it to the right of the message
-   menuButton.style.position = "absolute";
-   menuButton.style.right = "10px"; // Adjust the right padding
-   menuButton.style.top = "50%";
-   menuButton.style.transform = "translateY(-50%)"; // Center vertically
-
-   // Add event listener to the menu button (optional, for menu functionality)
-   menuButton.addEventListener("click", () => {
-      openModal(data._id); // Pass message ID to modal
-   });
-
-   // Append the menu button to the message element
-   msgEl.appendChild(menuButton);
-
-
+   applyMessageActions(msgEl, data);
    messagesDiv.appendChild(msgEl);
 }
 function handleReactionClick(messageId, reaction) {
@@ -1244,7 +1238,7 @@ function openModal(messageId) {
    // Add a message header (optional)
    const modalHeader = document.createElement("div");
    modalHeader.classList.add("modal-header");
-   modalHeader.innerHTML = `<h3>Message Options for ${messageId}</h3>`;
+   modalHeader.innerHTML = `<h3>Message Options</h3><p>Message: ${messageId}</p>`;
    modalContent.appendChild(modalHeader);
 
    // Add Add Reaction option
@@ -1636,6 +1630,7 @@ msgInput.addEventListener('keydown', async (event) => {
          text: cleanMessage(text),
          timestamp: Date.now(),
          channel: currentChannel,
+         reactions: {},
       };
 
       try {
