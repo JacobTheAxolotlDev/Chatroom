@@ -278,7 +278,7 @@ const checkIfUserIsBanned = (uid) => {
             signOut(auth).then(() => {
                console.log("User logged out successfully due to ban");
                // Optionally, redirect the user to a different page after logging out
-               window.location.href = "/a.html"; // Modify this as needed
+               window.location.href = "/error/Banned/"; // Modify this as needed
             }).catch((error) => {
                console.error("Error logging out: ", error);
             });
@@ -621,7 +621,7 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
       const imgEl = document.createElement("img");
       imgEl.src = imageURLMatch[0];
       imgEl.alt = "Image message";
-      imgEl.style.maxWidth = "100%";
+      imgEl.style.maxWidth = "50%";
       imgEl.style.borderRadius = "8px";
       imgEl.style.marginTop = "8px";
 
