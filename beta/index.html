@@ -91,23 +91,10 @@
   <div id="linebreak">
     <marquee>   </marquee>
     </div>
-  <!-- Upload button -->
-  <label for="imageInput" class="upload-btn">📷 Upload</label>
-  <input type="file" id="imageInput" accept="image/*">
-
-
-
-  <!-- AUTH -->
-  <div id="auth">
-    <input id="username" placeholder="Username" autocomplete="username" />
-    <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
-    <button id="login">Login</button>
-    <button id="signup" class="secondary">Sign Up</button>
-  </div>
-  <div id="whoami">Not logged in</div>
-
-  <!-- CHAT -->
-  <div id="chat">
+<div id="errormessege"></div>
+<div id="main-content" class="beta-layout">
+  <section class="beta-card chat-card">
+  <div id="chat" class="beta-chat-shell">
     <img src="../images/Logo_Full.png" width="400px">
     <div id="channels"></div>
     <div id="messages"></div>
@@ -151,12 +138,51 @@ if (bannedUIDs.includes(user.uid)) {
 }
 
   </script>
-    <div id="tips">
-      <strong>Rules:</strong><br>
-      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation, <strong> use your real name </strong>
-     </div>
   </div>
-  <div id="tips">
+  </section>
+
+  <section class="beta-card signin-card">
+  <h2>Sign in</h2>
+  <div id="auth">
+    <input id="username" placeholder="Username" autocomplete="username" />
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+    <button id="login">Login</button>
+    <button id="signup" class="secondary">Sign Up</button>
+  </div>
+  <div id="whoami">Not logged in</div>
+  </section>
+
+  <section class="beta-card profile-card">
+    <h2>Profile</h2>
+    <img id="profilePreview" src="../images/logo_1_.png" alt="Profile picture preview" />
+    <p id="profileStatus">Sign in to upload a profile picture.</p>
+    <label for="profileImageInput" class="upload-btn">Upload / Change Picture</label>
+    <input type="file" id="profileImageInput" accept="image/*" />
+
+    <label for="imageInput" class="upload-btn secondary-upload">Send Image to Chat</label>
+    <input type="file" id="imageInput" accept="image/*">
+  </section>
+
+  <section class="beta-card rules-card">
+    <div id="tips">
+      <strong>Rules, info, etc:</strong><br>
+      No discrimination of any kind (racism, sexism, etc), no profane words, no jokes that embarrass others, no (extremely) dark humor, no impersonation, and <strong>use your real name.</strong>
+     </div>
+  </section>
+
+  <section class="beta-card placeholder-card">
+      placeholder
+  </section>
+
+  <section class="beta-card info-card">
+      Info A/B day,<br> Period,<br> Lunch etc
+      <hr>
+      <h3>Current Period</h3>
+      <div id="currentPeriod">loading...</div>
+  </section>
+
+  <section class="beta-card effects-card">
+  <div>
       Effects so far: <br>
        rainbow, 
        baylor, 
@@ -188,9 +214,18 @@ if (bannedUIDs.includes(user.uid)) {
        Slimenew (new reworked slime)
        Frozen (new)
            </div>
-  </div>
-  <h2> Current Period: </h2> <h3>
-  <div id="currentPeriod">loading...</div> </h3>
+  </section>
+
+  <section class="beta-card todo-card">
+    <p>
+      To Do: <br>
+      <s> add enter to send </s> <br>
+      <s> add anti spam </s> <br>
+      <s>add swear filter</s> <br>
+      more effects <br>
+      suggest more in the suggest form
+    </p>
+  </section>
 
   <script>
     function getCurrentPeriod() {
@@ -228,13 +263,7 @@ if (bannedUIDs.includes(user.uid)) {
     update();
     setInterval(update, 30000); // updates every 30s
   </script>
-  <p>
-    To Do: <br>
-    <s> add enter to send </s> <br>
-    <s> add anti spam </s> <br>
-    <s>add swear filter</s> <br>
-    more effects <br>
-    suggest more in the suggest form </p>
+  </div>
 <!--
 <script>
   function loadCSS(file) {
