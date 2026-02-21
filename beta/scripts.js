@@ -198,6 +198,13 @@ import {
    signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+import {
+   getStorage,
+   ref as storageRef,
+   uploadBytes,
+   getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
 
 // --- Your Firebase config ---
 
@@ -216,6 +223,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 // Persist sessions (this is the “memory” so you stay logged in)
 await setPersistence(auth, browserLocalPersistence);
@@ -351,6 +359,75 @@ const loginBtn = document.getElementById("login");
 const signupBtn = document.getElementById("signup");
 const logoutBtn = document.getElementById("logout"); // --- Image upload -> COMPRESSED base64 -> send as a normal message ---
 const imageInput = document.getElementById("imageInput");
+const profileImageInput = document.getElementById("profileImageInput");
+const profilePreview = document.getElementById("profilePreview");
+const profileStatus = document.getElementById("profileStatus");
+const DEFAULT_PROFILE_IMAGE = "../images/logo_1_.png";
+
+function setProfilePreview(url) {
+   if (profilePreview) {
+      profilePreview.src = url || DEFAULT_PROFILE_IMAGE;
+   }
+}
+
+async function compressImageForStorage(file, maxDimension = 640, targetBytes = 120 * 1024) {
+   const imageBitmap = await createImageBitmap(file);
+   const canvas = document.createElement("canvas");
+   const ratio = Math.min(1, maxDimension / Math.max(imageBitmap.width, imageBitmap.height));
+   const width = Math.max(1, Math.round(imageBitmap.width * ratio));
+   const height = Math.max(1, Math.round(imageBitmap.height * ratio));
+
+   canvas.width = width;
+   canvas.height = height;
+   const ctx = canvas.getContext("2d", { alpha: false });
+   ctx.drawImage(imageBitmap, 0, 0, width, height);
+
+   let quality = 0.86;
+   let blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/webp", quality));
+
+   while (blob && blob.size > targetBytes && quality > 0.45) {
+      quality -= 0.08;
+      blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/webp", quality));
+   }
+
+   return blob;
+}
+
+
+if (profileImageInput) {
+   profileImageInput.addEventListener("change", async () => {
+      const file = profileImageInput.files?.[0];
+      if (!file) return;
+      if (!auth.currentUser) {
+         alert("You must be logged in to update your profile picture.");
+         profileImageInput.value = "";
+         return;
+      }
+
+      try {
+         if (profileStatus) profileStatus.textContent = "Compressing image...";
+         const compressedBlob = await compressImageForStorage(file);
+         if (!compressedBlob) throw new Error("Image compression failed");
+
+         if (profileStatus) profileStatus.textContent = "Uploading image...";
+         const picRef = storageRef(storage, `profilePictures/${auth.currentUser.uid}.webp`);
+         await uploadBytes(picRef, compressedBlob, { contentType: "image/webp" });
+         const photoURL = await getDownloadURL(picRef);
+
+         await set(ref(db, `users/${auth.currentUser.uid}/profilePhotoURL`), photoURL);
+         await updateProfile(auth.currentUser, { photoURL });
+
+         setProfilePreview(photoURL);
+         if (profileStatus) profileStatus.textContent = "Profile picture updated.";
+      } catch (error) {
+         console.error(error);
+         if (profileStatus) profileStatus.textContent = "Failed to upload profile picture.";
+         alert("Failed to upload profile picture: " + error.message);
+      } finally {
+         profileImageInput.value = "";
+      }
+   });
+}
 
 imageInput.addEventListener("change", async () => {
    const file = imageInput.files[0];
@@ -413,6 +490,7 @@ imageInput.addEventListener("change", async () => {
       text: base64Data, // <-- compressed now
       timestamp: Date.now(),
       channel: currentChannel,
+      photoURL: auth.currentUser.photoURL || null,
    };
 
    try {
@@ -875,6 +953,10 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    let messageContent = `${timestamp} - <b>${name}</b>: ${text}`;
    msgEl.id = "msg-" + data._id;
    msgEl.style.position = "relative"; // Position relative for the menu button to be positioned inside
+
+   const profilePicUrl = data.photoURL || DEFAULT_PROFILE_IMAGE;
+   const messageAvatar = `<img src="${profilePicUrl}" alt="${name} profile picture" class="message-avatar">`;
+   messageContent = `${messageAvatar} <span class="message-text">${messageContent}</span>`;
    if (cooked) {
       const s = document.createElement("span");
       s.classList.add("cooked-text"); // Apply the cooked-text class to use Blaze_of_Glory font
@@ -1508,10 +1590,17 @@ onAuthStateChanged(auth, async (user) => {
 
       // fetch username
       currentUsername = user.displayName || null;
+      const snap = await get(ref(db, "users/" + user.uid));
+      const userData = snap.exists() ? snap.val() : {};
       if (!currentUsername) {
-         const snap = await get(ref(db, "users/" + user.uid));
-         currentUsername = snap.exists() ? snap.val().username : "(user)";
+         currentUsername = userData.username || "(user)";
       }
+      const profilePhotoURL = user.photoURL || userData.profilePhotoURL || null;
+      if (profilePhotoURL && user.photoURL !== profilePhotoURL) {
+         await updateProfile(user, { photoURL: profilePhotoURL });
+      }
+      setProfilePreview(profilePhotoURL);
+      if (profileStatus) profileStatus.textContent = profilePhotoURL ? "Profile picture ready." : "No profile picture yet.";
       whoami.innerHTML = `Logged in as: ${currentUsername}`;
       whoamiMini.innerHTML = currentUsername;
 
@@ -1542,6 +1631,8 @@ onAuthStateChanged(auth, async (user) => {
       whoami.innerHTML = "Not logged in";
       whoamiMini.innerHTML = "";
       currentUsername = null;
+      setProfilePreview(null);
+      if (profileStatus) profileStatus.textContent = "Sign in to upload a profile picture.";
 
       // Hide admin on sign-out
       adminPanel.style.display = 'none';
@@ -1585,6 +1676,7 @@ sendBtn.onclick = async () => {
       timestamp: Date.now(),
       channel: currentChannel,
       reactions: {}, // Initialize an empty reactions object for this message
+      photoURL: auth.currentUser.photoURL || null,
    };
 
    try {
@@ -1631,6 +1723,7 @@ msgInput.addEventListener('keydown', async (event) => {
          timestamp: Date.now(),
          channel: currentChannel,
          reactions: {},
+         photoURL: auth.currentUser.photoURL || null,
       };
 
       try {

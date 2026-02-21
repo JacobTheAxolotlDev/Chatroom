@@ -1695,3 +1695,99 @@ animation:baylorShift 4s ease-in-out infinite;
 .reaction:hover {
   background: #eef2f6;
 }
+/* --- Beta layout refresh --- */
+#main-content.beta-layout {
+  width: min(1200px, 96vw);
+  margin: 14px auto 24px;
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr;
+  grid-template-areas:
+    "chat signin channels"
+    "rules rules profile"
+    "placeholder placeholder info"
+    "effects effects todo";
+  gap: 12px;
+}
+
+.beta-card {
+  background: #b8c8d8;
+  border: 3px solid #111;
+  border-radius: 28px;
+  padding: 18px;
+  color: #111;
+}
+
+.chat-card { grid-area: chat; min-height: 260px; }
+.signin-card { grid-area: signin; display: flex; flex-direction: column; justify-content: center; }
+.profile-card { grid-area: profile; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.rules-card { grid-area: rules; }
+.placeholder-card { grid-area: placeholder; font-size: 56px; text-align: center; display: flex; align-items: center; justify-content: center; }
+.info-card { grid-area: info; text-align: center; }
+.effects-card { grid-area: effects; }
+.todo-card { grid-area: todo; }
+
+#chat.beta-chat-shell {
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+}
+
+.signin-card #auth,
+.signin-card #whoami {
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.signin-card #auth {
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.profile-card #profilePreview {
+  width: 130px;
+  height: 130px;
+  border-radius: 999px;
+  border: 2px solid #111;
+  object-fit: cover;
+  background: #e8edf3;
+}
+
+#profileImageInput {
+  display: none;
+}
+
+.secondary-upload {
+  margin-top: 8px;
+  background: #5f7591;
+}
+
+#channels { justify-content: flex-start; }
+
+.message-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  object-fit: cover;
+  margin-right: 8px;
+  vertical-align: middle;
+  border: 1px solid #4c5a68;
+}
+
+@media (max-width: 980px) {
+  #main-content.beta-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "chat"
+      "signin"
+      "profile"
+      "rules"
+      "placeholder"
+      "info"
+      "effects"
+      "todo";
+  }
+}
