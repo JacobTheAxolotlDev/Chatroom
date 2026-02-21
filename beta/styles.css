@@ -382,12 +382,7 @@ footerimage {
 }
 
 footer {
-	height: 400px;
-	background: var(--green-3);
-	width: 100%;
-	color: white;
-	text-align: center;
-	padding: 30px;
+	background: transparent;
 }
 
 
@@ -1703,7 +1698,7 @@ body {
 
 #main-content.beta-layout {
   width: min(1280px, 98vw);
-  height: calc(100vh - 130px);
+  height: calc(100vh - 290px);
   margin: 10px auto 8px;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -1716,11 +1711,11 @@ body {
 }
 
 .beta-card {
-  background: #b8c8d8;
+  background: var(--green-3);
   border: 3px solid #111;
   border-radius: 28px;
   padding: 14px;
-  color: #111;
+  color: #fff;
   min-height: 0;
   overflow: hidden;
 }
@@ -1825,4 +1820,66 @@ body {
       "placeholder"
       "info";
   }
+
+  .bottom-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.bottom-panels {
+  width: min(1280px, 98vw);
+  margin: 0 auto 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.beta-footer {
+  background: var(--green-3);
+  border: 3px solid #111;
+  border-radius: 22px;
+  color: #fff;
+  padding: 12px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.footer-links a { color: #fff; }
+
+.footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.footer-actions button,
+.mod-btn {
+  border: 2px solid #111;
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.mods-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mod-btn.hunte { background:#710b71; color:#fff; }
+.mod-btn.dark { background:#000; color:#fff; }
+.mod-btn.hollow { background:#4888b8; color:#fff; }
+
+.font-test {
+  margin-top: 12px;
+  opacity: 0.9;
+  word-break: break-all;
 }

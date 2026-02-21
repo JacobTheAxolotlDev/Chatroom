@@ -318,17 +318,39 @@ onValue(bannedRef, (snapshot) => {
 
 </body> 
 </div>
-<footer>
-<h1> keep going for some stuff </h1> <br>
- <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
-    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="../images/GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
-  </a>
-  <a href="https://github.com/JacobTheAxolotlDev" target="_blank" class="github-button">
-    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="../images/cropped_circle_image.png"> View my other Repositories
-  </a>
-<h3><a href="https://desmos.com/scientific">desmos </a><br>
-<h3><a href="./gamesandotherstuff/busandcarriders.html">Busses and Car Riders </a><br>
-    <button id="miscbutton">Open in about:blank</button> <br>
+<div class="bottom-panels">
+  <footer class="beta-footer">
+    <h2>keep going for some stuff</h2>
+    <div class="footer-links">
+      <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
+        <i class="fab fa-github"></i>
+        <img width="25" height="25" src="../images/GitHub-Mark-ea2971cee799-removebg-preview.png" alt="GitHub logo"> View on GitHub
+      </a>
+      <a href="https://github.com/JacobTheAxolotlDev" target="_blank" class="github-button">
+        <i class="fab fa-github"></i>
+        <img width="25" height="25" src="../images/cropped_circle_image.png" alt="Profile"> View my other Repositories
+      </a>
+      <a href="https://desmos.com/scientific">desmos</a>
+      <a href="./gamesandotherstuff/busandcarriders.html">Busses and Car Riders</a>
+    </div>
+    <div class="footer-actions">
+      <button id="miscbutton">Open in about:blank</button>
+      <button id="testbutton">Games</button>
+      <button id="onsnow">Turn On Snow</button>
+      <button id="offsnow">Turn Off Snow</button>
+    </div>
+  </footer>
+
+  <section class="mods-panel beta-footer">
+    <h2>Mods</h2>
+    <div class="mods-grid">
+      <button class="mod-btn hunte" id="change-color-btn"><h3>hunte Theme</h3><img width="75" src="../images/byzantine.png" alt="hunte"></button>
+      <button class="mod-btn dark" id="dark-theme-btn"><h3>Dark Theme</h3></button>
+      <button class="mod-btn hollow" id="hollow"><h3>Hollow Knight Theme</h3></button>
+    </div>
+    <p class="font-test">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()-=_+,.&lt;&gt;/?[]{}||</p>
+  </section>
+</div>
 
 <script>
   document.getElementById('miscbutton').addEventListener('click', () => {
@@ -352,27 +374,11 @@ onValue(bannedRef, (snapshot) => {
     }
   });
 </script>
-<button id="testbutton">Games</button>
-
 <script>
   document.getElementById("testbutton").addEventListener("click", function() {
     window.location.href = "/g/";
   });
 </script>
-<button id="onsnow"> Turn On Snow </button>
-<button id="offsnow"> Turn Off Snow </button>
-</footer>
-
-<!--<img src="../images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">-->
-<!--<img src="../images/easteregg-ezgif.com-gif-maker.gif" width="100px">-->
-
-<h1> Mods </h1>
-<div style="display: flex; gap: 20px;">
-<!-- hunte theme --><button style="width: 400px; height: 200px; border-radius: 10px; background-color: #710b71; color: white; border-width: 2px; border-color: #d6b7e4;" id="change-color-btn"><h3>hunte Theme</h3> <img width="100px" src="../images/byzantine.png"></button>
-<!-- dark theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: black; color: white; border-width: 2px; border-color: gray;" id="dark-theme-btn"><h3>Dark Theme</h3> </button>
-<!-- hollow theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: #4888b8; color: white; border-width: 2px; border-color: gray;" id="hollow"><h3>Hollow Knight Theme</h3> </button>
-<h1> Font Test </h1> <br>
-<p> ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()-=_+,.<>/?[]{}||</p>
 <button style="display: none;" id="keyboardButtonHide">Emoji Keyboard</button>
 <noscript>
         <div style="color: red; padding: 20px; border: 1px solid red;">
