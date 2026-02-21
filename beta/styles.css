@@ -1695,3 +1695,134 @@ animation:baylorShift 4s ease-in-out infinite;
 .reaction:hover {
   background: #eef2f6;
 }
+/* --- Beta layout refresh --- */
+body {
+	height: 100vh;
+	overflow: hidden;
+}
+
+#main-content.beta-layout {
+  width: min(1280px, 98vw);
+  height: calc(100vh - 130px);
+  margin: 10px auto 8px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+    "chat signin channels"
+    "rules rules profile"
+    "placeholder placeholder info";
+  gap: 10px;
+}
+
+.beta-card {
+  background: #b8c8d8;
+  border: 3px solid #111;
+  border-radius: 28px;
+  padding: 14px;
+  color: #111;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.chat-card { grid-area: chat; }
+.signin-card { grid-area: signin; display: flex; flex-direction: column; justify-content: center; }
+.channels-card { grid-area: channels; display: flex; flex-direction: column; }
+.rules-card { grid-area: rules; }
+.profile-card { grid-area: profile; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.placeholder-card { grid-area: placeholder; font-size: 52px; text-align: center; display: flex; align-items: center; justify-content: center; }
+.info-card { grid-area: info; text-align: center; }
+
+.chat-logo {
+  width: min(320px, 75%);
+}
+
+#chat.beta-chat-shell {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+  align-items: stretch;
+}
+
+#messages {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+}
+
+.signin-card #auth,
+.signin-card #whoami {
+  width: 100%;
+  margin: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.signin-card #auth {
+  padding: 0;
+  justify-content: flex-start;
+}
+
+.channels-card #channels {
+  justify-content: flex-start;
+  align-content: flex-start;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.profile-card #profilePreview {
+  width: 110px;
+  height: 110px;
+  border-radius: 999px;
+  border: 2px solid #111;
+  object-fit: cover;
+  background: #e8edf3;
+}
+
+#profileImageInput,
+#imageInput {
+  display: none;
+}
+
+.upload-btn {
+  cursor: pointer;
+}
+
+.secondary-upload {
+  margin-top: 10px;
+  background: #5f7591;
+}
+
+.message-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  object-fit: cover;
+  margin-right: 6px;
+  vertical-align: middle;
+  border: 1px solid #4c5a68;
+}
+
+@media (max-width: 980px) {
+  body {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  #main-content.beta-layout {
+    height: auto;
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      "chat"
+      "signin"
+      "channels"
+      "rules"
+      "profile"
+      "placeholder"
+      "info";
+  }
+}

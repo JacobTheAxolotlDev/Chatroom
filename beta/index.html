@@ -91,106 +91,79 @@
   <div id="linebreak">
     <marquee>   </marquee>
     </div>
-  <!-- Upload button -->
-  <label for="imageInput" class="upload-btn">📷 Upload</label>
-  <input type="file" id="imageInput" accept="image/*">
+<div id="errormessege"></div>
+<div id="main-content" class="beta-layout">
+  <section class="beta-card chat-card">
+    <div id="chat" class="beta-chat-shell">
+      <img src="../images/Logo_Full.png" class="chat-logo" alt="Chat logo">
+      <div id="messages"></div>
 
-
-
-  <!-- AUTH -->
-  <div id="auth">
-    <input id="username" placeholder="Username" autocomplete="username" />
-    <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
-    <button id="login">Login</button>
-    <button id="signup" class="secondary">Sign Up</button>
-  </div>
-  <div id="whoami">Not logged in</div>
-
-  <!-- CHAT -->
-  <div id="chat">
-    <img src="../images/Logo_Full.png" width="400px">
-    <div id="channels"></div>
-    <div id="messages"></div>
-
-    <!-- composer (no Name field anymore) -->
-    <div id="composer" class="disabled">
-      <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
-      <button id="send">Send</button>
+      <div id="composer" class="disabled">
+        <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
+        <button id="send">Send</button>
+      </div>
+      <button id="keyboardButton">Emoji Keyboard</button>
+      <div id="keyboard">
+        <button>😊</button>
+        <button>❤️</button>
+        <button>😭</button>
+        <button>😡</button>
+        <button>🗣️</button>
+        <button>🔥</button>
+        <button>(ʘᴗʘ✿)</button>
+        <button>🤑</button>
+        <button>. ‸ .</button>
+        <button>🥹✌</button>
+        <button>¯\(◉‿◉)/¯</button>
+        <button>💀</button>
+      </div>
     </div>
-    <button id="keyboardButton">Emoji Keyboard</button>
-<div id="keyboard">
-  
-  <button>😊</button>
-  <button>❤️</button>
-  <button>😭</button>
-  <button>😡</button>
-  <button>🗣️</button>
-  <button>🔥</button>
-  <button>(ʘᴗʘ✿)</button>
-  <button>🤑</button>
-  <button>. ‸ .</button>
-  <button>🥹✌</button>
-  <button>¯\(◉‿◉)/¯</button>
-  <button>💀</button>
-  <!-- Add more buttons for other characters -->
-</div>
+  </section>
 
-    <script>
-      
-document.addEventListener('keydown', function(event) {
-  if (event.key === '/') {
-    document.getElementById('msg').focus();
-  }
-});
-</script>
-<script>
-if (bannedUIDs.includes(user.uid)) {
-  alert("You are banned.");
-  await signOut(auth);
-  return;
-}
+  <section class="beta-card signin-card">
+    <h2>Sign in</h2>
+    <div id="auth">
+      <input id="username" placeholder="Username" autocomplete="username" />
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+      <button id="login">Login</button>
+      <button id="signup" class="secondary">Sign Up</button>
+    </div>
+    <div id="whoami">Not logged in</div>
+  </section>
 
-  </script>
+  <section class="beta-card channels-card">
+    <h2>Channels</h2>
+    <div id="channels"></div>
+  </section>
+
+  <section class="beta-card rules-card">
     <div id="tips">
-      <strong>Rules:</strong><br>
-      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation, <strong> use your real name </strong>
-     </div>
-  </div>
-  <div id="tips">
-      Effects so far: <br>
-       rainbow, 
-       baylor, 
-       gold, 
-       gren, 
-       diamond, 
-       electric, 
-       uranium, 
-       laser, 
-       idk, 
-       glowinggold, 
-       slime, 
-       axey, 
-       gio, 
-       gurt, 
-       espurr, 
-       butter, 
-       jamas, 
-       bread, 
-       fweh, 
-       pokemon, 
-       minecraft, 
-       silksong, 
-       oiia, 
-       maxwell, 
-       undertale, 
-       cooked, 
-       glitch,
-       Slimenew (new reworked slime)
-       Frozen (new)
-           </div>
-  </div>
-  <h2> Current Period: </h2> <h3>
-  <div id="currentPeriod">loading...</div> </h3>
+      <strong>Rules, info, etc:</strong><br>
+      No discrimination of any kind (racism, sexism, etc), no profane words, no jokes that embarrass others, no (extremely) dark humor, no impersonation, and <strong>use your real name.</strong>
+    </div>
+    <label for="imageInput" class="upload-btn secondary-upload">Send Image to Chat</label>
+    <input type="file" id="imageInput" accept="image/*">
+  </section>
+
+  <section class="beta-card profile-card">
+    <h2>Profile</h2>
+    <img id="profilePreview" src="../images/logo_1_.png" alt="Profile picture preview" />
+    <p id="profileStatus">Sign in to upload a profile picture.</p>
+    <label for="profileImageInput" class="upload-btn">Upload / Change Picture</label>
+    <input type="file" id="profileImageInput" accept="image/*" />
+  </section>
+
+  <section class="beta-card placeholder-card">
+    placeholder
+  </section>
+
+  <section class="beta-card info-card">
+    <h3>Info</h3>
+    A/B day, period, lunch, etc
+    <hr>
+    <h3>Current Period</h3>
+    <div id="currentPeriod">loading...</div>
+  </section>
 
   <script>
     function getCurrentPeriod() {
@@ -228,13 +201,7 @@ if (bannedUIDs.includes(user.uid)) {
     update();
     setInterval(update, 30000); // updates every 30s
   </script>
-  <p>
-    To Do: <br>
-    <s> add enter to send </s> <br>
-    <s> add anti spam </s> <br>
-    <s>add swear filter</s> <br>
-    more effects <br>
-    suggest more in the suggest form </p>
+  </div>
 <!--
 <script>
   function loadCSS(file) {

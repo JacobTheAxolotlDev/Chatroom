@@ -194,9 +194,9 @@ import {
    onAuthStateChanged,
    signInWithEmailAndPassword,
    createUserWithEmailAndPassword,
-   updateProfile,
    signOut
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
 
 // --- Your Firebase config ---
@@ -351,6 +351,70 @@ const loginBtn = document.getElementById("login");
 const signupBtn = document.getElementById("signup");
 const logoutBtn = document.getElementById("logout"); // --- Image upload -> COMPRESSED base64 -> send as a normal message ---
 const imageInput = document.getElementById("imageInput");
+const profileImageInput = document.getElementById("profileImageInput");
+const profilePreview = document.getElementById("profilePreview");
+const profileStatus = document.getElementById("profileStatus");
+const DEFAULT_PROFILE_IMAGE = "../images/logo_1_.png";
+
+function setProfilePreview(url) {
+   if (profilePreview) {
+      profilePreview.src = url || DEFAULT_PROFILE_IMAGE;
+   }
+}
+
+async function compressProfileImageToBase64(file, maxDimension = 96, maxBytes = 12 * 1024) {
+   const imageBitmap = await createImageBitmap(file);
+   const canvas = document.createElement("canvas");
+   const ratio = Math.min(1, maxDimension / Math.max(imageBitmap.width, imageBitmap.height));
+   const width = Math.max(1, Math.round(imageBitmap.width * ratio));
+   const height = Math.max(1, Math.round(imageBitmap.height * ratio));
+
+   canvas.width = width;
+   canvas.height = height;
+   const ctx = canvas.getContext("2d", { alpha: false });
+   ctx.drawImage(imageBitmap, 0, 0, width, height);
+
+   let quality = 0.52;
+   let dataUrl = canvas.toDataURL("image/jpeg", quality);
+
+   while (dataUrl.length > maxBytes * 1.37 && quality > 0.16) {
+      quality -= 0.06;
+      dataUrl = canvas.toDataURL("image/jpeg", quality);
+   }
+
+   return dataUrl;
+}
+
+if (profileImageInput) {
+   profileImageInput.addEventListener("change", async () => {
+      const file = profileImageInput.files?.[0];
+      if (!file) return;
+      if (!auth.currentUser) {
+         alert("You must be logged in to update your profile picture.");
+         profileImageInput.value = "";
+         return;
+      }
+
+      try {
+         if (profileStatus) profileStatus.textContent = "Compressing image...";
+         const compressedBase64 = await compressProfileImageToBase64(file);
+         if (!compressedBase64) throw new Error("Image compression failed");
+
+         if (profileStatus) profileStatus.textContent = "Saving profile picture...";
+         await set(ref(db, `pfps/${auth.currentUser.uid}`), compressedBase64);
+
+         currentProfilePhoto = compressedBase64;
+         setProfilePreview(compressedBase64);
+         if (profileStatus) profileStatus.textContent = "Profile picture updated.";
+      } catch (error) {
+         console.error(error);
+         if (profileStatus) profileStatus.textContent = "Failed to upload profile picture.";
+         alert("Failed to upload profile picture: " + error.message);
+      } finally {
+         profileImageInput.value = "";
+      }
+   });
+}
 
 imageInput.addEventListener("change", async () => {
    const file = imageInput.files[0];
@@ -413,6 +477,7 @@ imageInput.addEventListener("change", async () => {
       text: base64Data, // <-- compressed now
       timestamp: Date.now(),
       channel: currentChannel,
+      photoURL: currentProfilePhoto || null
    };
 
    try {
@@ -431,6 +496,7 @@ let allMessages = [];
 let currentChannel = "general";
 let currentUser = null;
 let currentUsername = null; // cached username
+let currentProfilePhoto = null;
 
 const adminUIDs = [
    "DawxSQun3uTvB8QIHidkqtlB42K3", // Logan
@@ -875,6 +941,10 @@ if (uname === "ⅉ⋓₷₸ⅈᴎ") {
    let messageContent = `${timestamp} - <b>${name}</b>: ${text}`;
    msgEl.id = "msg-" + data._id;
    msgEl.style.position = "relative"; // Position relative for the menu button to be positioned inside
+
+   const profilePicUrl = data.photoURL || DEFAULT_PROFILE_IMAGE;
+   const messageAvatar = `<img src="${profilePicUrl}" alt="${name} profile picture" class="message-avatar">`;
+   messageContent = `${messageAvatar} <span class="message-text">${messageContent}</span>`;
    if (cooked) {
       const s = document.createElement("span");
       s.classList.add("cooked-text"); // Apply the cooked-text class to use Blaze_of_Glory font
@@ -1508,10 +1578,15 @@ onAuthStateChanged(auth, async (user) => {
 
       // fetch username
       currentUsername = user.displayName || null;
+      const snap = await get(ref(db, "users/" + user.uid));
+      const userData = snap.exists() ? snap.val() : {};
       if (!currentUsername) {
-         const snap = await get(ref(db, "users/" + user.uid));
-         currentUsername = snap.exists() ? snap.val().username : "(user)";
+         currentUsername = userData.username || "(user)";
       }
+      const pfpSnap = await get(ref(db, `pfps/${user.uid}`));
+      currentProfilePhoto = pfpSnap.exists() ? pfpSnap.val() : null;
+      setProfilePreview(currentProfilePhoto);
+      if (profileStatus) profileStatus.textContent = currentProfilePhoto ? "Profile picture ready." : "No profile picture yet.";
       whoami.innerHTML = `Logged in as: ${currentUsername}`;
       whoamiMini.innerHTML = currentUsername;
 
@@ -1542,6 +1617,9 @@ onAuthStateChanged(auth, async (user) => {
       whoami.innerHTML = "Not logged in";
       whoamiMini.innerHTML = "";
       currentUsername = null;
+      currentProfilePhoto = null;
+      setProfilePreview(null);
+      if (profileStatus) profileStatus.textContent = "Sign in to upload a profile picture.";
 
       // Hide admin on sign-out
       adminPanel.style.display = 'none';
@@ -1585,6 +1663,7 @@ sendBtn.onclick = async () => {
       timestamp: Date.now(),
       channel: currentChannel,
       reactions: {}, // Initialize an empty reactions object for this message
+      photoURL: currentProfilePhoto || null
    };
 
    try {
@@ -1631,6 +1710,7 @@ msgInput.addEventListener('keydown', async (event) => {
          timestamp: Date.now(),
          channel: currentChannel,
          reactions: {},
+         photoURL: currentProfilePhoto || null
       };
 
       try {
