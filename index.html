@@ -1,5 +1,6 @@
    <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
    <link rel="icon" href="https://t3.ftcdn.net/jpg/01/97/57/66/360_F_197576699_QxGIuWnWCJHAMXiSCuVH9YPYtyMwjpJz.jpg" type="image/jpeg">
+   <meta charset="utf-8">
   <style>
         #panelthing {
       width: 550px;
@@ -17,7 +18,7 @@
         <span style="font-size: 80px"> LTFS is Down</span> <br>
         <p> due to recent developments, logans tools for school website and chatroom will be down, even though we followed all rules</p><b> For any questions, email <a href="mailto:logan.wade7528@g.gcpsk12.org">logan.wade7528@g.gcpsk12.org</a> </b> <br>
         <span> it may be up soon, while we are verifing information. </span> <br>
-        <div><img width="60px" src="https://t3.ftcdn.net/jpg/01/97/57/66/360_F_197576699_QxGIuWnWCJHAMXiSCuVH9YPYtyMwjpJz.jpg"> <span> (website on lockdown) </span> <img width="50px" src="https://t3.ftcdn.net/jpg/01/97/57/66/360_F_197576699_QxGIuWnWCJHAMXiSCuVH9YPYtyMwjpJz.jpg"> </div>
+        <div><img width="50px" src="https://t3.ftcdn.net/jpg/01/97/57/66/360_F_197576699_QxGIuWnWCJHAMXiSCuVH9YPYtyMwjpJz.jpg"> <span> (website on lockdown) </span> <img width="50px" src="https://t3.ftcdn.net/jpg/01/97/57/66/360_F_197576699_QxGIuWnWCJHAMXiSCuVH9YPYtyMwjpJz.jpg"> </div>
           <script>
     // stop looking at my code administrators
 window.onload = function() {
@@ -57,3 +58,283 @@ window.onload = function() {
   <div id="loading-screen">
     <img src="../../images/Untitled_drLTFSawing.png" alt="Loading..." id="loading-image" width="500" height="500">
   </div>
+  <span> status </span>
+  <div id="chat">
+    <div id="channels"></div>
+    <div id="messages"></div>
+    <!--<input id="name" placeholder="Name" autocomplete="off" /> 
+    <input id="msg" placeholder="Message" autocomplete="off" />
+    <button id="send">Send</button>  -->  
+  </div>
+
+  <script type="module">
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      push,
+      onChildAdded,
+      query,
+      orderByChild,
+      get
+    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+    const firebaseConfig = {
+   apiKey: "AIzaSyC0ppSfYRPCje-BusGftdn1kCMHgs-Z_BU",
+   authDomain: "loganstoolsforschool.firebaseapp.com",
+   databaseURL: "https://loganstoolsforschool-default-rtdb.firebaseio.com",
+   projectId: "loganstoolsforschool",
+   storageBucket: "loganstoolsforschool.firebasestorage.app",
+   messagingSenderId: "883702419905",
+   appId: "1:883702419905:web:8e9888e6d6f305ec165f40",
+   measurementId: "G-P2HVQ9K0XD"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const messagesDiv = document.getElementById("messages");
+    const nameInput = document.getElementById("name");
+    const msgInput = document.getElementById("msg");
+    const sendBtn = document.getElementById("send");
+    const channelsDiv = document.getElementById("channels");
+
+    let channels = new Set();
+    let allMessages = [];
+    let currentChannel = "general";
+
+    function cleanMessage(text) {
+      return text;
+    }
+
+    async function loadChannels() {
+      const messagesRef = ref(db, "messages");
+      const snapshot = await get(messagesRef);
+      if (!snapshot.exists()) {
+        channels = new Set(["general"]);
+        currentChannel = "general";
+        renderChannels();
+        return;
+      }
+      channels.clear();
+      allMessages = [];
+      snapshot.forEach((child) => {
+        const msg = child.val();
+        allMessages.push(msg);
+        channels.add(msg.channel || "general");
+      });
+
+      if (!channels.has(currentChannel)) {
+        currentChannel = [...channels][0];
+      }
+      renderChannels();
+      displayMessagesForChannel(currentChannel);
+    }
+
+    function renderChannels() {
+      channelsDiv.innerHTML = "";
+      [...channels]
+        .sort()
+        .forEach((channel) => {
+          const tab = document.createElement("div");
+          tab.textContent = channel;
+          tab.className = "channel-tab";
+          if (channel === currentChannel) tab.classList.add("active");
+          tab.onclick = () => {
+            if (currentChannel !== channel) {
+              currentChannel = channel;
+              updateActiveTab();
+              displayMessagesForChannel(currentChannel);
+            }
+          };
+          channelsDiv.appendChild(tab);
+        });
+    }
+
+    function updateActiveTab() {
+      const tabs = channelsDiv.querySelectorAll(".channel-tab");
+      tabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.textContent === currentChannel);
+      });
+    }
+
+    function addMessageElement(data) {
+      let name = data.name || "Anonymous";
+
+      if (name.trim().toLowerCase() === "logan") {
+        name += " [👑 Administrator 👑]";
+      }
+      if (name.trim().toLowerCase() === "jahmal") {
+        name += " 🦐";
+      }
+
+      let text = data.text || "(no message)";
+      const timestamp = new Date(data.timestamp).toLocaleTimeString();
+
+      if ((data.channel || "general") !== currentChannel) return;
+
+      let color = null;
+      let rainbow = false;
+      let gold = false;
+      let uranium = false;
+      let slime = false;
+      let axey = false;
+      let fweh = false;
+      let pokemon = false;
+
+      const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
+      const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
+      const goldMatch = text.match(/^gold:\s*(.*)/i);
+      const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
+      const slimeMatch = text.match(/^slime:\s*(.*)/i);
+      const axeyMatch = text.match(/^axey:\s*(.*)/i);
+      const fwehMatch = text.match(/^fweh:\s*(.*)/i);
+      const pokemonMatch = text.match(/^pokemon:\s*(.*)/i);
+      const hexMatch = text.match(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}):\s*(.*)/);
+
+      if (namedColorMatch) {
+        color = namedColorMatch[1].toLowerCase();
+        text = namedColorMatch[2];
+      } else if (rainbowMatch) {
+        rainbow = true;
+        text = rainbowMatch[1];
+      } else if (goldMatch) {
+        gold = true;
+        text = goldMatch[1];
+      } else if (uraniumMatch) {
+        uranium = true;
+        text = uraniumMatch[1];
+      } else if (slimeMatch) {
+        slime = true;
+        text = slimeMatch[1];
+      } else if (axeyMatch) {
+        axey = true;
+        text = axeyMatch[1];
+      } else if (fwehMatch) {
+        fweh = true;
+        text = fwehMatch[1];
+      } else if (pokemonMatch) {
+        pokemon = true;
+        text = pokemonMatch[1];
+      } else if (hexMatch) {
+        color = `#${hexMatch[1]}`;
+        text = hexMatch[2];
+      }
+
+      const msgEl = document.createElement("div");
+
+      if (rainbow || gold || uranium || slime || axey || fweh || pokemon || color) {
+        if (rainbow) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("rainbow-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (gold) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("gold-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (uranium) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("uranium-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (slime) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("slime-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (axey) {
+          const axeyContainer = document.createElement("div");
+          axeyContainer.classList.add("axey-container");
+          axeyContainer.textContent = `${timestamp} - ${name}: ${text}`;
+          const axey1 = document.createElement("img");
+          axey1.src = "./axey.png";
+          axey1.classList.add("axey-img");
+          const axey2 = document.createElement("img");
+          axey2.src = "./axey.png";
+          axey2.classList.add("axey-img", "second");
+          axeyContainer.appendChild(axey1);
+          axeyContainer.appendChild(axey2);
+          msgEl.appendChild(axeyContainer);
+        } else if (pokemon) {
+          const pokemonContainer = document.createElement("div");
+          pokemonContainer.classList.add("pokemon-container");
+          pokemonContainer.textContent = `${timestamp} - ${name}: ${text}`;
+
+          const pokeball1 = document.createElement("img");
+          pokeball1.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
+          pokeball1.classList.add("pokemon-img");
+
+          const pokeball2 = document.createElement("img");
+          pokeball2.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
+          pokeball2.classList.add("pokemon-img", "second");
+
+          pokemonContainer.appendChild(pokeball1);
+          pokemonContainer.appendChild(pokeball2);
+          msgEl.appendChild(pokemonContainer);
+        } else if (fweh) {
+          const msgContent = document.createElement("span");
+          msgContent.classList.add("fweh-text");
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        } else if (color) {
+          const msgContent = document.createElement("span");
+          msgContent.style.color = color;
+          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+          msgEl.appendChild(msgContent);
+        }
+      } else {
+        const msgContent = document.createElement("span");
+        msgContent.textContent = `${timestamp} - ${name}: ${text}`;
+        msgEl.appendChild(msgContent);
+      }
+
+      messagesDiv.appendChild(msgEl);
+    }
+
+    function displayMessagesForChannel(channel) {
+      messagesDiv.innerHTML = "";
+      allMessages.forEach((msg) => {
+        if ((msg.channel || "general") === channel) {
+          addMessageElement(msg);
+        }
+      });
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    const messagesRef = ref(db, "messages");
+    const messagesQuery = query(messagesRef, orderByChild("timestamp"));
+
+    onChildAdded(messagesQuery, (snapshot) => {
+      const data = snapshot.val();
+      if (!data) return;
+      allMessages.push(data);
+      channels.add(data.channel || "general");
+      renderChannels();
+      if ((data.channel || "general") === currentChannel) {
+        addMessageElement(data);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      }
+    });
+
+    sendBtn.onclick = () => {
+      const name = nameInput.value.trim() || "Anonymous";
+      let text = msgInput.value.trim();
+      if (!text) return;
+
+      const messageObj = {
+        name,
+        text: cleanMessage(text),
+        timestamp: Date.now(),
+        channel: currentChannel,
+      };
+
+      push(ref(db, "messages"), messageObj);
+      msgInput.value = "";
+    };
+
+    loadChannels();
+  </script>
