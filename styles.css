@@ -188,7 +188,7 @@ b {
 
 /* Chat panel */
 #chat {
-	width: 550px;
+	width: 560px;
 	margin: 12px 0 30px;
 	padding: 15px 20px;
 	background: var(--panel);

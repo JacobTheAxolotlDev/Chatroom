@@ -496,6 +496,51 @@ banByNameBtn.onclick = async () => {
     alert("ban failed: " + e.message);
   }
 };
+        // ipban-by-name: robust lookup for ips stored as usernames/<key>/ip
+const banByNameIpBtn = document.createElement("button");
+banByNameIpBtn.textContent = "Ip Ban User";
+banByNameIpBtn.onclick = async () => {
+  if (!auth.currentUser || !adminUIDs.includes(auth.currentUser.uid)) return alert("admins only");
+
+  const rawName = (data.name || "").trim();
+  if (!rawName) return alert("this message has no ip (how the shit?)");
+
+  // try several possible keys: exact, lowercased, slugged (remove spaces)
+  const candidates = [
+    rawName,
+    rawName.toLowerCase(),
+    rawName.toLowerCase().replace(/\s+/g, ""),       // remove spaces
+    rawName.toLowerCase().replace(/[^a-z0-9_-]/g, "") // strip non-alnum
+  ].filter(Boolean);
+
+  let ipToBan = null;
+  try {
+    for (const key of candidates) {
+      // check common path usernames/<key>/ip
+      const snap = await get(ref(db, `usernames/${key}/ip`));
+      if (snap.exists()) { ipToBan = snap.val(); break; }
+
+      // fallback: maybe stored as object { ip: "..." } at usernames/<key>
+      const snap2 = await get(ref(db, `usernames/${key}`));
+      if (snap2.exists()) {
+        const val = snap2.val();
+        if (val && typeof val === "object" && (val.ip || val.IP)) {
+          ipToBan = val.ip || val.IP;
+          break;
+        }
+      }
+    }
+
+    if (!ipToBan) return alert(`no ip found for '${rawName}' (tried ${candidates.join(", ")}) (how the shit either code is broken or spoofed?)`);
+
+    if (!confirm(`ip ban '${rawName}' (ip: ${ipToBan})?`)) return;
+
+    await set(ref(db, `ipbanned/${ipToBan}`), true);
+    alert(`${rawName} ip banned successfully.`);
+  } catch (e) {
+    alert("ip ban failed: " + e.message);
+  }
+};
 // admin but 
         
 const adminRankBtn = document.createElement("button");
@@ -568,6 +613,7 @@ adminRankBtn.onclick = async () => {
         ctr.appendChild(editBtn);
         if (adminUIDs.includes(currentUser.uid))ctr.appendChild(editnameBtn);
         if (adminUIDs.includes(currentUser.uid))ctr.appendChild(banByNameBtn);
+        if (adminUIDs.includes(currentUser.uid))ctr.appendChild(banByNameIpBtn);
         if (adminUIDs.includes(currentUser.uid))ctr.appendChild(adminRankBtn);
         ctr.appendChild(delBtn);
         if (adminUIDs.includes(currentUser.uid)) ctr.appendChild(flagBtn);

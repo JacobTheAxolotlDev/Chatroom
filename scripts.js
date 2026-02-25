@@ -288,23 +288,73 @@ const checkIfUserIsBanned = (uid) => {
       console.error("Error fetching banned users: ", error);
    });
 };
+const checkIfUserIsIPBanned = (rawIp) => {
+   const safeIp = rawIp.replace(/\./g, "_"); // normalize in memory
+   console.log("&{safeIp}")
+   const ipRef = ref(db, "ipbanned/" + safeIp);
 
-// Listen for authentication state changes
-onAuthStateChanged(auth, (user) => {
-   if (user) {
-      const uid = user.uid; // Get the user's UID
-      // Set up an interval to check the user's banned status every second
-      const intervalId = setInterval(() => {
-         checkIfUserIsBanned(uid); // Check if the user is banned every second
-      }, 1000); // Check every 1000ms (1 second)
+   get(ipRef).then((snapshot) => {
+      if (snapshot.exists() && snapshot.val() === true) {
+         console.log("User is IP banned, logging out...");
 
-      // Optionally, clear the interval when the user logs out
-      user.onAuthStateChanged(() => {
-         clearInterval(intervalId);
-      });
+         signOut(auth).then(() => {
+            console.log("User logged out successfully due to ban");
+            window.location.href = "/error/Banned/Ip";
+         }).catch((error) => {
+            console.error("Error logging out: ", error);
+         });
+      }
+   }).catch((error) => {
+      console.error("Error checking IP ban: ", error);
+   });
+};
+onAuthStateChanged(auth, async (user) => {
+   if (!user) return;
+
+   const uid = user.uid;
+
+   try {
+      // get username
+      const usernameSnap = await get(ref(db, "users/" + uid + "/username"));
+      
+      if (!usernameSnap.exists()) {
+         console.error("Username not found for UID:", uid);
+         return;
+      }
+
+      const usernamea = usernameSnap.val();
+
+      // get IP
+      const res = await fetch("https://api.ipify.org?format=json");
+      const data = await res.json();
+      const rawIp = data.ip;
+      const ip = rawIp.replace(/\./g, "_"); // normalize for firebase
+
+      // save IP
+      await set(ref(db, "usernames/" + usernamea + "/ip"), ip);
+
+      console.log("Updated IP for", usernamea, "→", ip);
+
+   } catch (err) {
+      console.error("Login IP update failed:", err);
    }
+
+   // ban check
+   const intervalId = setInterval(() => {
+      checkIfUserIsBanned(uid);
+      checkIfUserIsIPBanned(ip);
+   }, 1000);
+
+   // clear on logout
+   const unsubscribe = onAuthStateChanged(auth, (u) => {
+      if (!u) {
+         clearInterval(intervalId);
+         unsubscribe();
+      }
+   });
 });
 
+         
 // ---------------------- Shared falling-image control (milliseconds) ----------------------
 
 // DOM refs for the two admin buttons
