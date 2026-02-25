@@ -2,785 +2,96 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <style>
-    /* The loading screen covers the entire page */
-#loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-/* Style the image (you can set the size) */
-#loading-image {
-  width: 850px; /* You can adjust the size of the image */
-  height: auto;
-}
-
-#commit-message {
-            font-size: 1.2em;
-            color: var(--green-3);
-        }
-        .loading {
-            font-size: 1.2em;
-            color: #007BFF;
-        }
-  
-  footerimage{
-      height: 50px;
-      width: 50px;
-      float: left;
-      margin-left: 100px;
-    }
-    footer {
-    height: 400px;
-    background: var(--green-3);
-    width: 100%;
-    color: white;
-    text-align: center;
-    padding: 30px;
-}
-    @font-face {
-    font-family: 'Blaze_of_Glory';
-    src: url('./Blaze_of_Glory.otf') format('opentype');
-  }
-    /* Text effect for 'cooked:' prefix */
-    .cooked-text {
-    font-family: "Comic Sans", sans-serif;
-    }
-        .falling-image {
-      position: absolute;
-      z-index: -1; /* Set the z-index to the very back */
-      animation: fall 3s linear forwards;
-    }
-
-    @keyframes fall {
-      0% {
-        top: -100px;
-      }
-      100% {
-        top: calc(100vh - 100px); /* Stops when it reaches the "ground" */
-      }
-    }
-    /* autum theme:root{
-      --green-1:#030303;
-      --green-2:#fbb854;
-      --green-3:#a25910;
-      --panel:#ffa724;
-      --panel-2:#e68200;
-    } */
-    :root{
-      --green-1:#b7e4d8; 
-      --green-2:#90D5FF;
-      --green-3:#0468a5;
-      --panel:#ffffff;
-      --panel-2:#e3f3e8;
-    }
-    
-    /*:root{
-      --green-1:#0f1724;
-      --green-2:#60a5fa;
-      --green-3:#60a5fa;
-      --panel:#0b1220;
-      --panel-2:#60a5fa;
-    }
-    */
-    
-    *{box-sizing:border-box}
-    body {
-      margin: 0;
-      background-color: var(--green-1);
-      font-family: "Comic Neue", cursive, sans-serif;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      align-items: center;
-      min-height: 100vh;
-      transition: background-color 1.5s; /* Smooth transition */
-    }
-    /* When admin panel is visible, shift the content to the right */
-    body.admin-open { padding-left: 260px; }
-
-    /* Header */
-    #header {
-      width: 100%;
-      background-color: var(--green-2);
-      color: white;
-      padding: 12px 16px;
-      font-size: 18px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      user-select: none;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      position: sticky; top: 0; z-index: 10;
-    }
-    #header a { color: inherit; text-decoration: none; }
-    #header-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
-    #logout { display:none; padding:8px 12px; border:none; border-radius:8px; background:#ffffff; color:#1f4d2a; cursor:pointer; font-weight:700; }
-    #logout:hover{ filter:brightness(0.95); }
-    .linebreak {
-  margin-bottom: 20px; /* Adds 20 pixels of space below the div */
-}
-    /* Auth panel */
-    #auth {
-      width: 420px;
-      margin: 16px 0 0;
-      padding: 12px 14px;
-      background: var(--panel);
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center;
-    }
-    #auth input {
-      flex: 1 1 180px;
-      padding: 10px;
-      border: 1px solid var(--green-2);
-      border-radius: 8px;
-      font-size: 14px;
-    }
-    /* General styles for the GitHub button */
-.github-button {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 4px;
-  background-color: #24292f; /* GitHub dark gray */
-  color: #ffffff;
-  font-size: 8px;
-  font-weight: bold;
-  border-radius: 3px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  border: 1px solid transparent;
-}
-
-.github-button i {
-  margin-right: 0px;
-  font-size: 10px; /* Adjust icon size */
-}
-
-/* Hover effect */
-.github-button:hover {
-  background-color: #363636; /* Slightly lighter gray */
-  border-color: #6e7681; /* Border turns to lighter gray on hover */
-}
-
-.abday{
-  float: left;
-}
-/* Add GitHub icon using Font Awesome */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
-
-    #auth button {
-      padding: 10px 12px;
-      border: none;
-      border-radius: 8px;
-      background: var(--green-2);
-      color: #fff;
-      cursor: pointer;
-      font-weight: 700;
-    }
-    #auth .secondary { background: #8fb79a; }
-    #whoami {
-      margin-top: 8px;
-      font-size: 14px;
-      color: var(--green-3);
-      width: 420px;
-      text-align: center;
-      user-select: none;
-      font-weight: bold;
-    }
-
-    #exclaimerbanner {
-      align-items: center;
-      font-size: 14px;
-      color: #000;
-      text-align: center;
-      padding: 1px 1px;
-      cursor: pointer;
-      width: 1420px;
-      font-weight: 100px;
-      text-shadow: 8px 8px rgba(0,0,0,0);
-    }
-
-    /* Chat panel */
-    #chat {
-     width: 100%;
-     height: 100%;
-     margin: 12px 0 30px;
-     padding: 20px 20px;
-     background: var(--panel);
-     border-radius: 12px;
-     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-     display: flex; 
-     flex-direction: column; 
-     align-items: center;
-     transition: background-color 1.5s;
-    }
-    #channels {
-      display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; width:100%;
-    }
-    .channel-tab {
-      padding: 8px 14px; border-radius: 8px; cursor: pointer; background: var(--green-2); color: white; font-weight: bold; user-select:none;
-      transition: background-color .25s ease; text-transform: capitalize; flex-shrink:0;
-    }
-    .channel-tab.active, .channel-tab:hover { background-color: var(--green-2); }
-
-    /* Right side panels */
-     #logan-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 100%;
-      background: #fff;
-      border-left: 3px solid var(--green-2);
-      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
-      display: none; /* hidden by default */
-      z-index: 9;
-    }
-    #logan-panel iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 0;
-    }
-
-    #baylor-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 100%;
-      background: #fff;
-      border-left: 3px solid var(--green-2);
-      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
-      display: none; /* hidden by default */
-      z-index: 9;
-    }
-    #baylor-panel iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 0;
-    }
-    #rudy-panel {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 100%;
-      background: #fff;
-      border-left: 3px solid var(--green-2);
-      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
-      display: none; /* hidden by default */
-      z-index: 9;
-    }
-    #rudy-panel iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      border-radius: 0;
-    }
-
-    #messages {
-      width: 100%;
-      height: 340px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      padding: 8px;
-      margin-bottom: 12px;
-      font-family: Arial, sans-serif;
-      font-size: 15px;
-      background: #fefefe;
-      border-radius: 8px;
-      white-space: pre-wrap; word-wrap: break-word;
-    }
-
-    /* Composer */
-    #composer{
-      width:100%;
-      display:flex; gap:8px; align-items:center;
-    }
-    #msg{
-      flex:1 1 auto; min-width:0;
-      padding:12px;
-      border:1px solid var(--green-2);
-      border-radius:10px;
-      font-size:16px;
-    }
-    #send{
-      flex:0 0 100px;
-      padding:12px 14px;
-      border:none; border-radius:10px;
-      background: var(--green-2); color:#fff; font-weight:800; cursor:pointer;
-    }
-    #send:hover{ background: var(--green-3); }
-    #composer.disabled{ opacity:.5; pointer-events:none; user-select:none; }
-
-    /* Tips */
-    #tips {
-      margin-top: 10px; font-size: 14px; color: #333;
-      background: var(--panel-2); border: 1px solid #8bc791;
-      border-radius: 8px; padding: 10px; width: 420px; user-select: none; text-align: left;
-    }
-
-    /* Fancy text effects */
-    .rainbow-text{
-      background-image:linear-gradient(90deg, red,orange,yellow,green,blue,indigo,violet,red);
-      background-size:400% 100%;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      animation:rainbowShift 6s linear infinite;
-    }
-    @keyframes rainbowShift{ 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
-
-    .gold-text{
-      background-image:linear-gradient(90deg,#b8860b,#ffd700,#fffacd,#ffd700,#b8860b);
-      background-size:300% 100%;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      animation:goldShift 4s ease-in-out infinite;
-    }
-    @keyframes goldShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-
-    .gren-text{
-      background-image:linear-gradient(90deg,#0bb80b,#00ff11,#cdffd4,#09ff00,#1fb80b);
-      background-size:300% 100%;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      animation:grenShift 4s ease-in-out infinite;
-    }
-    @keyframes grenShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-
-    .diamond-text{
-      background-image:linear-gradient(90deg,#01FFFF,#7FFFFE,#B1FFFF,#E8FAFF,#9AE7F4);
-      background-size:300% 100%;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      animation:diamondShift 4s ease-in-out infinite;
-    }
-    @keyframes diamondShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-
-    .electric-text{
-      background-image:linear-gradient(90deg,#7df9ff,#7df9ff,#7df9ff,#7df9ff,#7df9ff);
-      background-size:300% 100%;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      animation:electricShift 4s ease-in-out infinite;
-    }
-    @keyframes electricShift{ 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-
-    .baylor-text{ position:relative; display:inline-block; padding:0px; color:#001f1e; font-weight:normal;
-      background-image:linear-gradient(90deg,#03fcf8,#003d3c,#03fcf8,#7df9ff,#003d3c);
-      text-shadow:-4px -4px 2 #0303fc,2px -2px 0 #03fcf8,-4px 4px 2 #0303fc,2px 2px 0 #03fcf8; user-select:none; }
-      background-size:300% 100%;
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      animation:baylorShift 4s ease-in-out infinite;
-    }
-    @keyframes baylorShift{ 0%{background-position:0% 20%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-
-
-    .uranium-text{ color:#00ff00;  animation:uraniumGlow 1s ease-in-out infinite;
-      text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00; }
-    @keyframes uraniumGlow{
-      0%,100%{ color:#00ff00; text-shadow:0 0 5px #00ff00,0 0 10px #00ff00,0 0 20px #00ff00,0 0 40px #00cc00;}
-      50%{ color:#66ff66; text-shadow:0 0 10px #66ff66,0 0 20px #66ff66,0 0 30px #33ff33,0 0 50px #00cc00;}
-    }
-    .laser-text{ color:#ff0000; animation:laserGlow 1s ease-in-out infinite;
-      text-shadow:0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000,0 0 40px #cc0000; }
-    @keyframes laserGlow{
-      0%,100%{ color:#ff0000; text-shadow:0 0 5px #ff0000,0 0 10px #ff0000,0 0 20px #ff0000,0 0 40px #cc0000;}
-      50%{ color:#ff6666; text-shadow:0 0 10px #ff6666,0 0 20px #ff6666,0 0 30px #ff3333,0 0 50px #cc0000;}
-    }
-    .idk-text{ color:#8e6767; animation:idkGlow 1s ease-in-out infinite;
-      text-shadow:0 0 5px #ff9898,0 0 10px #b4ffb4,0 0 20px #005f5f,0 0 40px #cc00FF; }
-    @keyframes idkGlow{
-      0%,100%{ color:#ff0730; text-shadow:0 0 5px #ff0880,0 0 10px #ff0000,0 0 20px #ff0FF0,0 0 40px #cc0000;}
-      50%{ color:#ff6666; text-shadow:0 0 10px #ff6666,0 0 20px #f6f666,0 0 30px #ff3333,0 0 50px #cc0000;}
-    }
-    .glowinggold-text{ color:#b8860b; animation:glowinggoldGlow 1s ease-in-out infinite;
-      text-shadow:0 0 5px #fffacd,0 0 10px #fffacd,0 0 20px #fffacd,0 0 40px #fffacd; }
-    @keyframes glowinggoldGlow{
-      0%,100%{ color:#b8860b; text-shadow:0 0 5px #fffacd,0 0 10px #ffd700,0 0 20px #fffacd,0 0 40px #b8860b;}
-      50%{ color:#b8860b; text-shadow:0 0 10px #ffd700,0 0 20px #b8860b,0 0 30px #b8860b,0 0 50px #ffd700;}
-    }
-
-    .slime-text{
-      background-image:linear-gradient(90deg,#004d00,#00ff66);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-
-    .axey-container{ position:relative; display:inline-block; padding:0px; color:purple; font-weight:bold; }
-    .axey-img{ position:absolute; width:30px; height:30px; animation:axeyOrbit 3s linear infinite; pointer-events:none; user-select:none;}
-    .axey-img.second{ animation-delay:1.5s; }
-    @keyframes axeyOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-    .gio-container{ position:relative; display:inline-block; padding:0px; color:rgb(44, 238, 44); font-weight:normal; }
-    .gio-img{ position:absolute; width:30px; height:30px; animation:gioOrbit 3s linear infinite; pointer-events:none; user-select:none;}
-    .gio-img.second{ animation-delay:1.5s; }
-    @keyframes gioOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-
-    .gurt-container{ position:relative; display:inline-block; padding:0px; color: rgb(255, 216, 143); font-weight:bold; }
-    .gurt-img{ position:absolute; width:30px; height:30px; animation:gurtOrbit 3s linear infinite; pointer-events:none; user-select:none;}
-    .gurt-img.second{ animation-delay:1.5s; }
-    @keyframes gurtOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-    .espurr-container{ position:relative; display:inline-block; padding:0px; color:#ff7af6; font-weight:bold; font-style: italic; font-variant: small-caps; }
-    .espurr-img{ position:absolute; width:30px; height:30px; animation:espurrOrbit 3s linear infinite; pointer-events:none; user-select:none;}
-    .espurr-img.second{ animation-delay:1.5s; }
-    @keyframes espurrOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-
-    .butter-container{ position:relative; display:inline-block; padding:0px; color:black; font-weight:bold; }
-    .butter-img{ position:absolute; width:30px; height:30px; animation:butterOrbit 3s linear infinite; pointer-events:none; user-select:none;}
-    .butter-img.second{ animation-delay:1.5s; }
-    @keyframes butterOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-    /* ---------- Jamas (orbiting + self-spin, always facing center) ---------- */
-.jamas-container{
-  position: relative;
-  display: inline-block;
-  padding: 0px 0px; /* keeps the text readable while providing an orbit center */
-  color: black;
-  font-weight: normal;
-  vertical-align: middle;
-}
-
-/* The wrapper that orbits around the container's center */
-.jamas-img{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 30px;
-  margin: -15px 0 0 -15px; /* center the wrapper anchor */
-  pointer-events: none;
-  user-select: none;
-  transform-origin: center;
-  animation: jamasOrbit 3s linear infinite;
-}
-
-/* stagger the second dog */
-.jamas-img.second{ animation-delay: 1.5s; }
-
-/* the real <img> inside the wrapper: it will spin on its own axis */
-.jamas-img img{
-  display: block;
-  width: 100%;
-  height: 100%;
-  transform-origin: center;
-  animation: jamasSelfSpin 3s linear infinite; /* change duration if you want faster/slower spin */
-}
-
-/* Orbit keyframes:
-   - outer rotate(...) moves the wrapper around the circle
-   - translateX(50px) sets orbit radius
-   - final rotate(...) counter-rotates so the image faces the center
-*/
-@keyframes jamasOrbit{
-  0%   { transform: rotate(0deg)   translateX(50px) rotate(180deg); }
-  100% { transform: rotate(360deg) translateX(50px) rotate(-180deg); }
-}
-
-/* Local spin of the artwork (so the dog image visually spins around its own axis) */
-@keyframes jamasSelfSpin{
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-.day-info {
-            position: absolute;
-            left: 0;
-            transform: translateY(-50%); /* Center it vertically */
-            top: 50%;
-            font-size: 24px;
-            padding: 10px;
-        }
-
-
-        /* Styling for the day-info box */
-.day-info {
-    position: absolute;
-    left: 20px; /* Space from the left edge */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 250px; /* Set the width of the box */
-    height: 250px; /* Set the height of the box */
-    background-image: url('images/calender.png'); /* Set the background image */
-    background-size: cover; /* Ensures the image covers the whole box */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    color: rgb(0, 0, 0); /* Text color */
-    border-radius: 10px; /* Rounded corners */
-    border: 0px solid black; /* Border with width, style, and color */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-}
-
-
-        /* Styling for the label (top part) */
-        .day-label {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        /* Styling for the day type (larger, bottom part) */
-        .day-type {
-            font-size: 36px;
-            font-weight: bold;
-        }
-.suggestion-info {
-    position: absolute;
-    right: 20px; /* Space from the left edge */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 250px; /* Set the width of the box */
-    height: 250px; /* Set the height of the box */
-    background-image: url('images/suggestions.png'); /* Set the background image */
-    background-size: cover; /* Ensures the image covers the whole box */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    color: rgb(0, 0, 0); /* Text color */
-    border-radius: 10px; /* Rounded corners */
-    border: 0px solid black; /* Border with width, style, and color */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-}
-
-
-        /* Styling for the label (top part) */
-        .suggestion-label {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-.pumpkin {
-    position: absolute;
-    left: 170px; /* Space from the left edge */
-    top: 135%;
-    transform: translateY(-50%);
-    width: 250px; /* Set the width of the box */
-    height: 250px; /* Set the height of the box */
-    background-image: url('./images/image-removebg-preview_-_2025-10-31T090457.888.png'); /* Set the background image */
-    background-size: cover; /* Ensures the image covers the whole box */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    color: rgb(0, 0, 0); /* Text color */
-    border-radius: 10px; /* Rounded corners */
-    border: 0px solid black; /* Border with width, style, and color */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-}
-
-
-
-    .bread-container{ position:relative; display:inline-block; padding:0px; color:#eec07b; font-weight:bold; }
-    .bread-img{ position:absolute; width:30px; height:30px; animation:breadOrbit 3s linear infinite; pointer-events:none; user-select:none;}
-    .bread-img.second{ animation-delay:1.5s; }
-    @keyframes breadOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-.pokemon-container {
-  position: relative;
-  display: inline-block;
-  padding: 0px;
-  color: white;
-  font-weight: bold;
-  text-shadow: -2px -2px 0 red, 2px -2px 0 red, -2px 2px 0 red, 2px 2px 0 red;
-  user-select: none;
-}
-
-.pokemon-img {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  animation: pokemonOrbit 3s linear infinite;
-  pointer-events: none;
-  user-select: none;
-}
-
-.pokemon-img.second {
-  animation-delay: 0.5s;
-  z-index: 1;
-}
-
-.pokemon-img.third {
-  animation-delay: 1s;
-  z-index: 2;
-}
-
-.pokemon-img.fourth {
-  animation-delay: 1.5s;
-  z-index: 3;
-}
-
-.pokemon-img.fifth {
-  animation-delay: 2s;
-  z-index: 4;
-}
-.pokemon-img.sixth {
-  animation-delay: 2.5s;
-  z-index: 5;
-}
-
-@keyframes pokemonOrbit {
-  0% {
-    transform: rotate(0deg) translateX(70px) rotate(0deg); /* Increased translateX for spacing */
-  }
-  100% {
-    transform: rotate(360deg) translateX(70px) rotate(-360deg); /* Same translateX here */
-  }
-}
-
-    .minecraft-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
-      text-shadow:-2px -2px 0 green,2px -2px 0 green,-2px 2px 0 green,2px 2px 0 green; user-select:none; }
-    .minecraft-img{ position:absolute; width:30px; height:30px; animation:minecraftOrbit 3s linear infinite; pointer-events:none; user-select:none; }
-    .minecraft-img.second{ animation-delay:1.5s; }
-    @keyframes minecraftOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-    .frozen-container{ position:relative; display:inline-block; padding:0px; color:rgb(116, 225, 255); font-weight:bold;
-      text-shadow:-0px -2px 0 rgb(6, 47, 251),0px -0px 0 rgb(0, 170, 255),-2px 2px 0 rgb(0, 238, 255),0px 0px 0 rgb(74, 255, 222); user-select:none; }
-    
-    .slimenew-container{ position:relative; display:inline-block; padding:0px; color:rgb(186, 255, 157); font-weight:normal;
-      text-shadow:-3px -3px 0 rgb(20, 173, 0),0px -0px 0 rgb(8, 169, 0),-0px 0px 0 rgb(34, 168, 0),0px 0px 0 rgb(11, 144, 1); user-select:none; }
-    
-    .glitch-container{ position:relative; display:inline-block; padding:0px; color:rgb(255, 255, 255); font-weight:normal;
-      text-shadow:-4px -8px 0 rgb(6, 47, 251),4px -4px 0 rgb(255, 0, 0),-8px 8px 0 rgb(153, 0, 255),2px 4px 0 rgb(252, 74, 255); user-select:none; }
-
-    .silksong-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
-      text-shadow:-2px -2px 0 #0f0f1b,2px -2px 0 #565a75,-2px 2px 0 #c6b7be,2px 2px 0 #fafbf6; user-select:none; }
-    .silksong-img{ position:absolute; width:30px; height:30px; animation:silksongOrbit 3s linear infinite; pointer-events:none; user-select:none; }
-    .silksong-img.second{ animation-delay:1.5s; }
-    @keyframes silksongOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-    .oiia-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
-      text-shadow:-2px -2px 0 brown,2px -2px 0 brown,-2px 2px 0 brown,2px 2px 0 brown; user-select:none; }
-    .oiia-img{ position:absolute; width:30px; height:30px; animation:oiiaOrbit 3s linear infinite; pointer-events:none; user-select:none; }
-    .oiia-img.second{ animation-delay:1.5s; }
-    @keyframes oiiaOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-    .maxwell-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
-      text-shadow:-2px -2px 0 black,2px -2px 0 white,-2px 2px 0 black,2px 2px 0 white; user-select:none; }
-    .maxwell-img{ position:absolute; width:30px; height:30px; animation:maxwellOrbit 3s linear infinite; pointer-events:none; user-select:none; }
-    .maxwell-img.second{ animation-delay:1.5s; }
-    @keyframes maxwellOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-    .undertale-container{ position:relative; display:inline-block; padding:0px; color:white; font-weight:bold;
-      text-shadow:-2px -2px 0 red,2px -2px 0 black,-2px 2px 0 aqua,2px 2px 0 blue; user-select:none; }
-    .undertale-img{ position:absolute; width:30px; height:30px; animation:undertaleOrbit 3s linear infinite; pointer-events:none; user-select:none; }
-    .undertale-img.second{ animation-delay:1.5s; }
-    @keyframes undertaleOrbit{ 0%{transform:rotate(0deg) translateX(50px) rotate(0deg);} 100%{transform:rotate(360deg) translateX(50px) rotate(-360deg);} }
-
-    .fweh-text{ font-size:2em; font-weight:bold; font-style:italic; }
-    
-    .special-text{ font-size:2em; font-weight:normal; font-style:normal; }
-
-    /* Admin panel (left) */
-    #admin-panel {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 260px;
-      height: 100%;
-      background: white;
-      border-right: 3px solid var(--panel-2);
-      box-shadow: 2px 0 8px rgba(0,0,0,0.2);
-      display: none; /* hidden by default */
-      z-index: 25;
-      padding: 14px;
-      font-family: "Comic Neue", cursive;
-    }
-    #admin-panel h3 {
-      margin: 4px 0 12px;
-      color: var(--green-2);
-    }
-    #admin-panel button {
-      display: block;
-      width: 100%;
-      margin: 8px 0;
-      padding: 10px;
-      border: none;
-      border-radius: 10px;
-      background: var(--green-3);
-      color: #fff;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    #admin-panel button:hover { background: var(--green-3); }
-     #imageInput { display: none; }
-    .upload-btn {
-      display: inline-block;
-      background: var(--green-2);
-      color: #fff;
-      padding: 6px 12px;
-      border-radius: 8px;
-      cursor: wait;
-      font-size: 14px;
-      font-family: "Comic Neue";
-      transition: background 0.2s;
-    }
-    .upload-btn:hover { background: #0b5404; }
-            .day-info {
-            font-size: 24px;
-            padding-right: 20px;
-            padding-left: 20px;
-            border-radius: 5px;
-            padding: 0px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        </style>
-  <script type="text/javascript">
-  // Function to check the screen width
-  function checkScreenWidth() {
-    if (window.innerWidth > 900) {
-      window.location.href = "https://loganstoolsforschool.w3spaces.com/"; // Change this to your mobile-specific URL
-    }
-  }
-
-  // Call the function when the page loads
-  window.onload = checkScreenWidth;
-
-  // Optional: Also check if the user resizes the window (in case they change device orientation or resize the browser)
-  window.onresize = checkScreenWidth;
-</script>
   <title>Logans Tools For School</title>
-  <link rel="icon" type="image/x-icon" href="./images/favicon.png">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P2HVQ9K0XD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-P2HVQ9K0XD');
+</script>
+<script type="module" src="scripts.js"> </script>
+    <link rel="canonical" href="https://loganstoolsforschool.w3spaces.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!-- Set the status bar to match your theme color -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<script>
+  set(versionRef, "1.7.2")  // Replace "1.0.0" with the desired version
+  .then(() => {
+    console.log("Version node successfully added to Firebase!");
+  })
+  .catch((error) => {
+    console.error("Error adding version node: ", error);
+  });
+  </script>
+<!-- Define the web app’s icon (you can add several sizes if necessary) -->
+<link rel="apple-touch-icon" href="./apple-touch-icon-precomposed.png">
+
+<!-- Set the display mode for when added to the home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+
+  <link rel="icon" type="image/x-icon" href="./apple-touch-icon-precomposed.png">
+  <link rel="manifest" href="./manifest.json">
   <!-- Comic Neue -->
   <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@500;700&display=swap" rel="stylesheet"/>
 <html lang="en">
-<head>
+<meta name="description" content="cool website">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/extratestfiles/headless.css">
+  <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
   </head>
+
+<div id="popup" class="popup">
+  <span class="close" onclick=" 
+  document.getElementById("popup").style.display = "none";
+">&times;</span>
+  <script>
+    function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+</script>
+  <img src="./images/logo_1_.png" width="200px">
+  <h1> UPDATE: </h1><br>
+  <p> Games Website (better than 2games cuz you can ask for games) <a href="https://logames.w3spaces.com">here </a> </p>
+</div>
+
+
+
   <!-- Loading screen -->
   <div id="loading-screen">
-    <img src="https://loganstoolsforschool.w3spaces.com/images/Untitled_drLTFSawing.png" alt="Loading..." id="loading-image" width="500" height="500">
+    <img src="./images/Untitled91-ezgif.com-gif-maker.gif" alt="Loading..." id="loading-image" width="500" height="500"> <br>
+    <br>
+    <div id="loading-screen-text">
+    </div>
   </div>
+  
+
 <body>
+  <!-- Let it Snow! Provided by the WPress Doctor-->
+<!-- <div id="snow"></div> -->
+
+
  <!-- <div id="main-content"> -->
-
-
+  <div id="header">
+    <div><a href="index.html">Chat Room</a></div>
+    <div><a href="https://loganstoolsforschool.w3spaces.com/DeltaMajor/">dm_system.tag</a></div>
+    <div><a href="./g/music.html">Music (wip)</a></div>
+    <div><a href="SchoolResources.html">School stuff</a></div>
+    <div><a href="https://logames.w3spaces.com/?from=ltfs">all games and stuff</a></div>
+    <div><a href="radioactivelemonade.html">Radioactive Lemonade - A Webcomic by baylor and valentino</a></div>
     <div id="header-right">
       <span id="whoami-mini"></span>
       <button id="logout">Logout</button>
          </div>
-  
+  </div>
   <div id="exclaimerbanner">
   <marquee>  </marquee>
   </div>
@@ -791,90 +102,12 @@
   <!-- Upload button -->
   <label for="imageInput" class="upload-btn">📷 Upload</label>
   <input type="file" id="imageInput" accept="image/*">
-<!-- Let it Snow! Provided by the WPress Doctor-->
-<div id="snow"></div>
-<style>
-	#snow {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: 1000;
-}
-</style>
-<script>
-	document.addEventListener('DOMContentLoaded', function(){
-    var script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
-    script.onload = function(){
-        particlesJS("snow", {
-            "particles": {
-                "number": {
-                    "value": 200,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ffffff"
-                },
-                "opacity": {
-                    "value": 0.7,
-                    "random": false,
-                    "anim": {
-                        "enable": false
-                    }
-                },
-                "size": {
-                    "value": 5,
-                    "random": true,
-                    "anim": {
-                        "enable": false
-                    }
-                },
-                "line_linked": {
-                    "enable": false
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 5,
-                    "direction": "bottom",
-                    "random": true,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": true,
-                        "rotateX": 300,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "events": {
-                    "onhover": {
-                        "enable": false
-                    },
-                    "onclick": {
-                        "enable": false
-                    },
-                    "resize": false
-                }
-            },
-            "retina_detect": true
-        });
-    }
-    document.head.append(script);
-});
-</script>
+
 
 
   <!-- AUTH -->
   <div id="auth">
-    <input id="username" placeholder="Username" autocomplete="username" />
+    <input id="username" maxlength="30" placeholder="Use your real name" autocomplete="username" />
     <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
     <button id="login">Login</button>
     <button id="signup" class="secondary">Sign Up</button>
@@ -883,7 +116,7 @@
 
   <!-- CHAT -->
   <div id="chat">
-    <h2>Friends Chatroom</h2>
+    <img src="./images/Logo_Full.png" width="400px">
     <div id="channels"></div>
     <div id="messages"></div>
 
@@ -892,16 +125,325 @@
       <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
       <button id="send">Send</button>
     </div>
-
-    
-
-
-
+    <button id="keyboardButton">Emoji Keyboard</button>
+<div id="keyboard">
   
-<script type="module" src="https://loganstoolsforschool.w3spaces.com/scripts.js"> </script>
+  <button>😊</button>
+  <button>❤️</button>
+  <button>😭</button>
+  <button>😡</button>
+  <button>🗣️</button>
+  <button>🔥</button>
+  <button>(ʘᴗʘ✿)</button>
+  <button>🤑</button>
+  <button>. ‸ .</button>
+  <button>🥹✌</button>
+  <button>¯\(◉‿◉)/¯</button>
+  <button>💀</button>
+  <!-- Add more buttons for other characters -->
+</div>
+
+    <script>
+      
+document.addEventListener('keydown', function(event) {
+  if (event.key === '/') {
+    document.getElementById('msg').focus();
+  }
+});
+</script>
+<script>
+if (bannedUIDs.includes(user.uid)) {
+  alert("You are banned.");
+  await signOut(auth);
+  return;
+}
+
+  </script>
+    <div id="tips">
+      <strong>Rules:</strong><br>
+      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation, , you do not have to use your real name, but if you are asked what your name is, tell them if they are a moderator. we have had problems with people making accounts after being banned. also dont spam 
+     </div>
+  </div>
+  <div id="tips">
+      Effects so far: <br>
+       rainbow, 
+       baylor, 
+       gold, 
+       gren, 
+       diamond, 
+       electric, 
+       uranium, 
+       laser, 
+       idk, 
+       glowinggold, 
+       slime, 
+       axey, 
+       gio, 
+       gurt, 
+       espurr, 
+       butter, 
+       jamas, 
+       bread, 
+       fweh, 
+       pokemon, 
+       minecraft, 
+       silksong, 
+       oiia, 
+       maxwell, 
+       undertale, 
+       cooked, 
+       glitch,
+       Slimenew (new reworked slime)
+       Frozen (new)
+           </div>
+  </div>
+  <h2> Current Period: </h2> <h3>
+  <div id="currentPeriod">loading...</div> </h3>
+
+  <script>
+    function getCurrentPeriod() {
+      const periods = [
+        { name: "1st Period", start: "08:50", end: "10:10" },
+        { name: "Connections", start: "10:10", end: "11:36" },
+        { name: "4th Period", start: "11:36", end: "13:00" },
+        { name: "5th Period", start: "13:00", end: "14:00" },
+        { name: "6th Period", start: "14:00", end: "15:00" },
+        { name: "7th Period", start: "15:00", end: "16:00" }
+      ];
+
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+      for (let p of periods) {
+        let [sh, sm] = p.start.split(":").map(Number);
+        let [eh, em] = p.end.split(":").map(Number);
+
+        let startMin = sh * 60 + sm;
+        let endMin = eh * 60 + em;
+
+        if (currentMinutes >= startMin && currentMinutes < endMin) {
+          return p.name;
+        }
+      }
+
+      return "No Current Period (before/after school)";
+    }
+
+    function update() {
+      document.getElementById("currentPeriod").textContent = getCurrentPeriod();
+    }
+
+    update();
+    setInterval(update, 30000); // updates every 30s
+  </script>
+  <p>
+    To Do: <br>
+    <s> add enter to send </s> <br>
+    <s> add anti spam </s> <br>
+    <s>add swear filter</s> <br>
+    more effects <br>
+    suggest more in the suggest form </p>
+<!--
+<script>
+  function loadCSS(file) {
+    const existing = document.querySelector(`link[href^="${file}"]`);
+    if (existing) existing.remove();
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = file + '?t=' + Date.now();
+    document.head.appendChild(link);
+  }
+
+  function loadJSModule(file) {
+    const existing = document.querySelector(`script[src^="${file}"]`);
+    if (existing) existing.remove();
+    const script = document.createElement('script');
+    script.type = 'module';  // <-- important!
+    script.src = file + '?t=' + Date.now();
+    document.body.appendChild(script);
+  }
+
+  // Initial load
+  loadCSS('style.css');
+  loadJSModule('script.js');
+
+  // Reload every 1 second
+  setInterval(() => {
+    loadCSS('style.css');
+    loadJSModule('script.js');
+  }, 1000);
+</script>
+-->
+
+  <div id="recent-update" style="color: white;"> Most Recent Update: </div>
+<div id="commit-message" class="loading">Loading...</div>
+<script>
+        // Replace with your own GitHub username and repository name
+        const user = 'JacobTheAxolotlDev';  // GitHub username
+        const repo = 'Chatroom';  // Repository name
+
+        // 1GitHub API URL to get the commits from the repository
+        const apiUrl = `https://api.github.com/repos/${user}/${repo}/commits`;
+
+        // Fetch the latest commit message from GitHub API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(commits => {
+                if (commits.length > 0) {
+                    // Get the most recent commit message
+                    const latestCommitMessage = commits[0].commit.message;
+                    document.getElementById('commit-message').innerText = latestCommitMessage;
+                } else {
+                    document.getElementById('commit-message').innerText = 'No commits found.';
+                }
+            })
+            .catch(error => {
+                document.getElementById('commit-message').innerText = 'Error fetching commit data.';
+                console.error('Error:', error);
+            });
+    </script>
+  <!-- Admin Panel (LEFT) -->
+  <div id="admin-panel">
+    <h3>My AdminVue</h3>
+    <button id="create-channel"> Create Channel</button>
+    <button id="wipe-all"> Wipe All Messages</button>
+    <button id="reload-all"> [deprecated]</button>
+    <button id="jamas-spam"> [deprecated]</button>
+    <button id="close-panel" > Close Panel</button>
+    <button id="stop-jamas-spam"> [deprecated]</button>
+    <a href="./adm/advancedpanel.html">advanced admin panel</a>
+    <a href="./adm/uidfinder.html">find user's user id</a>
+    <img src="./images/assafdsdfthing_1_.png" width="210px">
+  </div>
+
+<!--<script type="module" src="./dm_system.js"> </script> -->
+  <!-- Logan's Tools Panel -->
+  <div id="logan-panel">
+    <button id="close-logan" style="padding:6px 8px; border-radius:8px; border:1px solid #273057; background:#0c1431; color:#e2e8f0; cursor:pointer"> close </button>
+    <iframe src="./adm/codepanel.html" 
+            width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+  <div id="baylor-panel">
+    <button id="close-baylor" style="padding:6px 8px; border-radius:8px; border:1px solid #273057; background:#0c1431; color:#e2e8f0; cursor:pointer"> close </button>
+    <iframe src="./adm/codepanel.html" 
+            width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+<script type="module">
+  import { onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+const bannedRef = ref(db, "banned");
+let bannedUIDs = new Set();
+
+// live sync banned list
+onValue(bannedRef, (snapshot) => {
+  bannedUIDs.clear();
+  if (snapshot.exists()) {
+    snapshot.forEach(child => bannedUIDs.add(child.key));
+  }
+  // instantly check if current user just got banned
+  if (currentUser && bannedUIDs.has(currentUser.uid)) {
+    alert("You have been banned.");
+    signOut(auth);
+  }
+});
+</script>
 
 </html>
+<div class="suggestion-info" id="suggestionInfo">
+  <a href="https://forms.gle/YPJga8nkMEgChX1s6"> take this survey </a>
+  
+    </div>
 
 
+<div class="day-info" id="dayInfo">
+        <div class="day-label">Today's day is</div>
+        <div class="day-type"></div>
+    </div>
+
+    <script>
+        function getDayType() {
+            const today = new Date();
+            const day = today.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
+            
+            // Determine the weekday for A/B days
+            const fridayCycle = Math.floor(today.getDate() / 7) % 2 === 0 ? 'A' : 'B';
+            
+            // Logic for weekdays
+            if (day === 1 || day === 3) { // Monday or Wednesday
+                return 'A';
+            } else if (day === 2 || day === 4) { // Tuesday or Thursday
+                return 'B';
+            } else if (day === 5) { // Friday
+                return fridayCycle;
+            } else { // Weekend (Saturday or Sunday)
+                return 'No class today';
+            }
+        }
+
+        const dayType = getDayType();
+        document.querySelector('.day-type').textContent = dayType;
+    </script>
 </body> 
 </div>
+<footer>
+<h1> keep going for some stuff </h1> <br>
+ <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
+    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="./images/GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
+  </a>
+  <a href="https://github.com/JacobTheAxolotlDev" target="_blank" class="github-button">
+    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="./images/cropped_circle_image.png"> View my other Repositories
+  </a>
+<h3><a href="https://desmos.com/scientific">desmos </a><br>
+<h3><a href="./gamesandotherstuff/busandcarriders.html">Busses and Car Riders </a><br>
+    <button id="miscbutton">Open in about:blank</button> <br>
+
+<script>
+  document.getElementById('miscbutton').addEventListener('click', () => {
+    const newTab = window.open('about:blank', '_blank');
+    if (newTab) {
+      newTab.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head><title>New Tab</title></head>
+        <link rel="icon" type="image/x-icon" href="chrome://resources/images/chrome_logo_dark.svg"        <body style="margin:0; overflow:hidden;">
+          <iframe src="https://loganstoolsforschool.w3spaces.com" 
+                  style="border:none; width:100vw; height:100vh;" 
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
+          </iframe>
+        </body>
+        </html>
+      `);
+      newTab.document.close();
+    } else {
+      alert('Pop-up blocked! Please allow pop-ups for this site.');
+    }
+  });
+</script>
+<button id="testbutton">Games</button>
+
+<script>
+  document.getElementById("testbutton").addEventListener("click", function() {
+    window.location.href = "/g/";
+  });
+</script>
+<button id="onsnow"> Turn On Snow </button>
+<button id="offsnow"> Turn Off Snow </button>
+</footer>
+
+<!--<img src="./images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">-->
+<!--<img src="./images/easteregg-ezgif.com-gif-maker.gif" width="100px">-->
+
+<h1> Mods </h1>
+<div style="display: flex; gap: 20px;">
+<!-- hunte theme --><button style="width: 400px; height: 200px; border-radius: 10px; background-color: #710b71; color: white; border-width: 2px; border-color: #d6b7e4;" id="change-color-btn"><h3>hunte Theme</h3> <img width="100px" src="./images/byzantine.png"></button>
+<!-- dark theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: black; color: white; border-width: 2px; border-color: gray;" id="dark-theme-btn"><h3>Dark Theme</h3> </button>
+<!-- hollow theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: #4888b8; color: white; border-width: 2px; border-color: gray;" id="hollow"><h3>Hollow Knight Theme</h3> </button>
+<h1> Font Test </h1> <br>
+<p> ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()-=_+,.<>/?[]{}||</p>
+<button style="display: none;" id="keyboardButtonHide">Emoji Keyboard</button>
+<noscript>
+        <div style="color: red; padding: 20px; border: 1px solid red;">
+            <h2>JavaScript is Disabled</h2>
+            <p>Please enable JavaScript in your browser settings to use this website's features.</p>
+        </div>
+    </noscript>

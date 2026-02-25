@@ -643,6 +643,9 @@ function addMessageElement(data) {
 if (uname === "ⅉ⋓₷₸ⅈᴎ") {
     name = name.replace("ⅉ⋓₷₸ⅈᴎ", "[Papi] justin");
 }
+if (uname === "say_german") {
+    name = name.replace("say_german", "<span style='color:black;'>say</span><span style='color:red'>_ge</span><span style='color:yellow;'>rman</span>");
+}
 
    let text = data.text || "(no message)";
    text = text.replace(/:GDNormal:/g, '<img src="https://community.fastly.steamstatic.com/economy/emoticon/GDNormal" class="gd-emoji">');
