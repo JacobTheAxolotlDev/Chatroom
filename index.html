@@ -1,340 +1,449 @@
-   <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
-   <link rel="icon" href="https://t3.ftcdn.net/jpg/01/97/57/66/360_F_197576699_QxGIuWnWCJHAMXiSCuVH9YPYtyMwjpJz.jpg" type="image/jpeg">
-   <meta charset="utf-8">
-  <style>
-        #panelthing {
-      width: 550px;
-      margin: 12px 0 30px;
-      padding: 15px 20px;
-      background: var(--panel);
-      border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      display: flex; flex-direction: column; align-items: center;
-      transition: background-color 1.5s;
-    }
-    </style>
-    <div id="panelthing">
-      <img width="400px" src="./images/Logo_Full.png">
-        <span style="font-size: 80px"> LTFS is Down</span> <br>
-        <p> due to recent developments, logans tools for school website and chatroom will be down, even though we followed all rules</p><b> For any questions, email <a href="mailto:logan.wade7528@g.gcpsk12.org">logan.wade7528@g.gcpsk12.org</a> </b> <br>
-        <span> it may be up soon, while we are verifing information. </span> <br>
-        <div><img width="50px" src="https://t3.ftcdn.net/jpg/01/97/57/66/360_F_197576699_QxGIuWnWCJHAMXiSCuVH9YPYtyMwjpJz.jpg"> <span> (website on lockdown) </span> <img width="50px" src="https://t3.ftcdn.net/jpg/01/97/57/66/360_F_197576699_QxGIuWnWCJHAMXiSCuVH9YPYtyMwjpJz.jpg"> </div>
-          <script>
-    // stop looking at my code administrators
-window.onload = function() {
-  // stop looking at my code administrators
-  setTimeout(function() {
-    // stop looking at my code administrators
-    document.getElementById('loading-screen').style.display = 'none';
-    
-    // stop looking at my code administrators
-    document.getElementById('main-content').style.display = 'block';
-  }, 300);  // stop looking at my code administrators
-};
-</script>
-<style>
-  /* stop looking at my code administrators */
-#loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(100, 100, 100, 0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Logans Tools For School</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P2HVQ9K0XD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-/* stop looking at my code adminastrators */
-#loading-image {
-  width: 850px; /* stop looking at my code administrators */
-  height: auto;
-}
-</style>
+  gtag('config', 'G-P2HVQ9K0XD');
+</script>
+<script type="module" src="scripts.js"> </script>
+    <link rel="canonical" href="https://loganstoolsforschool.w3spaces.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!-- Set the status bar to match your theme color -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<script>
+  set(versionRef, "1.7.2")  // Replace "1.0.0" with the desired version
+  .then(() => {
+    console.log("Version node successfully added to Firebase!");
+  })
+  .catch((error) => {
+    console.error("Error adding version node: ", error);
+  });
+  </script>
+<!-- Define the web app’s icon (you can add several sizes if necessary) -->
+<link rel="apple-touch-icon" href="./apple-touch-icon-precomposed.png">
+
+<!-- Set the display mode for when added to the home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+
+  <link rel="icon" type="image/x-icon" href="./apple-touch-icon-precomposed.png">
+  <link rel="manifest" href="./manifest.json">
+  <!-- Comic Neue -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@500;700&display=swap" rel="stylesheet"/>
+<html lang="en">
+<meta name="description" content="cool website">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://loganstoolsforschool.w3spaces.com/styles.css">
   </head>
-  <!--  stop looking at my code administrators  -->
+
+<div id="popup" class="popup">
+  <span class="close" onclick=" 
+  document.getElementById("popup").style.display = "none";
+">&times;</span>
+  <script>
+    function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+</script>
+  <img src="./images/logo_1_.png" width="200px">
+  <h1> UPDATE: </h1><br>
+  <p> Games Website (better than 2games cuz you can ask for games) <a href="https://logames.w3spaces.com">here </a> </p>
+</div>
+
+
+
+  <!-- Loading screen -->
   <div id="loading-screen">
-    <img src="../../images/Untitled_drLTFSawing.png" alt="Loading..." id="loading-image" width="500" height="500">
+    <img src="./images/Untitled91-ezgif.com-gif-maker.gif" alt="Loading..." id="loading-image" width="500" height="500"> <br>
+    <br>
+    <div id="loading-screen-text">
+    </div>
   </div>
-  <span> status </span>
+  
+
+<body>
+  <!-- Let it Snow! Provided by the WPress Doctor-->
+<!-- <div id="snow"></div> -->
+
+
+ <!-- <div id="main-content"> -->
+  <div id="header">
+    <div><a href="index.html">Chat Room</a></div>
+    <div><a href="https://loganstoolsforschool.w3spaces.com/DeltaMajor/">dm_system.tag</a></div>
+    <div><a href="./g/music.html">Music (wip)</a></div>
+    <div><a href="SchoolResources.html">School stuff</a></div>
+    <div><a href="https://logames.w3spaces.com/?from=ltfs">all games and stuff</a></div>
+    <div><a href="radioactivelemonade.html">Radioactive Lemonade - A Webcomic by baylor and valentino</a></div>
+    <div id="header-right">
+      <span id="whoami-mini"></span>
+      <button id="logout">Logout</button>
+         </div>
+  </div>
+  <div id="exclaimerbanner">
+  <marquee>  </marquee>
+  </div>
+
+  <div id="linebreak">
+    <marquee>   </marquee>
+    </div>
+  <!-- Upload button -->
+  <label for="imageInput" class="upload-btn">📷 Upload</label>
+  <input type="file" id="imageInput" accept="image/*">
+
+
+
+  <!-- AUTH -->
+  <div id="auth">
+    <input id="username" maxlength="30" placeholder="Use your real name" autocomplete="username" />
+    <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+    <button id="login">Login</button>
+    <button id="signup" class="secondary">Sign Up</button>
+  </div>
+  <div id="whoami">Not logged in</div>
+
+  <!-- CHAT -->
   <div id="chat">
+    <img src="./images/Logo_Full.png" width="400px">
     <div id="channels"></div>
     <div id="messages"></div>
-    <!--<input id="name" placeholder="Name" autocomplete="off" /> 
-    <input id="msg" placeholder="Message" autocomplete="off" />
-    <button id="send">Send</button>  -->  
+
+    <!-- composer (no Name field anymore) -->
+    <div id="composer" class="disabled">
+      <input maxlength="200" id="msg" placeholder="Message" autocomplete="off" />
+      <button id="send">Send</button>
+    </div>
+    <button id="keyboardButton">Emoji Keyboard</button>
+<div id="keyboard">
+  
+  <button>😊</button>
+  <button>❤️</button>
+  <button>😭</button>
+  <button>😡</button>
+  <button>🗣️</button>
+  <button>🔥</button>
+  <button>(ʘᴗʘ✿)</button>
+  <button>🤑</button>
+  <button>. ‸ .</button>
+  <button>🥹✌</button>
+  <button>¯\(◉‿◉)/¯</button>
+  <button>💀</button>
+  <!-- Add more buttons for other characters -->
+</div>
+
+    <script>
+      
+document.addEventListener('keydown', function(event) {
+  if (event.key === '/') {
+    document.getElementById('msg').focus();
+  }
+});
+</script>
+<script>
+if (bannedUIDs.includes(user.uid)) {
+  alert("You are banned.");
+  await signOut(auth);
+  return;
+}
+
+  </script>
+    <div id="tips">
+      <strong>Rules:</strong><br>
+      No Discrimination of any kind, (racism, sexism, etc) And profane words, Jokes where you embarres others, and (extremely) dark humor, no impersonation, , you do not have to use your real name, but if you are asked what your name is, tell them if they are a moderator. we have had problems with people making accounts after being banned. also dont spam 
+     </div>
+  </div>
+  <div id="tips">
+      Effects so far: <br>
+       rainbow, 
+       baylor, 
+       gold, 
+       gren, 
+       diamond, 
+       electric, 
+       uranium, 
+       laser, 
+       idk, 
+       glowinggold, 
+       slime, 
+       axey, 
+       gio, 
+       gurt, 
+       espurr, 
+       butter, 
+       jamas, 
+       bread, 
+       fweh, 
+       pokemon, 
+       minecraft, 
+       silksong, 
+       oiia, 
+       maxwell, 
+       undertale, 
+       cooked, 
+       glitch,
+       Slimenew (new reworked slime)
+       Frozen (new)
+           </div>
+  </div>
+  <h2> Current Period: </h2> <h3>
+  <div id="currentPeriod">loading...</div> </h3>
+
+  <script>
+    function getCurrentPeriod() {
+      const periods = [
+        { name: "1st Period", start: "08:50", end: "10:10" },
+        { name: "Connections", start: "10:10", end: "11:36" },
+        { name: "4th Period", start: "11:36", end: "13:00" },
+        { name: "5th Period", start: "13:00", end: "14:00" },
+        { name: "6th Period", start: "14:00", end: "15:00" },
+        { name: "7th Period", start: "15:00", end: "16:00" }
+      ];
+
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+      for (let p of periods) {
+        let [sh, sm] = p.start.split(":").map(Number);
+        let [eh, em] = p.end.split(":").map(Number);
+
+        let startMin = sh * 60 + sm;
+        let endMin = eh * 60 + em;
+
+        if (currentMinutes >= startMin && currentMinutes < endMin) {
+          return p.name;
+        }
+      }
+
+      return "No Current Period (before/after school)";
+    }
+
+    function update() {
+      document.getElementById("currentPeriod").textContent = getCurrentPeriod();
+    }
+
+    update();
+    setInterval(update, 30000); // updates every 30s
+  </script>
+  <p>
+    To Do: <br>
+    <s> add enter to send </s> <br>
+    <s> add anti spam </s> <br>
+    <s>add swear filter</s> <br>
+    more effects <br>
+    suggest more in the suggest form </p>
+<!--
+<script>
+  function loadCSS(file) {
+    const existing = document.querySelector(`link[href^="${file}"]`);
+    if (existing) existing.remove();
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = file + '?t=' + Date.now();
+    document.head.appendChild(link);
+  }
+
+  function loadJSModule(file) {
+    const existing = document.querySelector(`script[src^="${file}"]`);
+    if (existing) existing.remove();
+    const script = document.createElement('script');
+    script.type = 'module';  // <-- important!
+    script.src = file + '?t=' + Date.now();
+    document.body.appendChild(script);
+  }
+
+  // Initial load
+  loadCSS('style.css');
+  loadJSModule('script.js');
+
+  // Reload every 1 second
+  setInterval(() => {
+    loadCSS('style.css');
+    loadJSModule('script.js');
+  }, 1000);
+</script>
+-->
+
+  <div id="recent-update" style="color: white;"> Most Recent Update: </div>
+<div id="commit-message" class="loading">Loading...</div>
+<script>
+        // Replace with your own GitHub username and repository name
+        const user = 'JacobTheAxolotlDev';  // GitHub username
+        const repo = 'Chatroom';  // Repository name
+
+        // 1GitHub API URL to get the commits from the repository
+        const apiUrl = `https://api.github.com/repos/${user}/${repo}/commits`;
+
+        // Fetch the latest commit message from GitHub API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(commits => {
+                if (commits.length > 0) {
+                    // Get the most recent commit message
+                    const latestCommitMessage = commits[0].commit.message;
+                    document.getElementById('commit-message').innerText = latestCommitMessage;
+                } else {
+                    document.getElementById('commit-message').innerText = 'No commits found.';
+                }
+            })
+            .catch(error => {
+                document.getElementById('commit-message').innerText = 'Error fetching commit data.';
+                console.error('Error:', error);
+            });
+    </script>
+  <!-- Admin Panel (LEFT) -->
+  <div id="admin-panel">
+    <h3>My AdminVue</h3>
+    <button id="create-channel"> Create Channel</button>
+    <button id="wipe-all"> Wipe All Messages</button>
+    <button id="reload-all"> [deprecated]</button>
+    <button id="jamas-spam"> [deprecated]</button>
+    <button id="close-panel" > Close Panel</button>
+    <button id="stop-jamas-spam"> [deprecated]</button>
+    <a href="./adm/advancedpanel.html">advanced admin panel</a>
+    <a href="./adm/uidfinder.html">find user's user id</a>
+    <img src="./images/assafdsdfthing_1_.png" width="210px">
   </div>
 
-  <script type="module">
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-    import {
-      getDatabase,
-      ref,
-      push,
-      onChildAdded,
-      query,
-      orderByChild,
-      get
-    } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+<!--<script type="module" src="./dm_system.js"> </script> -->
+  <!-- Logan's Tools Panel -->
+  <div id="logan-panel">
+    <button id="close-logan" style="padding:6px 8px; border-radius:8px; border:1px solid #273057; background:#0c1431; color:#e2e8f0; cursor:pointer"> close </button>
+    <iframe src="./adm/codepanel.html" 
+            width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+  <div id="baylor-panel">
+    <button id="close-baylor" style="padding:6px 8px; border-radius:8px; border:1px solid #273057; background:#0c1431; color:#e2e8f0; cursor:pointer"> close </button>
+    <iframe src="./adm/codepanel.html" 
+            width="100%" height="100%" frameborder="0"></iframe>
+  </div>
+<script type="module">
+  import { onValue } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
 
-    const firebaseConfig = {
-   apiKey: "AIzaSyC0ppSfYRPCje-BusGftdn1kCMHgs-Z_BU",
-   authDomain: "loganstoolsforschool.firebaseapp.com",
-   databaseURL: "https://loganstoolsforschool-default-rtdb.firebaseio.com",
-   projectId: "loganstoolsforschool",
-   storageBucket: "loganstoolsforschool.firebasestorage.app",
-   messagingSenderId: "883702419905",
-   appId: "1:883702419905:web:8e9888e6d6f305ec165f40",
-   measurementId: "G-P2HVQ9K0XD"
-};
+const bannedRef = ref(db, "banned");
+let bannedUIDs = new Set();
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+// live sync banned list
+onValue(bannedRef, (snapshot) => {
+  bannedUIDs.clear();
+  if (snapshot.exists()) {
+    snapshot.forEach(child => bannedUIDs.add(child.key));
+  }
+  // instantly check if current user just got banned
+  if (currentUser && bannedUIDs.has(currentUser.uid)) {
+    alert("You have been banned.");
+    signOut(auth);
+  }
+});
+</script>
 
-    const messagesDiv = document.getElementById("messages");
-    const nameInput = document.getElementById("name");
-    const msgInput = document.getElementById("msg");
-    const sendBtn = document.getElementById("send");
-    const channelsDiv = document.getElementById("channels");
+</html>
+<div class="suggestion-info" id="suggestionInfo">
+  <a href="https://forms.gle/YPJga8nkMEgChX1s6"> take this survey </a>
+  
+    </div>
 
-    let channels = new Set();
-    let allMessages = [];
-    let currentChannel = "general";
 
-    function cleanMessage(text) {
-      return text;
-    }
+<div class="day-info" id="dayInfo">
+        <div class="day-label">Today's day is</div>
+        <div class="day-type"></div>
+    </div>
 
-    async function loadChannels() {
-      const messagesRef = ref(db, "messages");
-      const snapshot = await get(messagesRef);
-      if (!snapshot.exists()) {
-        channels = new Set(["general"]);
-        currentChannel = "general";
-        renderChannels();
-        return;
-      }
-      channels.clear();
-      allMessages = [];
-      snapshot.forEach((child) => {
-        const msg = child.val();
-        allMessages.push(msg);
-        channels.add(msg.channel || "general");
-      });
-
-      if (!channels.has(currentChannel)) {
-        currentChannel = [...channels][0];
-      }
-      renderChannels();
-      displayMessagesForChannel(currentChannel);
-    }
-
-    function renderChannels() {
-      channelsDiv.innerHTML = "";
-      [...channels]
-        .sort()
-        .forEach((channel) => {
-          const tab = document.createElement("div");
-          tab.textContent = channel;
-          tab.className = "channel-tab";
-          if (channel === currentChannel) tab.classList.add("active");
-          tab.onclick = () => {
-            if (currentChannel !== channel) {
-              currentChannel = channel;
-              updateActiveTab();
-              displayMessagesForChannel(currentChannel);
+    <script>
+        function getDayType() {
+            const today = new Date();
+            const day = today.getDay(); // 0: Sunday, 1: Monday, ..., 6: Saturday
+            
+            // Determine the weekday for A/B days
+            const fridayCycle = Math.floor(today.getDate() / 7) % 2 === 0 ? 'A' : 'B';
+            
+            // Logic for weekdays
+            if (day === 1 || day === 3) { // Monday or Wednesday
+                return 'A';
+            } else if (day === 2 || day === 4) { // Tuesday or Thursday
+                return 'B';
+            } else if (day === 5) { // Friday
+                return fridayCycle;
+            } else { // Weekend (Saturday or Sunday)
+                return 'No class today';
             }
-          };
-          channelsDiv.appendChild(tab);
-        });
-    }
-
-    function updateActiveTab() {
-      const tabs = channelsDiv.querySelectorAll(".channel-tab");
-      tabs.forEach((tab) => {
-        tab.classList.toggle("active", tab.textContent === currentChannel);
-      });
-    }
-
-    function addMessageElement(data) {
-      let name = data.name || "Anonymous";
-
-      if (name.trim().toLowerCase() === "logan") {
-        name += " [👑 Administrator 👑]";
-      }
-      if (name.trim().toLowerCase() === "jahmal") {
-        name += " 🦐";
-      }
-
-      let text = data.text || "(no message)";
-      const timestamp = new Date(data.timestamp).toLocaleTimeString();
-
-      if ((data.channel || "general") !== currentChannel) return;
-
-      let color = null;
-      let rainbow = false;
-      let gold = false;
-      let uranium = false;
-      let slime = false;
-      let axey = false;
-      let fweh = false;
-      let pokemon = false;
-
-      const namedColorMatch = text.match(/^(red|blue|green|orange|purple|white|yellow):\s*(.*)/i);
-      const rainbowMatch = text.match(/^rainbow:\s*(.*)/i);
-      const goldMatch = text.match(/^gold:\s*(.*)/i);
-      const uraniumMatch = text.match(/^uranium:\s*(.*)/i);
-      const slimeMatch = text.match(/^slime:\s*(.*)/i);
-      const axeyMatch = text.match(/^axey:\s*(.*)/i);
-      const fwehMatch = text.match(/^fweh:\s*(.*)/i);
-      const pokemonMatch = text.match(/^pokemon:\s*(.*)/i);
-      const hexMatch = text.match(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6}):\s*(.*)/);
-
-      if (namedColorMatch) {
-        color = namedColorMatch[1].toLowerCase();
-        text = namedColorMatch[2];
-      } else if (rainbowMatch) {
-        rainbow = true;
-        text = rainbowMatch[1];
-      } else if (goldMatch) {
-        gold = true;
-        text = goldMatch[1];
-      } else if (uraniumMatch) {
-        uranium = true;
-        text = uraniumMatch[1];
-      } else if (slimeMatch) {
-        slime = true;
-        text = slimeMatch[1];
-      } else if (axeyMatch) {
-        axey = true;
-        text = axeyMatch[1];
-      } else if (fwehMatch) {
-        fweh = true;
-        text = fwehMatch[1];
-      } else if (pokemonMatch) {
-        pokemon = true;
-        text = pokemonMatch[1];
-      } else if (hexMatch) {
-        color = `#${hexMatch[1]}`;
-        text = hexMatch[2];
-      }
-
-      const msgEl = document.createElement("div");
-
-      if (rainbow || gold || uranium || slime || axey || fweh || pokemon || color) {
-        if (rainbow) {
-          const msgContent = document.createElement("span");
-          msgContent.classList.add("rainbow-text");
-          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
-          msgEl.appendChild(msgContent);
-        } else if (gold) {
-          const msgContent = document.createElement("span");
-          msgContent.classList.add("gold-text");
-          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
-          msgEl.appendChild(msgContent);
-        } else if (uranium) {
-          const msgContent = document.createElement("span");
-          msgContent.classList.add("uranium-text");
-          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
-          msgEl.appendChild(msgContent);
-        } else if (slime) {
-          const msgContent = document.createElement("span");
-          msgContent.classList.add("slime-text");
-          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
-          msgEl.appendChild(msgContent);
-        } else if (axey) {
-          const axeyContainer = document.createElement("div");
-          axeyContainer.classList.add("axey-container");
-          axeyContainer.textContent = `${timestamp} - ${name}: ${text}`;
-          const axey1 = document.createElement("img");
-          axey1.src = "./axey.png";
-          axey1.classList.add("axey-img");
-          const axey2 = document.createElement("img");
-          axey2.src = "./axey.png";
-          axey2.classList.add("axey-img", "second");
-          axeyContainer.appendChild(axey1);
-          axeyContainer.appendChild(axey2);
-          msgEl.appendChild(axeyContainer);
-        } else if (pokemon) {
-          const pokemonContainer = document.createElement("div");
-          pokemonContainer.classList.add("pokemon-container");
-          pokemonContainer.textContent = `${timestamp} - ${name}: ${text}`;
-
-          const pokeball1 = document.createElement("img");
-          pokeball1.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
-          pokeball1.classList.add("pokemon-img");
-
-          const pokeball2 = document.createElement("img");
-          pokeball2.src = "./image-removebg-preview_-_2025-08-12T192644.788.png";
-          pokeball2.classList.add("pokemon-img", "second");
-
-          pokemonContainer.appendChild(pokeball1);
-          pokemonContainer.appendChild(pokeball2);
-          msgEl.appendChild(pokemonContainer);
-        } else if (fweh) {
-          const msgContent = document.createElement("span");
-          msgContent.classList.add("fweh-text");
-          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
-          msgEl.appendChild(msgContent);
-        } else if (color) {
-          const msgContent = document.createElement("span");
-          msgContent.style.color = color;
-          msgContent.textContent = `${timestamp} - ${name}: ${text}`;
-          msgEl.appendChild(msgContent);
         }
-      } else {
-        const msgContent = document.createElement("span");
-        msgContent.textContent = `${timestamp} - ${name}: ${text}`;
-        msgEl.appendChild(msgContent);
-      }
 
-      messagesDiv.appendChild(msgEl);
+        const dayType = getDayType();
+        document.querySelector('.day-type').textContent = dayType;
+    </script>
+</body> 
+</div>
+<footer>
+<h1> keep going for some stuff </h1> <br>
+ <a href="https://github.com/JacobTheAxolotlDev/Chatroom" target="_blank" class="github-button">
+    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="./images/GitHub-Mark-ea2971cee799-removebg-preview.png"> View on GitHub
+  </a>
+  <a href="https://github.com/JacobTheAxolotlDev" target="_blank" class="github-button">
+    <i class="fab fa-github"></i> <image width= "25px" height= "25px" src="./images/cropped_circle_image.png"> View my other Repositories
+  </a>
+<h3><a href="https://desmos.com/scientific">desmos </a><br>
+<h3><a href="./gamesandotherstuff/busandcarriders.html">Busses and Car Riders </a><br>
+    <button id="miscbutton">Open in about:blank</button> <br>
+
+<script>
+  document.getElementById('miscbutton').addEventListener('click', () => {
+    const newTab = window.open('about:blank', '_blank');
+    if (newTab) {
+      newTab.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head><title>New Tab</title></head>
+        <link rel="icon" type="image/x-icon" href="chrome://resources/images/chrome_logo_dark.svg"        <body style="margin:0; overflow:hidden;">
+          <iframe src="https://loganstoolsforschool.w3spaces.com" 
+                  style="border:none; width:100vw; height:100vh;" 
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
+          </iframe>
+        </body>
+        </html>
+      `);
+      newTab.document.close();
+    } else {
+      alert('Pop-up blocked! Please allow pop-ups for this site.');
     }
+  });
+</script>
+<button id="testbutton">Games</button>
 
-    function displayMessagesForChannel(channel) {
-      messagesDiv.innerHTML = "";
-      allMessages.forEach((msg) => {
-        if ((msg.channel || "general") === channel) {
-          addMessageElement(msg);
-        }
-      });
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
+<script>
+  document.getElementById("testbutton").addEventListener("click", function() {
+    window.location.href = "/g/";
+  });
+</script>
+<button id="onsnow"> Turn On Snow </button>
+<button id="offsnow"> Turn Off Snow </button>
+</footer>
 
-    const messagesRef = ref(db, "messages");
-    const messagesQuery = query(messagesRef, orderByChild("timestamp"));
+<!--<img src="./images/image-removebg-preview_-_2025-12-08T133438.603.png" width="1365px">-->
+<!--<img src="./images/easteregg-ezgif.com-gif-maker.gif" width="100px">-->
 
-    onChildAdded(messagesQuery, (snapshot) => {
-      const data = snapshot.val();
-      if (!data) return;
-      allMessages.push(data);
-      channels.add(data.channel || "general");
-      renderChannels();
-      if ((data.channel || "general") === currentChannel) {
-        addMessageElement(data);
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      }
-    });
-
-    sendBtn.onclick = () => {
-      const name = nameInput.value.trim() || "Anonymous";
-      let text = msgInput.value.trim();
-      if (!text) return;
-
-      const messageObj = {
-        name,
-        text: cleanMessage(text),
-        timestamp: Date.now(),
-        channel: currentChannel,
-      };
-
-      push(ref(db, "messages"), messageObj);
-      msgInput.value = "";
-    };
-
-    loadChannels();
-  </script>
+<h1> Mods </h1>
+<div style="display: flex; gap: 20px;">
+<!-- hunte theme --><button style="width: 400px; height: 200px; border-radius: 10px; background-color: #710b71; color: white; border-width: 2px; border-color: #d6b7e4;" id="change-color-btn"><h3>hunte Theme</h3> <img width="100px" src="./images/byzantine.png"></button>
+<!-- dark theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: black; color: white; border-width: 2px; border-color: gray;" id="dark-theme-btn"><h3>Dark Theme</h3> </button>
+<!-- hollow theme --> <button style="width: 400px; height: 200px; border-radius: 10px; background-color: #4888b8; color: white; border-width: 2px; border-color: gray;" id="hollow"><h3>Hollow Knight Theme</h3> </button>
+<h1> Font Test </h1> <br>
+<p> ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()-=_+,.<>/?[]{}||</p>
+<button style="display: none;" id="keyboardButtonHide">Emoji Keyboard</button>
+<noscript>
+        <div style="color: red; padding: 20px; border: 1px solid red;">
+            <h2>JavaScript is Disabled</h2>
+            <p>Please enable JavaScript in your browser settings to use this website's features.</p>
+        </div>
+    </noscript>
